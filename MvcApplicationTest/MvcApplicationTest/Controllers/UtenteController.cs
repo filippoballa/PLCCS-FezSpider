@@ -21,8 +21,36 @@ namespace MvcApplicationTest.Controllers
 
         public HttpResponseMessage Post(Utente u)
         {
-            var response = Request.CreateResponse<String>(System.Net.HttpStatusCode.Created, "Id : " + u.Id + "; User : " + u.User + "; Pwd : " + u.Pwd);
+            string user = "123456";
+            string pwd = "1234";
+            string msg = "OK";
+            bool login = true;
 
+            if (u.User == user)
+            {
+                if (u.Pwd != pwd)
+                {
+                    msg = "Invalid Password";
+                    login = false;
+                }
+            }
+            else
+            {
+                msg = "Invalid Username";
+                login = false;
+            }
+            HttpResponseMessage response;
+
+            if (login)
+            {
+                response = Request.CreateResponse<String>(System.Net.HttpStatusCode.Created, "Id : " + u.Id + "; User : " + u.User + "; Pwd : " + u.Pwd);
+            }
+            else
+            {
+                response = Request.CreateResponse<String>(System.Net.HttpStatusCode.InternalServerError, msg);
+                response.ReasonPhrase = msg;
+            }
+            
             return response;
         }
     }

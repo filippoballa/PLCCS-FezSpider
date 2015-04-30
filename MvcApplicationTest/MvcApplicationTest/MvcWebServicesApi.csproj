@@ -242,6 +242,7 @@
     <None Include="Properties\PublishProfiles\MYSERVICE.pubxml" />
     <None Include="Properties\PublishProfiles\MYSITE.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Images\FezProject.jpg" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

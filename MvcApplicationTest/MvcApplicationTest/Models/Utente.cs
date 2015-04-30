@@ -9,6 +9,6 @@ namespace MvcApplicationTest.Models
     {
         public int Id { get; set; }
         public string User { get; set; }
-        public int Pwd { get; set; }
+        public string Pwd { get; set; }
     }
 }
