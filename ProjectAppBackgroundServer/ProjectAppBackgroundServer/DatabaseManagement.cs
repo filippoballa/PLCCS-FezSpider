@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 
 namespace ProjectAppBackgroundServer
 {
@@ -20,6 +21,31 @@ namespace ProjectAppBackgroundServer
             DatabaseManagement.STRCONN = strConn;
             this.conn = new SqlConnection(DatabaseManagement.STRCONN);
             this.conn.Open();
+        }
+
+        public void InsertImage(int userCode, Image img) 
+        {
+            SqlTransaction transaction = this.conn.BeginTransaction();
+
+            try {
+
+                string query = "INSERT INTO IMAGE_PROJECT ( Username, Image) Values(@user, @img)";
+                SqlCommand sqlCmd = new SqlCommand(query, this.conn);
+                sqlCmd.Transaction = transaction;
+
+                sqlCmd.Parameters.Add("@user", SqlDbType.Int).Value = userCode;
+                ImageConverter converter = new ImageConverter();
+                byte[] buff = (byte[])converter.ConvertTo(img, typeof(byte[]));
+                sqlCmd.Parameters.Add("@image", SqlDbType.VarBinary, buff.Length).Value = buff;
+
+                sqlCmd.ExecuteNonQuery();
+                transaction.Commit();
+
+            }catch (Exception e) {
+                MessageBox.Show(e.Message, "ANOMALY", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                transaction.Rollback();
+            }
+            
         }
 
         public void InserAccessUser(int userCode, DateTime time, char type, Image userImg)
@@ -45,6 +71,7 @@ namespace ProjectAppBackgroundServer
 
             }
             catch ( Exception e ) {
+                MessageBox.Show(e.Message, "ANOMALY", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 transaction.Rollback();
             }
         }
@@ -79,6 +106,7 @@ namespace ProjectAppBackgroundServer
                 transaction.Commit();
 
             } catch (Exception e) {
+                MessageBox.Show(e.Message, "ANOMALY", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 transaction.Rollback();
             }
 
@@ -112,6 +140,7 @@ namespace ProjectAppBackgroundServer
                 transaction.Commit();
 
             } catch (Exception e) {
+                MessageBox.Show(e.Message, "ANOMALY", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 transaction.Rollback();
             }
         }
@@ -142,6 +171,8 @@ namespace ProjectAppBackgroundServer
                 list.Add(new Administrator(user,pwdL,gender,date,name,surname,mail,pwdM,bmp));
             }
 
+            reader.Close();
+
             return list;
         }
 
@@ -168,6 +199,8 @@ namespace ProjectAppBackgroundServer
                 list.Add(new User(user, pwdL, gender, date, name, surname, bmp));
             }
 
+            reader.Close();
+
             return list;
         }
 
@@ -193,7 +226,8 @@ namespace ProjectAppBackgroundServer
             SqlCommand com = new SqlCommand(query, this.conn);
             SqlDataReader reader = com.ExecuteReader();
 
-            if (reader.Read()) {
+            if (reader.Read())
+            {
 
                 byte[] buff = (byte[])reader["Image"];
                 MemoryStream ms = new MemoryStream(buff);
@@ -211,8 +245,10 @@ namespace ProjectAppBackgroundServer
 
                 return u;
             }
-            else
+            else {
+                reader.Close();
                 return null;
+            }
 
         }
 
@@ -223,7 +259,8 @@ namespace ProjectAppBackgroundServer
             SqlCommand com = new SqlCommand(query, this.conn);
             SqlDataReader reader = com.ExecuteReader();
 
-            if (reader.Read()) {
+            if (reader.Read())
+            {
 
                 byte[] buff = (byte[])reader["Image"];
                 MemoryStream ms = new MemoryStream(buff);
@@ -243,8 +280,40 @@ namespace ProjectAppBackgroundServer
 
                 return admin;
             }
-            else
+            else {
+                reader.Close();
                 return null;
+            }
+
+        }
+
+        public List<UserAccess> ShowAccessUsers() 
+        {
+            string query = "SELECT * FROM ACCESSES_PROJECT";
+            SqlCommand com = new SqlCommand(query, this.conn);
+            SqlDataReader reader = com.ExecuteReader();
+            List<UserAccess> list = new List<UserAccess>();
+
+            while (reader.Read()) {
+                char type = Convert.ToChar((string)reader["TypeOfAcces"]);
+                int user = (int)reader["Username"];
+                DateTime date = (DateTime)reader["DateAccess"];
+
+                if ( type == 'F' ) {
+                    byte[] buff = (byte[])reader["ImageAccess"];
+                    MemoryStream ms = new MemoryStream(buff);
+                    Bitmap bmp = new Bitmap(ms);
+                    ms.Close();
+                    list.Add( new UserAccess(user,date,type,bmp));
+                }
+                else 
+                    list.Add( new UserAccess(user,date,type));
+                              
+            }
+
+            reader.Close();
+
+            return list;
         }
 
         public void CloseConnection() 

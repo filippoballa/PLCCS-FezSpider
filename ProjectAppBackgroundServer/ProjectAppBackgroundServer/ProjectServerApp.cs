@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Threading;
 using System.Security.Cryptography;
 
 namespace ProjectAppBackgroundServer
@@ -24,7 +23,7 @@ namespace ProjectAppBackgroundServer
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.DoubleBuffer, true);
             InitializeComponent();
-            this.db = new DatabaseManagement("Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True");//"Data Source=DAVE-PC\\SQLEXPRESS;Initial Catalog=PAZZODAVEDB;Integrated Security=True"
+            this.db = new DatabaseManagement("Data Source=DAVE-PC\\SQLEXPRESS;Initial Catalog=PAZZODAVEDB;Integrated Security=True");
             this.openFileDialog1.InitialDirectory = Environment.CurrentDirectory;
             this.openFileDialog1.Filter = "Images (*.bmp,*.jpg,*.gif,*.png)|*.png;*.bmp;*.jpg;*.gif";
             this.openFileDialog1.FileName = "";
@@ -42,11 +41,12 @@ namespace ProjectAppBackgroundServer
         {
             
             this.RegisterPanel.Visible = true;
-            Thread.Sleep(100);
             this.HomePanel.Visible = false;
             this.AdminPanel.Visible = false;
             this.SimpleUserPanel.Visible = false;
+            this.InfoPanel.Visible = false;
             this.AccessPanel.Visible = false;
+            this.ModifyUserPanel.Visible = false;
             this.NameTextBox.Focus();
             
         }
@@ -183,32 +183,52 @@ namespace ProjectAppBackgroundServer
         {
             this.HomePanel.Visible = false;
             this.RegisterPanel.Visible = false;
+            this.InfoPanel.Visible = false;
             this.SimpleUserPanel.Visible = false;
             this.AccessPanel.Visible = false;
+            this.ModifyUserPanel.Visible = false;
             this.AdminPanel.Visible = true;
         }
 
         private void AdminPanel_VisibleChanged(object sender, EventArgs e)
         {
-            if (this.AdminPanel.Visible) {
+            if (this.AdminPanel.Visible)
+            {
                 List<Administrator> lad = this.db.ShowAdministrators();
 
-                for (int i = 0; i < lad.Count; i++) {
-                    object[] obj = new object[7];
-                    obj[0] = lad[i].Codice.ToString();
-                    obj[1] = lad[i].Name;
-                    obj[2] = lad[i].Surname;
-                    obj[3] = lad[i].Gender.ToString();
-                    obj[4] = lad[i].BirthDate.ToShortDateString();
-                    obj[5] = lad[i].MailAddress;
-                    obj[6] = lad[i].Img;
+                if (lad.Count > 0)
+                {
 
-                    this.AdminDataGridView.Rows.Add(obj);
-                    
+                    this.AdminDataGridView.Visible = true;
+
+                    for (int i = 0; i < lad.Count; i++)
+                    {
+                        object[] obj = new object[7];
+                        obj[0] = lad[i].Codice.ToString();
+                        obj[1] = lad[i].Name;
+                        obj[2] = lad[i].Surname;
+                        obj[3] = lad[i].Gender.ToString();
+                        obj[4] = lad[i].BirthDate.ToShortDateString();
+                        obj[5] = lad[i].MailAddress;
+                        obj[6] = lad[i].Img;
+
+                        this.AdminDataGridView.Rows.Add(obj);
+
+                    }
+
+                }
+                else
+                {
+                    this.ErrorAdminLabel.Visible = true;
+                    this.WarningAdminPictureBox.Visible = true;
                 }
             }
-            else 
+            else {
                 this.AdminDataGridView.Rows.Clear();
+                this.ErrorAdminLabel.Visible = false;
+                this.WarningAdminPictureBox.Visible = false;
+                this.AdminDataGridView.Visible = false;
+            }
             
         }
 
@@ -217,31 +237,46 @@ namespace ProjectAppBackgroundServer
             this.HomePanel.Visible = false;
             this.RegisterPanel.Visible = false;
             this.AdminPanel.Visible = false;
+            this.InfoPanel.Visible = false;
             this.SimpleUserPanel.Visible = true;
             this.AccessPanel.Visible = false;
+            this.ModifyUserPanel.Visible = false;
         }
 
         private void SimpleUserPanel_VisibleChanged(object sender, EventArgs e)
         {
-            if (this.SimpleUserPanel.Visible)
-            {
+            if (this.SimpleUserPanel.Visible) {
+
                 List<User> lad = this.db.ShowSimpleUsers();
 
-                for (int i = 0; i < lad.Count; i++)
-                {
-                    object[] obj = new object[6];
-                    obj[0] = lad[i].Codice.ToString();
-                    obj[1] = lad[i].Name;
-                    obj[2] = lad[i].Surname;
-                    obj[3] = lad[i].Gender.ToString();
-                    obj[4] = lad[i].BirthDate.ToShortDateString();                    
-                    obj[5] = lad[i].Img;
+                if (lad.Count > 0) {
 
-                    this.SimpleUserDataGridView.Rows.Add(obj);
+                    this.SimpleUserDataGridView.Visible = true;
+
+                    for (int i = 0; i < lad.Count; i++) {
+
+                        object[] obj = new object[6];
+                        obj[0] = lad[i].Codice.ToString();
+                        obj[1] = lad[i].Name;
+                        obj[2] = lad[i].Surname;
+                        obj[3] = lad[i].Gender.ToString();
+                        obj[4] = lad[i].BirthDate.ToShortDateString();
+                        obj[5] = lad[i].Img;
+
+                        this.SimpleUserDataGridView.Rows.Add(obj);
+                    }
+                }
+                else {
+                    this.ErrorUserLabel.Visible = true;
+                    this.WarningUserPictureBox.Visible = true;                    
                 }
             }
-            else
+            else {
                 this.SimpleUserDataGridView.Rows.Clear();
+                this.ErrorUserLabel.Visible = false;
+                this.WarningUserPictureBox.Visible = false;                    
+                this.SimpleUserDataGridView.Visible = false;
+            }
         }
 
         private void showAccessUsersToolStripMenuItem_Click(object sender, EventArgs e)
@@ -249,8 +284,10 @@ namespace ProjectAppBackgroundServer
             this.HomePanel.Visible = false;
             this.RegisterPanel.Visible = false;
             this.SimpleUserPanel.Visible = false;
+            this.InfoPanel.Visible = false;
             this.AccessPanel.Visible = true;
             this.AdminPanel.Visible = false;
+            this.ModifyUserPanel.Visible = false;
         }
 
         private void UserPictureBox_MouseHover(object sender, EventArgs e)
@@ -267,6 +304,87 @@ namespace ProjectAppBackgroundServer
             tt.SetToolTip(this.PasswordPictureBox, "Enter in the textbox on the left, the \"password\" that\n" +
                  "you will use to log on to the stable, when\nthe face recognition failed!!\n" + 
                  "The password must be composed by four digits!!");
+        }
+
+        private void modifyUserDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.HomePanel.Visible = false;
+            this.RegisterPanel.Visible = false;
+            this.SimpleUserPanel.Visible = false;
+            this.AccessPanel.Visible = false;
+            this.AdminPanel.Visible = false;
+            this.InfoPanel.Visible = false;
+            this.ModifyUserPanel.Visible = true;
+        }
+
+        private void informazioniToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.HomePanel.Visible = false;
+            this.RegisterPanel.Visible = false;
+            this.SimpleUserPanel.Visible = false;
+            this.AccessPanel.Visible = false;
+            this.AdminPanel.Visible = false;
+            this.InfoPanel.Visible = true;
+            this.ModifyUserPanel.Visible = false;
+        }
+
+        private void AccessPanel_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.AccessPanel.Visible) {
+
+                List<UserAccess> list = this.db.ShowAccessUsers();
+
+                if (list.Count > 0) {
+                    this.AccessDataGridView.Visible = true;
+
+                    for( int i = 0; i < list.Count; i++ ) {
+                        bool trovato = false;
+
+                        User u = this.db.SelectSimpleUser(list[i].UserCode);
+                        Administrator admin = null;
+
+                        if( u == null ) {
+                            admin = this.db.SelectAdministrator(list[i].UserCode);
+                            trovato = true;
+                        }
+
+                        if ( admin == null && u == null ) {
+                            this.AccessDataGridView.Rows.Clear();
+                            this.AccessDataGridView.Visible = false;
+                            this.ErrorAccessLabel.Visible = true;
+                            this.WarningAccessPictureBox.Visible = true;
+                            return;
+                        }
+
+                        object[] obj = new object[6];
+                        obj[0] = list[i].UserCode.ToString();
+                        obj[3] = list[i].AccessType.ToString(); 
+                        obj[4] = list[i].Timestamp.ToShortDateString();
+                        obj[5] = list[i].Img;
+
+                        if (trovato) {
+                            obj[1] = admin.Name;
+                            obj[2] = admin.Surname;
+                        }
+                        else {
+                            obj[1] = u.Name;
+                            obj[2] = u.Surname;
+                        }
+
+                        this.AccessDataGridView.Rows.Add(obj);
+                    }
+                }
+                else {
+                    this.ErrorAccessLabel.Visible = true;
+                    this.WarningAccessPictureBox.Visible = true;
+                }
+            }
+            else {
+                this.AccessDataGridView.Rows.Clear();
+                this.AccessDataGridView.Visible = false;
+                this.ErrorAccessLabel.Visible = false;
+                this.WarningAccessPictureBox.Visible = false;
+            }
         }
     }
 }
