@@ -245,7 +245,6 @@ namespace ProjectAppBackgroundServer
             }
             else
                 return null;
-
         }
 
         public void CloseConnection() 
