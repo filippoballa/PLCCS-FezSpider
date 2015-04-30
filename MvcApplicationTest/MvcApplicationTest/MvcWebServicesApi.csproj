@@ -292,6 +292,12 @@
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ProjectAppBackgroundServer\ProjectAppBackgroundServer\ProjectAppBackgroundServer.csproj">
+      <Project>{7e55a36d-3209-4327-902b-1124e3907576}</Project>
+      <Name>ProjectAppBackgroundServer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

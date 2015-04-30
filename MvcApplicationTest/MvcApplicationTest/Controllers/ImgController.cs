@@ -21,8 +21,14 @@ namespace MvcApplicationTest.Controllers
         }
         public HttpResponseMessage Post(Img i)
         {
-            var response = Request.CreateResponse<String>(System.Net.HttpStatusCode.Created, "Id : " + i.Id);
 
+            //User = StartRecognition();
+            //if(User!= null){
+            var response = Request.CreateResponse<String>(System.Net.HttpStatusCode.Created, "Id : " + i.Id);
+            //}
+            //else{
+                //  var response = Request.CreateResponse<String>(System.Net.HttpStatusCode.InternalServerError, "Id : " + i.Id);
+            //}
             return response;
         }
 
