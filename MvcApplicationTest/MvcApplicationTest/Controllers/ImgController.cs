@@ -10,6 +10,7 @@ namespace MvcApplicationTest.Controllers
 {
     public class ImgController : ApiController
     {
+        private string strConn = "Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True";
         public string[] Get(string id = "", string data = "")
         {
             

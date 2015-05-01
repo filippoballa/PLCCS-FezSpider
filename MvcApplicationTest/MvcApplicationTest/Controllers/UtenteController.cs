@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace MvcApplicationTest.Controllers
 {
@@ -34,15 +35,15 @@ namespace MvcApplicationTest.Controllers
                 if (ricerca != null)
                 {
                     //converto in bytes la stringa da codificare
-                    byte[] data = GetBytes(pwd);
-                    byte[] result;
+                    byte[] data = Encoding.ASCII.GetBytes(pwd);
+                    string result;
 
                     SHA1 sha1 = new SHA1CryptoServiceProvider();
                     //ottengo lo SHA1 dei dati
-                    result = sha1.ComputeHash(data);
+                    result = Encoding.ASCII.GetString(sha1.ComputeHash(data));
 
                     //confronto lo SHA1 della pwd inviata con lo SHA1 di quella nel DB
-                    if (GetString(result) != ricerca.Password)
+                    if (result != ricerca.Password)
                     {
                         msg = "Invalid Password";
                     }
@@ -90,15 +91,15 @@ namespace MvcApplicationTest.Controllers
                 if (ricerca != null)
                 {
                     //converto in bytes la stringa da codificare
-                    byte[] data = GetBytes(u.Pwd);
-                    byte[] result;
+                    byte[] data = Encoding.ASCII.GetBytes(u.Pwd);
+                    string result;
 
                     SHA1 sha1 = new SHA1CryptoServiceProvider();
                     //ottengo lo SHA1 dei dati
-                    result = sha1.ComputeHash(data);
+                    result = Encoding.ASCII.GetString(sha1.ComputeHash(data));
 
                     //confronto lo SHA1 della pwd inviata con lo SHA1 di quella nel DB
-                    if (GetString(result) != ricerca.Password)
+                    if (result != ricerca.Password)
                     {
                         msg = "Invalid Password";
                         login = false;
