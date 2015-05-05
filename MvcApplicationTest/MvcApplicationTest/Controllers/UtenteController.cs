@@ -115,10 +115,10 @@ namespace MvcApplicationTest.Controllers
                 {
                     response = Request.CreateResponse<String>(System.Net.HttpStatusCode.Created, msg);
 
-                    //inserisco un record nella tabella degli ingressi
+                    //inserisco una entry nella tabella degli ingressi
                     db.InserAccessUser(ricerca.Codice, DateTime.Now, 'L', null);
 
-                    //invio ad ogni amministratore una mail 
+                    //invio all'amministrazione un mesaggio 
                     List<Administrator> AdminList = db.ShowAdministrators();
 
                     if (AdminList.Count > 0)
