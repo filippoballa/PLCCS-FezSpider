@@ -1,7 +1,7 @@
-USE [PLCCS_DB]
+USE [PAZZODAVEDB]
 GO
 
-/****** Object:  Table [dbo].[ACCESSES_PROJECT]    Script Date: 29/04/2015 16:00:46 ******/
+/****** Object:  Table [dbo].[ACCESSES_PROJECT]    Script Date: 05/05/2015 15:35:17 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -13,10 +13,10 @@ GO
 
 CREATE TABLE [dbo].[ACCESSES_PROJECT](
 	[Username] [int] NOT NULL,
-	[DateAccess] [date] NOT NULL,
-	[TypeOfAcces] [nchar](1) NOT NULL,
+	[DateAccess] [datetime] NOT NULL,
+	[TypeOfAccess] [nchar](1) NOT NULL,
 	[ImageAccess] [varbinary](max) NULL,
- CONSTRAINT [PK_ACCESSES_PROJECT] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [pk_ACCESSES_PROJECT] PRIMARY KEY CLUSTERED 
 (
 	[Username] ASC,
 	[DateAccess] ASC
@@ -28,6 +28,7 @@ GO
 SET ANSI_PADDING OFF
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'''L'' per un Login Tradizionale, ''F'' per un accesso tramite FaceRecognition' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ACCESSES_PROJECT', @level2type=N'COLUMN',@level2name=N'TypeOfAcces'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'''L'' per un Login Tradizionale, ''F'' per un accesso tramite FaceRecognition' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ACCESSES_PROJECT', @level2type=N'COLUMN',@level2name=N'TypeOfAccess'
 GO
+
 
