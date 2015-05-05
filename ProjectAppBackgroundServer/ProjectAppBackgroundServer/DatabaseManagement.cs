@@ -7,12 +7,16 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Windows.Forms;
 
 namespace ProjectAppBackgroundServer
 {
     public class DatabaseManagement
     {
+        private const char LOGIN = 'L';
+        private const char FACE = 'F';
+        private const char ADMIN_YES = 'S';
+        private const char ADMIN_NO = 'N';
+
         private static string STRCONN;
         private SqlConnection conn;
 
@@ -21,6 +25,14 @@ namespace ProjectAppBackgroundServer
             DatabaseManagement.STRCONN = strConn;
             this.conn = new SqlConnection(DatabaseManagement.STRCONN);
             this.conn.Open();
+        }
+
+        private void NewErrorLog(string mex, DateTime date) 
+        {
+            string filename = "LOG_" + date.ToShortDateString();
+            StreamWriter writer = new StreamWriter(File.Open(filename, FileMode.Append));
+            writer.Write("--- " + date.ToShortTimeString() + " ---\n\n" + mex + "\n\n---------------\n\n");
+            writer.Close();
         }
 
         public void InsertImage(int userCode, Image img) 
@@ -36,13 +48,13 @@ namespace ProjectAppBackgroundServer
                 sqlCmd.Parameters.Add("@user", SqlDbType.Int).Value = userCode;
                 ImageConverter converter = new ImageConverter();
                 byte[] buff = (byte[])converter.ConvertTo(img, typeof(byte[]));
-                sqlCmd.Parameters.Add("@image", SqlDbType.VarBinary, buff.Length).Value = buff;
+                sqlCmd.Parameters.Add("@img", SqlDbType.VarBinary, buff.Length).Value = buff;
 
                 sqlCmd.ExecuteNonQuery();
                 transaction.Commit();
 
             }catch (Exception e) {
-                MessageBox.Show(e.Message, "ANOMALY", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
                 transaction.Rollback();
             }
             
@@ -53,25 +65,26 @@ namespace ProjectAppBackgroundServer
             SqlTransaction transaction = this.conn.BeginTransaction();
 
             try {
-                string com = "INSERT INTO ACCESS_PROJECT (Username,DateAccess,TypeOfAccess,ImageAccess)";
+
+                string com = "INSERT INTO ACCESSES_PROJECT (Username,DateAccess,TypeOfAccess,ImageAccess)";
                 com += "Values(@user,@date,@type,@img)";
                 SqlCommand sqlCmd = new SqlCommand(com, this.conn);
                 sqlCmd.Transaction = transaction;
 
                 sqlCmd.Parameters.Add("@user", SqlDbType.Int).Value = userCode;
-                sqlCmd.Parameters.Add("@date", SqlDbType.Date).Value = time.ToLongTimeString();
+                sqlCmd.Parameters.Add("@date", SqlDbType.Date).Value = time.ToShortDateString() + time.ToShortTimeString();
                 sqlCmd.Parameters.Add("type", SqlDbType.NChar, 1).Value = type;
 
                 ImageConverter converter = new ImageConverter();
                 byte[] buff = (byte[])converter.ConvertTo(userImg, typeof(byte[]));
-                sqlCmd.Parameters.Add("@image", SqlDbType.VarBinary, buff.Length).Value = buff;
+                sqlCmd.Parameters.Add("@img", SqlDbType.VarBinary, buff.Length).Value = buff;
 
                 sqlCmd.ExecuteNonQuery();
                 transaction.Commit();
 
             }
             catch ( Exception e ) {
-                MessageBox.Show(e.Message, "ANOMALY", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
                 transaction.Rollback();
             }
         }
@@ -93,7 +106,7 @@ namespace ProjectAppBackgroundServer
                 sqlCmd.Parameters.Add("@name", SqlDbType.VarChar, 50).Value = admin.Name;
                 sqlCmd.Parameters.Add("@surname", SqlDbType.VarChar, 50).Value = admin.Surname;
                 sqlCmd.Parameters.Add("@gender", SqlDbType.NChar, 1).Value = admin.Gender;
-                sqlCmd.Parameters.Add("@admin", SqlDbType.NChar, 1).Value = 'S';
+                sqlCmd.Parameters.Add("@admin", SqlDbType.NChar, 1).Value = DatabaseManagement.ADMIN_YES;
                 sqlCmd.Parameters.Add("@birth", SqlDbType.Date).Value = admin.BirthDate.ToShortDateString();
                 sqlCmd.Parameters.Add("@addr", SqlDbType.VarChar, 50).Value = admin.MailAddress;
                 sqlCmd.Parameters.Add("@pwdM", SqlDbType.VarChar, 100).Value = admin.MailPassword;
@@ -106,7 +119,7 @@ namespace ProjectAppBackgroundServer
                 transaction.Commit();
 
             } catch (Exception e) {
-                MessageBox.Show(e.Message, "ANOMALY", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
                 transaction.Rollback();
             }
 
@@ -130,7 +143,7 @@ namespace ProjectAppBackgroundServer
                 sqlCmd.Parameters.Add("@surname", SqlDbType.VarChar, 50).Value = u.Surname;
                 sqlCmd.Parameters.Add("@gender", SqlDbType.NChar, 1).Value = u.Gender;
                 sqlCmd.Parameters.Add("@birth", SqlDbType.Date).Value = u.BirthDate.ToShortDateString();
-                sqlCmd.Parameters.Add("@admin", SqlDbType.NChar, 1).Value = 'N';
+                sqlCmd.Parameters.Add("@admin", SqlDbType.NChar, 1).Value = DatabaseManagement.ADMIN_NO;
 
                 ImageConverter converter = new ImageConverter();
                 byte[] buff = (byte[])converter.ConvertTo(u.Img, typeof(byte[]));
@@ -140,14 +153,15 @@ namespace ProjectAppBackgroundServer
                 transaction.Commit();
 
             } catch (Exception e) {
-                MessageBox.Show(e.Message, "ANOMALY", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
                 transaction.Rollback();
             }
         }
 
         public List<Administrator> ShowAdministrators() 
         {
-            string query = "SELECT * FROM USERS_PROJECT WHERE Administrator='S'";
+            string query = "SELECT * FROM USERS_PROJECT WHERE Administrator='" 
+                + DatabaseManagement.ADMIN_YES.ToString() + "'";
             SqlCommand c1 = new SqlCommand(query, this.conn);
             SqlDataReader reader = c1.ExecuteReader();
             List<Administrator> list = new List<Administrator>();
@@ -169,6 +183,7 @@ namespace ProjectAppBackgroundServer
                 string pwdM = (string)reader["MailPassword"];
 
                 list.Add(new Administrator(user,pwdL,gender,date,name,surname,mail,pwdM,bmp));
+
             }
 
             reader.Close();
@@ -178,7 +193,8 @@ namespace ProjectAppBackgroundServer
 
         public List<User> ShowSimpleUsers() 
         {
-            string query = "SELECT * FROM USERS_PROJECT WHERE Administrator='N'";
+            string query = "SELECT * FROM USERS_PROJECT WHERE Administrator='" + 
+                DatabaseManagement.ADMIN_NO.ToString() + "'";
             SqlCommand c1 = new SqlCommand(query, this.conn);
             SqlDataReader reader = c1.ExecuteReader();
             List<User> list = new List<User>();
@@ -222,7 +238,8 @@ namespace ProjectAppBackgroundServer
 
         public User SelectSimpleUser(int codice) 
         {
-            string query = "SELECT * FROM USERS_PROJECT WHERE Administrator='N' AND Username='" + codice.ToString() + "'";
+            string query = "SELECT * FROM USERS_PROJECT WHERE Administrator='" + 
+                DatabaseManagement.ADMIN_NO.ToString() + "' AND Username='" + codice.ToString() + "'";
             SqlCommand com = new SqlCommand(query, this.conn);
             SqlDataReader reader = com.ExecuteReader();
 
@@ -255,7 +272,8 @@ namespace ProjectAppBackgroundServer
         public Administrator SelectAdministrator(int codice) 
         {
 
-            string query = "SELECT * FROM USERS_PROJECT WHERE Administrator='S'AND Username='" + codice.ToString() + "'";
+            string query = "SELECT * FROM USERS_PROJECT WHERE Administrator='" + 
+                DatabaseManagement.ADMIN_YES.ToString() + "' AND Username='" + codice.ToString() + "'";
             SqlCommand com = new SqlCommand(query, this.conn);
             SqlDataReader reader = com.ExecuteReader();
 
@@ -299,7 +317,7 @@ namespace ProjectAppBackgroundServer
                 int user = (int)reader["Username"];
                 DateTime date = (DateTime)reader["DateAccess"];
 
-                if ( type == 'F' ) {
+                if ( type == DatabaseManagement.FACE ) {
                     byte[] buff = (byte[])reader["ImageAccess"];
                     MemoryStream ms = new MemoryStream(buff);
                     Bitmap bmp = new Bitmap(ms);

@@ -15,7 +15,7 @@ namespace ProjectAppBackgroundServer
         private string hostType;
 
         public MailManagement(string address, string pwd) 
-        {
+        {            
             this.mittente = new MailAddress(address);
             this.password = pwd;
             CalculateHost();
@@ -48,8 +48,9 @@ namespace ProjectAppBackgroundServer
         {
             int indexOne = this.mittente.Address.IndexOf('@');
             int indexTwo = this.mittente.Address.LastIndexOf('.');
-            int length = this.mittente.Address.Length;
-            this.hostType = this.mittente.Address.Substring(indexOne, length - indexTwo);
+            indexOne++;
+            this.hostType = this.mittente.Address.Substring(indexOne, indexTwo - indexOne -1 );
+            
         }
 
         public static bool VerificaCorrettezzaMail(string addr)
