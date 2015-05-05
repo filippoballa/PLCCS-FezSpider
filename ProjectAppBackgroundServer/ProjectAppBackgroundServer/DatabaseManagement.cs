@@ -12,16 +12,16 @@ namespace ProjectAppBackgroundServer
 {
     public class DatabaseManagement
     {
-        private const char LOGIN = 'L';
-        private const char FACE = 'F';
-        private const char ADMIN_YES = 'S';
-        private const char ADMIN_NO = 'N';
+        public const char LOGIN = 'L';
+        public const char FACE = 'F';
+        public const char ADMIN_YES = 'S';
+        public const char ADMIN_NO = 'N';
 
         private static string STRCONN;
         private SqlConnection conn;
 
         public DatabaseManagement(string strConn) 
-        {
+        {   
             DatabaseManagement.STRCONN = strConn;
             this.conn = new SqlConnection(DatabaseManagement.STRCONN);
             this.conn.Open();
