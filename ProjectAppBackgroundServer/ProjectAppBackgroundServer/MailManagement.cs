@@ -48,8 +48,8 @@ namespace ProjectAppBackgroundServer
         {
             int indexOne = this.mittente.Address.IndexOf('@');
             int indexTwo = this.mittente.Address.LastIndexOf('.');
-            int length = this.mittente.Address.Length;
-            this.hostType = this.mittente.Address.Substring(indexOne, length - indexTwo);
+            //int length = this.mittente.Address.Length;
+            this.hostType = this.mittente.Address.Substring(indexOne + 1, indexTwo - indexOne - 1);
         }
 
         public static bool VerificaCorrettezzaMail(string addr)

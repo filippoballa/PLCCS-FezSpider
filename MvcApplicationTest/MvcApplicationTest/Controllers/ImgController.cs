@@ -1,4 +1,5 @@
 ﻿using MvcApplicationTest.Models;
+using ProjectAppBackgroundServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,46 +23,32 @@ namespace MvcApplicationTest.Controllers
         }
         public HttpResponseMessage Post(Img i)
         {
+            string msg = "OK";
+            bool login = true;
+            HttpResponseMessage response=null;
 
-            //User = StartRecognition();
-            //if(User!= null){
-            var response = Request.CreateResponse<String>(System.Net.HttpStatusCode.Created, "Id : " + i.Id);
-            //}
-            //else{
+            DatabaseManagement db = new DatabaseManagement(strConn);
+
+            try
+            {
+                //User = StartRecognition();
+                //if(User!= null){
+                response = Request.CreateResponse<String>(System.Net.HttpStatusCode.Created, "Id : " + i.Id);
+                //}
+                //else{
                 //  var response = Request.CreateResponse<String>(System.Net.HttpStatusCode.InternalServerError, "Id : " + i.Id);
-            //}
+                //}
+            }
+            catch (Exception e)
+            {
+                msg = e.Message;
+            }
+            finally
+            {
+                db.CloseConnection();
+            }
+            
             return response;
         }
-
-        /*
-             * DATA WITH SHA1
-             * 
-             * byte[] data = GetBytes(s);
-            
-             * byte[] result;
-
-             * SHA1 sha = new SHA1CryptoServiceProvider();
-             * // This is one implementation of the abstract class SHA1.
-             * result = sha.ComputeHash(data);
-             * return new string[]
-                        {
-                             s,
-                             GetString(result)
-                        };
-             */
-        /*static byte[] GetBytes(string str)
-        {
-            byte[] bytes = new byte[str.Length * sizeof(char)];
-            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
-            return bytes;
-        }
-
-        static string GetString(byte[] bytes)
-        {
-            char[] chars = new char[bytes.Length / sizeof(char)];
-            System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
-            return new string(chars);
-         * */
-
     }
 }
