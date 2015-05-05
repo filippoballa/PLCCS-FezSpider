@@ -65,12 +65,8 @@ namespace ProjectAppBackgroundServer
             SqlTransaction transaction = this.conn.BeginTransaction();
 
             try {
-<<<<<<< HEAD
 
-                string com = "INSERT INTO ACCESSES_PROJECT (Username,DateAccess,TypeOfAccess,ImageAccess)";
-=======
                 string com = "INSERT INTO ACCESSES_PROJECT (Username,DateAccess,TypeOfAcces,ImageAccess)";
->>>>>>> f78b2f1249d5f78df5db8e636ceb59ad0fef628d
                 com += "Values(@user,@date,@type,@img)";
                 SqlCommand sqlCmd = new SqlCommand(com, this.conn);
                 sqlCmd.Transaction = transaction;

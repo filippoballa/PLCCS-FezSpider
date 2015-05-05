@@ -44,18 +44,13 @@ namespace ProjectAppBackgroundServer
             sc.Send(message);
         }
 
-        private void CalculateHost() 
+        private void CalculateHost()
         {
             int indexOne = this.mittente.Address.IndexOf('@');
             int indexTwo = this.mittente.Address.LastIndexOf('.');
-<<<<<<< HEAD
             indexOne++;
-            this.hostType = this.mittente.Address.Substring(indexOne, indexTwo - indexOne -1 );
-            
-=======
-            //int length = this.mittente.Address.Length;
-            this.hostType = this.mittente.Address.Substring(indexOne + 1, indexTwo - indexOne - 1);
->>>>>>> f78b2f1249d5f78df5db8e636ceb59ad0fef628d
+            this.hostType = this.mittente.Address.Substring(indexOne, indexTwo - indexOne );
+
         }
 
         public static bool VerificaCorrettezzaMail(string addr)
