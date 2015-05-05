@@ -31,6 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectServerApp));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -38,9 +41,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -50,6 +50,7 @@
             this.showAdministratorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showSimpleUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showAccessUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modifyUserDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.informazioniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,9 +86,20 @@
             this.NameLabel = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.AdminPanel = new System.Windows.Forms.Panel();
+            this.WarningAdminPictureBox = new System.Windows.Forms.PictureBox();
+            this.ErrorAdminLabel = new System.Windows.Forms.Label();
             this.AdminShowLabel = new System.Windows.Forms.Label();
             this.AdminDataGridView = new System.Windows.Forms.DataGridView();
+            this.USERNAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SURNAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GENDER = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BIRTHDATE = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MailAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IMAGE = new System.Windows.Forms.DataGridViewImageColumn();
             this.SimpleUserPanel = new System.Windows.Forms.Panel();
+            this.WarningUserPictureBox = new System.Windows.Forms.PictureBox();
+            this.ErrorUserLabel = new System.Windows.Forms.Label();
             this.SimpleUserTitleLabel = new System.Windows.Forms.Label();
             this.SimpleUserDataGridView = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -97,39 +109,27 @@
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.AccessPanel = new System.Windows.Forms.Panel();
-            this.TitleAccessLabel = new System.Windows.Forms.Label();
+            this.WarningAccessPictureBox = new System.Windows.Forms.PictureBox();
+            this.ErrorAccessLabel = new System.Windows.Forms.Label();
             this.AccessDataGridView = new System.Windows.Forms.DataGridView();
-            this.modifyUserDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ErrorAdminLabel = new System.Windows.Forms.Label();
-            this.WarningAdminPictureBox = new System.Windows.Forms.PictureBox();
-            this.ErrorUserLabel = new System.Windows.Forms.Label();
-            this.WarningUserPictureBox = new System.Windows.Forms.PictureBox();
-            this.USERNAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SURNAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GENDER = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BIRTHDATE = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MailAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IMAGE = new System.Windows.Forms.DataGridViewImageColumn();
-            this.ModifyUserPanel = new System.Windows.Forms.Panel();
-            this.InfoPanel = new System.Windows.Forms.Panel();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TypeOfAccess = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.ErrorAccessLabel = new System.Windows.Forms.Label();
-            this.WarningAccessPictureBox = new System.Windows.Forms.PictureBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.SeacrhButton = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.label10 = new System.Windows.Forms.Label();
+            this.TitleAccessLabel = new System.Windows.Forms.Label();
+            this.ModifyUserPanel = new System.Windows.Forms.Panel();
             this.TakePictureButton = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.SeacrhButton = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.InfoPanel = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.HomePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -139,15 +139,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.PasswordPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UserPictureBox)).BeginInit();
             this.AdminPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.WarningAdminPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AdminDataGridView)).BeginInit();
             this.SimpleUserPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.WarningUserPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SimpleUserDataGridView)).BeginInit();
             this.AccessPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.AccessDataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.WarningAdminPictureBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.WarningUserPictureBox)).BeginInit();
-            this.ModifyUserPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WarningAccessPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AccessDataGridView)).BeginInit();
+            this.ModifyUserPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -221,6 +221,17 @@
             this.showAccessUsersToolStripMenuItem.Text = "Show Access Users";
             this.showAccessUsersToolStripMenuItem.Click += new System.EventHandler(this.showAccessUsersToolStripMenuItem_Click);
             // 
+            // modifyUserDataToolStripMenuItem
+            // 
+            this.modifyUserDataToolStripMenuItem.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.modifyUserDataToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.modifyUserDataToolStripMenuItem.ForeColor = System.Drawing.SystemColors.MenuBar;
+            this.modifyUserDataToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("modifyUserDataToolStripMenuItem.Image")));
+            this.modifyUserDataToolStripMenuItem.Name = "modifyUserDataToolStripMenuItem";
+            this.modifyUserDataToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.modifyUserDataToolStripMenuItem.Text = "Modify User Data";
+            this.modifyUserDataToolStripMenuItem.Click += new System.EventHandler(this.modifyUserDataToolStripMenuItem_Click);
+            // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.BackColor = System.Drawing.SystemColors.WindowFrame;
@@ -248,7 +259,7 @@
             this.informazioniToolStripMenuItem.ForeColor = System.Drawing.SystemColors.MenuBar;
             this.informazioniToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("informazioniToolStripMenuItem.Image")));
             this.informazioniToolStripMenuItem.Name = "informazioniToolStripMenuItem";
-            this.informazioniToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.informazioniToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.informazioniToolStripMenuItem.Text = "Informazioni";
             this.informazioniToolStripMenuItem.Click += new System.EventHandler(this.informazioniToolStripMenuItem_Click);
             // 
@@ -676,6 +687,32 @@
             this.AdminPanel.Visible = false;
             this.AdminPanel.VisibleChanged += new System.EventHandler(this.AdminPanel_VisibleChanged);
             // 
+            // WarningAdminPictureBox
+            // 
+            this.WarningAdminPictureBox.BackColor = System.Drawing.Color.Transparent;
+            this.WarningAdminPictureBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("WarningAdminPictureBox.BackgroundImage")));
+            this.WarningAdminPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.WarningAdminPictureBox.Location = new System.Drawing.Point(374, 288);
+            this.WarningAdminPictureBox.Name = "WarningAdminPictureBox";
+            this.WarningAdminPictureBox.Size = new System.Drawing.Size(138, 117);
+            this.WarningAdminPictureBox.TabIndex = 3;
+            this.WarningAdminPictureBox.TabStop = false;
+            this.WarningAdminPictureBox.Visible = false;
+            // 
+            // ErrorAdminLabel
+            // 
+            this.ErrorAdminLabel.AutoSize = true;
+            this.ErrorAdminLabel.BackColor = System.Drawing.Color.Transparent;
+            this.ErrorAdminLabel.Font = new System.Drawing.Font("Comic Sans MS", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ErrorAdminLabel.ForeColor = System.Drawing.Color.White;
+            this.ErrorAdminLabel.Location = new System.Drawing.Point(273, 199);
+            this.ErrorAdminLabel.Name = "ErrorAdminLabel";
+            this.ErrorAdminLabel.Size = new System.Drawing.Size(356, 50);
+            this.ErrorAdminLabel.TabIndex = 2;
+            this.ErrorAdminLabel.Text = "At the moment, no Administrators has \r\nbeen registered on the database";
+            this.ErrorAdminLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.ErrorAdminLabel.Visible = false;
+            // 
             // AdminShowLabel
             // 
             this.AdminShowLabel.AutoSize = true;
@@ -728,6 +765,70 @@
             this.AdminDataGridView.TabIndex = 0;
             this.AdminDataGridView.Visible = false;
             // 
+            // USERNAME
+            // 
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Comic Sans MS", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.USERNAME.DefaultCellStyle = dataGridViewCellStyle17;
+            this.USERNAME.HeaderText = "USERNAME";
+            this.USERNAME.MaxInputLength = 6;
+            this.USERNAME.Name = "USERNAME";
+            this.USERNAME.ReadOnly = true;
+            this.USERNAME.Width = 80;
+            // 
+            // NAME
+            // 
+            dataGridViewCellStyle18.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Comic Sans MS", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.NAME.DefaultCellStyle = dataGridViewCellStyle18;
+            this.NAME.HeaderText = "NAME";
+            this.NAME.Name = "NAME";
+            this.NAME.ReadOnly = true;
+            // 
+            // SURNAME
+            // 
+            dataGridViewCellStyle19.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Comic Sans MS", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.SURNAME.DefaultCellStyle = dataGridViewCellStyle19;
+            this.SURNAME.HeaderText = "SURNAME";
+            this.SURNAME.Name = "SURNAME";
+            this.SURNAME.ReadOnly = true;
+            // 
+            // GENDER
+            // 
+            this.GENDER.HeaderText = "GENDER";
+            this.GENDER.Name = "GENDER";
+            this.GENDER.ReadOnly = true;
+            this.GENDER.Width = 60;
+            // 
+            // BIRTHDATE
+            // 
+            this.BIRTHDATE.HeaderText = "BIRTH DATE";
+            this.BIRTHDATE.Name = "BIRTHDATE";
+            this.BIRTHDATE.ReadOnly = true;
+            this.BIRTHDATE.Width = 95;
+            // 
+            // MailAddress
+            // 
+            this.MailAddress.HeaderText = "Mail Address";
+            this.MailAddress.Name = "MailAddress";
+            this.MailAddress.ReadOnly = true;
+            this.MailAddress.Width = 170;
+            // 
+            // IMAGE
+            // 
+            this.IMAGE.HeaderText = "IMAGE";
+            this.IMAGE.Name = "IMAGE";
+            this.IMAGE.ReadOnly = true;
+            this.IMAGE.Width = 172;
+            // 
             // SimpleUserPanel
             // 
             this.SimpleUserPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("SimpleUserPanel.BackgroundImage")));
@@ -742,6 +843,32 @@
             this.SimpleUserPanel.TabIndex = 23;
             this.SimpleUserPanel.Visible = false;
             this.SimpleUserPanel.VisibleChanged += new System.EventHandler(this.SimpleUserPanel_VisibleChanged);
+            // 
+            // WarningUserPictureBox
+            // 
+            this.WarningUserPictureBox.BackColor = System.Drawing.Color.Transparent;
+            this.WarningUserPictureBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("WarningUserPictureBox.BackgroundImage")));
+            this.WarningUserPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.WarningUserPictureBox.Location = new System.Drawing.Point(361, 288);
+            this.WarningUserPictureBox.Name = "WarningUserPictureBox";
+            this.WarningUserPictureBox.Size = new System.Drawing.Size(138, 117);
+            this.WarningUserPictureBox.TabIndex = 4;
+            this.WarningUserPictureBox.TabStop = false;
+            this.WarningUserPictureBox.Visible = false;
+            // 
+            // ErrorUserLabel
+            // 
+            this.ErrorUserLabel.AutoSize = true;
+            this.ErrorUserLabel.BackColor = System.Drawing.Color.Transparent;
+            this.ErrorUserLabel.Font = new System.Drawing.Font("Comic Sans MS", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ErrorUserLabel.ForeColor = System.Drawing.Color.White;
+            this.ErrorUserLabel.Location = new System.Drawing.Point(264, 190);
+            this.ErrorUserLabel.Name = "ErrorUserLabel";
+            this.ErrorUserLabel.Size = new System.Drawing.Size(342, 50);
+            this.ErrorUserLabel.TabIndex = 3;
+            this.ErrorUserLabel.Text = "At the moment, no Simple Users has \r\nbeen registered on the database";
+            this.ErrorUserLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.ErrorUserLabel.Visible = false;
             // 
             // SimpleUserTitleLabel
             // 
@@ -866,17 +993,31 @@
             this.AccessPanel.Visible = false;
             this.AccessPanel.VisibleChanged += new System.EventHandler(this.AccessPanel_VisibleChanged);
             // 
-            // TitleAccessLabel
+            // WarningAccessPictureBox
             // 
-            this.TitleAccessLabel.AutoSize = true;
-            this.TitleAccessLabel.BackColor = System.Drawing.Color.Transparent;
-            this.TitleAccessLabel.Font = new System.Drawing.Font("Comic Sans MS", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TitleAccessLabel.ForeColor = System.Drawing.Color.White;
-            this.TitleAccessLabel.Location = new System.Drawing.Point(248, 26);
-            this.TitleAccessLabel.Name = "TitleAccessLabel";
-            this.TitleAccessLabel.Size = new System.Drawing.Size(335, 31);
-            this.TitleAccessLabel.TabIndex = 0;
-            this.TitleAccessLabel.Text = "List of Access to the Building";
+            this.WarningAccessPictureBox.BackColor = System.Drawing.Color.Transparent;
+            this.WarningAccessPictureBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("WarningAccessPictureBox.BackgroundImage")));
+            this.WarningAccessPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.WarningAccessPictureBox.Location = new System.Drawing.Point(350, 288);
+            this.WarningAccessPictureBox.Name = "WarningAccessPictureBox";
+            this.WarningAccessPictureBox.Size = new System.Drawing.Size(138, 117);
+            this.WarningAccessPictureBox.TabIndex = 4;
+            this.WarningAccessPictureBox.TabStop = false;
+            this.WarningAccessPictureBox.Visible = false;
+            // 
+            // ErrorAccessLabel
+            // 
+            this.ErrorAccessLabel.AutoSize = true;
+            this.ErrorAccessLabel.BackColor = System.Drawing.Color.Transparent;
+            this.ErrorAccessLabel.Font = new System.Drawing.Font("Comic Sans MS", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ErrorAccessLabel.ForeColor = System.Drawing.Color.White;
+            this.ErrorAccessLabel.Location = new System.Drawing.Point(239, 188);
+            this.ErrorAccessLabel.Name = "ErrorAccessLabel";
+            this.ErrorAccessLabel.Size = new System.Drawing.Size(367, 50);
+            this.ErrorAccessLabel.TabIndex = 3;
+            this.ErrorAccessLabel.Text = "At the moment, no access has occurred \r\nin the building";
+            this.ErrorAccessLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.ErrorAccessLabel.Visible = false;
             // 
             // AccessDataGridView
             // 
@@ -916,162 +1057,6 @@
             this.AccessDataGridView.Size = new System.Drawing.Size(779, 365);
             this.AccessDataGridView.TabIndex = 1;
             this.AccessDataGridView.Visible = false;
-            // 
-            // modifyUserDataToolStripMenuItem
-            // 
-            this.modifyUserDataToolStripMenuItem.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.modifyUserDataToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.modifyUserDataToolStripMenuItem.ForeColor = System.Drawing.SystemColors.MenuBar;
-            this.modifyUserDataToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("modifyUserDataToolStripMenuItem.Image")));
-            this.modifyUserDataToolStripMenuItem.Name = "modifyUserDataToolStripMenuItem";
-            this.modifyUserDataToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.modifyUserDataToolStripMenuItem.Text = "Modify User Data";
-            this.modifyUserDataToolStripMenuItem.Click += new System.EventHandler(this.modifyUserDataToolStripMenuItem_Click);
-            // 
-            // ErrorAdminLabel
-            // 
-            this.ErrorAdminLabel.AutoSize = true;
-            this.ErrorAdminLabel.BackColor = System.Drawing.Color.Transparent;
-            this.ErrorAdminLabel.Font = new System.Drawing.Font("Comic Sans MS", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ErrorAdminLabel.ForeColor = System.Drawing.Color.White;
-            this.ErrorAdminLabel.Location = new System.Drawing.Point(273, 199);
-            this.ErrorAdminLabel.Name = "ErrorAdminLabel";
-            this.ErrorAdminLabel.Size = new System.Drawing.Size(356, 50);
-            this.ErrorAdminLabel.TabIndex = 2;
-            this.ErrorAdminLabel.Text = "At the moment, no Administrators has \r\nbeen registered on the database";
-            this.ErrorAdminLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.ErrorAdminLabel.Visible = false;
-            // 
-            // WarningAdminPictureBox
-            // 
-            this.WarningAdminPictureBox.BackColor = System.Drawing.Color.Transparent;
-            this.WarningAdminPictureBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("WarningAdminPictureBox.BackgroundImage")));
-            this.WarningAdminPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.WarningAdminPictureBox.Location = new System.Drawing.Point(374, 288);
-            this.WarningAdminPictureBox.Name = "WarningAdminPictureBox";
-            this.WarningAdminPictureBox.Size = new System.Drawing.Size(138, 117);
-            this.WarningAdminPictureBox.TabIndex = 3;
-            this.WarningAdminPictureBox.TabStop = false;
-            this.WarningAdminPictureBox.Visible = false;
-            // 
-            // ErrorUserLabel
-            // 
-            this.ErrorUserLabel.AutoSize = true;
-            this.ErrorUserLabel.BackColor = System.Drawing.Color.Transparent;
-            this.ErrorUserLabel.Font = new System.Drawing.Font("Comic Sans MS", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ErrorUserLabel.ForeColor = System.Drawing.Color.White;
-            this.ErrorUserLabel.Location = new System.Drawing.Point(264, 190);
-            this.ErrorUserLabel.Name = "ErrorUserLabel";
-            this.ErrorUserLabel.Size = new System.Drawing.Size(342, 50);
-            this.ErrorUserLabel.TabIndex = 3;
-            this.ErrorUserLabel.Text = "At the moment, no Simple Users has \r\nbeen registered on the database";
-            this.ErrorUserLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.ErrorUserLabel.Visible = false;
-            // 
-            // WarningUserPictureBox
-            // 
-            this.WarningUserPictureBox.BackColor = System.Drawing.Color.Transparent;
-            this.WarningUserPictureBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("WarningUserPictureBox.BackgroundImage")));
-            this.WarningUserPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.WarningUserPictureBox.Location = new System.Drawing.Point(361, 288);
-            this.WarningUserPictureBox.Name = "WarningUserPictureBox";
-            this.WarningUserPictureBox.Size = new System.Drawing.Size(138, 117);
-            this.WarningUserPictureBox.TabIndex = 4;
-            this.WarningUserPictureBox.TabStop = false;
-            this.WarningUserPictureBox.Visible = false;
-            // 
-            // USERNAME
-            // 
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("Comic Sans MS", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.USERNAME.DefaultCellStyle = dataGridViewCellStyle17;
-            this.USERNAME.HeaderText = "USERNAME";
-            this.USERNAME.MaxInputLength = 6;
-            this.USERNAME.Name = "USERNAME";
-            this.USERNAME.ReadOnly = true;
-            this.USERNAME.Width = 80;
-            // 
-            // NAME
-            // 
-            dataGridViewCellStyle18.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("Comic Sans MS", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.NAME.DefaultCellStyle = dataGridViewCellStyle18;
-            this.NAME.HeaderText = "NAME";
-            this.NAME.Name = "NAME";
-            this.NAME.ReadOnly = true;
-            // 
-            // SURNAME
-            // 
-            dataGridViewCellStyle19.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            dataGridViewCellStyle19.Font = new System.Drawing.Font("Comic Sans MS", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.SURNAME.DefaultCellStyle = dataGridViewCellStyle19;
-            this.SURNAME.HeaderText = "SURNAME";
-            this.SURNAME.Name = "SURNAME";
-            this.SURNAME.ReadOnly = true;
-            // 
-            // GENDER
-            // 
-            this.GENDER.HeaderText = "GENDER";
-            this.GENDER.Name = "GENDER";
-            this.GENDER.ReadOnly = true;
-            this.GENDER.Width = 60;
-            // 
-            // BIRTHDATE
-            // 
-            this.BIRTHDATE.HeaderText = "BIRTH DATE";
-            this.BIRTHDATE.Name = "BIRTHDATE";
-            this.BIRTHDATE.ReadOnly = true;
-            this.BIRTHDATE.Width = 95;
-            // 
-            // MailAddress
-            // 
-            this.MailAddress.HeaderText = "Mail Address";
-            this.MailAddress.Name = "MailAddress";
-            this.MailAddress.ReadOnly = true;
-            this.MailAddress.Width = 170;
-            // 
-            // IMAGE
-            // 
-            this.IMAGE.HeaderText = "IMAGE";
-            this.IMAGE.Name = "IMAGE";
-            this.IMAGE.ReadOnly = true;
-            this.IMAGE.Width = 172;
-            // 
-            // ModifyUserPanel
-            // 
-            this.ModifyUserPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ModifyUserPanel.BackgroundImage")));
-            this.ModifyUserPanel.Controls.Add(this.TakePictureButton);
-            this.ModifyUserPanel.Controls.Add(this.label10);
-            this.ModifyUserPanel.Controls.Add(this.dataGridView1);
-            this.ModifyUserPanel.Controls.Add(this.comboBox1);
-            this.ModifyUserPanel.Controls.Add(this.label9);
-            this.ModifyUserPanel.Controls.Add(this.SeacrhButton);
-            this.ModifyUserPanel.Controls.Add(this.textBox1);
-            this.ModifyUserPanel.Controls.Add(this.label8);
-            this.ModifyUserPanel.Controls.Add(this.label7);
-            this.ModifyUserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ModifyUserPanel.Location = new System.Drawing.Point(0, 24);
-            this.ModifyUserPanel.Name = "ModifyUserPanel";
-            this.ModifyUserPanel.Size = new System.Drawing.Size(864, 506);
-            this.ModifyUserPanel.TabIndex = 4;
-            this.ModifyUserPanel.Visible = false;
-            // 
-            // InfoPanel
-            // 
-            this.InfoPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("InfoPanel.BackgroundImage")));
-            this.InfoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.InfoPanel.Location = new System.Drawing.Point(0, 24);
-            this.InfoPanel.Name = "InfoPanel";
-            this.InfoPanel.Size = new System.Drawing.Size(864, 506);
-            this.InfoPanel.TabIndex = 0;
-            this.InfoPanel.Visible = false;
             // 
             // dataGridViewTextBoxColumn6
             // 
@@ -1132,64 +1117,96 @@
             this.dataGridViewImageColumn2.ReadOnly = true;
             this.dataGridViewImageColumn2.Width = 180;
             // 
-            // ErrorAccessLabel
+            // TitleAccessLabel
             // 
-            this.ErrorAccessLabel.AutoSize = true;
-            this.ErrorAccessLabel.BackColor = System.Drawing.Color.Transparent;
-            this.ErrorAccessLabel.Font = new System.Drawing.Font("Comic Sans MS", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ErrorAccessLabel.ForeColor = System.Drawing.Color.White;
-            this.ErrorAccessLabel.Location = new System.Drawing.Point(239, 188);
-            this.ErrorAccessLabel.Name = "ErrorAccessLabel";
-            this.ErrorAccessLabel.Size = new System.Drawing.Size(367, 50);
-            this.ErrorAccessLabel.TabIndex = 3;
-            this.ErrorAccessLabel.Text = "At the moment, no access has occurred \r\nin the building";
-            this.ErrorAccessLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.ErrorAccessLabel.Visible = false;
+            this.TitleAccessLabel.AutoSize = true;
+            this.TitleAccessLabel.BackColor = System.Drawing.Color.Transparent;
+            this.TitleAccessLabel.Font = new System.Drawing.Font("Comic Sans MS", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TitleAccessLabel.ForeColor = System.Drawing.Color.White;
+            this.TitleAccessLabel.Location = new System.Drawing.Point(248, 26);
+            this.TitleAccessLabel.Name = "TitleAccessLabel";
+            this.TitleAccessLabel.Size = new System.Drawing.Size(335, 31);
+            this.TitleAccessLabel.TabIndex = 0;
+            this.TitleAccessLabel.Text = "List of Access to the Building";
             // 
-            // WarningAccessPictureBox
+            // ModifyUserPanel
             // 
-            this.WarningAccessPictureBox.BackColor = System.Drawing.Color.Transparent;
-            this.WarningAccessPictureBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("WarningAccessPictureBox.BackgroundImage")));
-            this.WarningAccessPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.WarningAccessPictureBox.Location = new System.Drawing.Point(350, 288);
-            this.WarningAccessPictureBox.Name = "WarningAccessPictureBox";
-            this.WarningAccessPictureBox.Size = new System.Drawing.Size(138, 117);
-            this.WarningAccessPictureBox.TabIndex = 4;
-            this.WarningAccessPictureBox.TabStop = false;
-            this.WarningAccessPictureBox.Visible = false;
+            this.ModifyUserPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ModifyUserPanel.BackgroundImage")));
+            this.ModifyUserPanel.Controls.Add(this.TakePictureButton);
+            this.ModifyUserPanel.Controls.Add(this.label10);
+            this.ModifyUserPanel.Controls.Add(this.dataGridView1);
+            this.ModifyUserPanel.Controls.Add(this.comboBox1);
+            this.ModifyUserPanel.Controls.Add(this.label9);
+            this.ModifyUserPanel.Controls.Add(this.SeacrhButton);
+            this.ModifyUserPanel.Controls.Add(this.textBox1);
+            this.ModifyUserPanel.Controls.Add(this.label8);
+            this.ModifyUserPanel.Controls.Add(this.label7);
+            this.ModifyUserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ModifyUserPanel.Location = new System.Drawing.Point(0, 24);
+            this.ModifyUserPanel.Name = "ModifyUserPanel";
+            this.ModifyUserPanel.Size = new System.Drawing.Size(864, 506);
+            this.ModifyUserPanel.TabIndex = 4;
+            this.ModifyUserPanel.Visible = false;
             // 
-            // label7
+            // TakePictureButton
             // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Font = new System.Drawing.Font("Comic Sans MS", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(238, 23);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(415, 31);
-            this.label7.TabIndex = 1;
-            this.label7.Text = "Edit the data associated with a User";
+            this.TakePictureButton.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.TakePictureButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.TakePictureButton.FlatAppearance.BorderSize = 3;
+            this.TakePictureButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.TakePictureButton.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TakePictureButton.ForeColor = System.Drawing.Color.White;
+            this.TakePictureButton.Location = new System.Drawing.Point(71, 427);
+            this.TakePictureButton.Name = "TakePictureButton";
+            this.TakePictureButton.Size = new System.Drawing.Size(147, 35);
+            this.TakePictureButton.TabIndex = 9;
+            this.TakePictureButton.Text = "Take a Picture";
+            this.TakePictureButton.UseVisualStyleBackColor = false;
             // 
-            // label8
+            // label10
             // 
-            this.label8.AutoSize = true;
-            this.label8.BackColor = System.Drawing.Color.Transparent;
-            this.label8.Font = new System.Drawing.Font("Comic Sans MS", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(12, 103);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(380, 21);
-            this.label8.TabIndex = 2;
-            this.label8.Text = "Specify the code of the user to search its data :";
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.Font = new System.Drawing.Font("Comic Sans MS", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.White;
+            this.label10.Location = new System.Drawing.Point(44, 360);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(253, 42);
+            this.label10.TabIndex = 8;
+            this.label10.Text = "Want to change the picture that\r\nwas recorded with another?";
             // 
-            // textBox1
+            // dataGridView1
             // 
-            this.textBox1.Font = new System.Drawing.Font("Comic Sans MS", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(411, 102);
-            this.textBox1.MaxLength = 6;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(113, 26);
-            this.textBox1.TabIndex = 3;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(35, 222);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(792, 101);
+            this.dataGridView1.TabIndex = 7;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Font = new System.Drawing.Font("Comic Sans MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Administrator",
+            "Simple User"});
+            this.comboBox1.Location = new System.Drawing.Point(405, 146);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 24);
+            this.comboBox1.TabIndex = 6;
+            this.comboBox1.Text = "Administrator";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.Color.Transparent;
+            this.label9.Font = new System.Drawing.Font("Comic Sans MS", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.White;
+            this.label9.Location = new System.Drawing.Point(181, 147);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(217, 21);
+            this.label9.TabIndex = 5;
+            this.label9.Text = "Specify the type of User : ";
             // 
             // SeacrhButton
             // 
@@ -1207,63 +1224,48 @@
             this.SeacrhButton.Text = "Search";
             this.SeacrhButton.UseVisualStyleBackColor = false;
             // 
-            // label9
+            // textBox1
             // 
-            this.label9.AutoSize = true;
-            this.label9.BackColor = System.Drawing.Color.Transparent;
-            this.label9.Font = new System.Drawing.Font("Comic Sans MS", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(181, 147);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(217, 21);
-            this.label9.TabIndex = 5;
-            this.label9.Text = "Specify the type of User : ";
+            this.textBox1.Font = new System.Drawing.Font("Comic Sans MS", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(411, 102);
+            this.textBox1.MaxLength = 6;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(113, 26);
+            this.textBox1.TabIndex = 3;
             // 
-            // comboBox1
+            // label8
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Administrator",
-            "Simple User"});
-            this.comboBox1.Location = new System.Drawing.Point(405, 148);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 6;
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.Transparent;
+            this.label8.Font = new System.Drawing.Font("Comic Sans MS", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.White;
+            this.label8.Location = new System.Drawing.Point(12, 103);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(380, 21);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "Specify the code of the user to search its data :";
             // 
-            // dataGridView1
+            // label7
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(35, 222);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(792, 101);
-            this.dataGridView1.TabIndex = 7;
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.Font = new System.Drawing.Font("Comic Sans MS", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(238, 23);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(415, 31);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "Edit the data associated with a User";
             // 
-            // label10
+            // InfoPanel
             // 
-            this.label10.AutoSize = true;
-            this.label10.BackColor = System.Drawing.Color.Transparent;
-            this.label10.Font = new System.Drawing.Font("Comic Sans MS", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.Color.White;
-            this.label10.Location = new System.Drawing.Point(44, 360);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(253, 42);
-            this.label10.TabIndex = 8;
-            this.label10.Text = "Want to change the picture that\r\nwas recorded with another?";
-            // 
-            // TakePictureButton
-            // 
-            this.TakePictureButton.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.TakePictureButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.TakePictureButton.FlatAppearance.BorderSize = 3;
-            this.TakePictureButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.TakePictureButton.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TakePictureButton.ForeColor = System.Drawing.Color.White;
-            this.TakePictureButton.Location = new System.Drawing.Point(71, 427);
-            this.TakePictureButton.Name = "TakePictureButton";
-            this.TakePictureButton.Size = new System.Drawing.Size(147, 35);
-            this.TakePictureButton.TabIndex = 9;
-            this.TakePictureButton.Text = "Take a Picture";
-            this.TakePictureButton.UseVisualStyleBackColor = false;
+            this.InfoPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("InfoPanel.BackgroundImage")));
+            this.InfoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.InfoPanel.Location = new System.Drawing.Point(0, 24);
+            this.InfoPanel.Name = "InfoPanel";
+            this.InfoPanel.Size = new System.Drawing.Size(864, 506);
+            this.InfoPanel.TabIndex = 0;
+            this.InfoPanel.Visible = false;
             // 
             // ProjectServerApp
             // 
@@ -1300,18 +1302,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.UserPictureBox)).EndInit();
             this.AdminPanel.ResumeLayout(false);
             this.AdminPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.WarningAdminPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AdminDataGridView)).EndInit();
             this.SimpleUserPanel.ResumeLayout(false);
             this.SimpleUserPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.WarningUserPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SimpleUserDataGridView)).EndInit();
             this.AccessPanel.ResumeLayout(false);
             this.AccessPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.WarningAccessPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AccessDataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.WarningAdminPictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.WarningUserPictureBox)).EndInit();
             this.ModifyUserPanel.ResumeLayout(false);
             this.ModifyUserPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.WarningAccessPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

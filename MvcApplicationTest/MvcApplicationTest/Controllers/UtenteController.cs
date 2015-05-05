@@ -114,6 +114,21 @@ namespace MvcApplicationTest.Controllers
                 if (login)
                 {
                     response = Request.CreateResponse<String>(System.Net.HttpStatusCode.Created, msg);
+
+                    //inserisco una entry nella tabella degli ingressi
+                    db.InserAccessUser(ricerca.Codice, DateTime.Now, 'L', null);
+
+                    //invio all'amministrazione un mesaggio 
+                    List<Administrator> AdminList = db.ShowAdministrators();
+
+                    if (AdminList.Count > 0)
+                    {
+                        foreach (Administrator a in AdminList)
+                        {
+                            MailManagement mailmanagment = new MailManagement(a.MailAddress, a.MailPassword);
+                            mailmanagment.SendMailToAdmin(a.MailAddress, ricerca, DateTime.Now);
+                        }
+                    }
                 }
                 //utente o password NON corrispondono
                 else
@@ -134,19 +149,6 @@ namespace MvcApplicationTest.Controllers
             }
              
             return response;
-        }
-        static byte[] GetBytes(string str)
-        {
-            byte[] bytes = new byte[str.Length * sizeof(char)];
-            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
-            return bytes;
-        }
-
-        static string GetString(byte[] bytes)
-        {
-            char[] chars = new char[bytes.Length / sizeof(char)];
-            System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
-            return new string(chars);
         }
     }
 }

@@ -164,13 +164,28 @@ namespace ProjectAppBackgroundServer
                 Administrator admin = new Administrator(Convert.ToInt32(this.UsernameTextBox.Text), hash1, gender,
                     this.dateTimePicker1.Value, this.NameTextBox.Text, this.SurnameTextBox.Text, this.MailTextBox.Text,
                     de.EncryptString(this.MailPwdTextBox.Text), this.PhotoPictureBox.Image);
-                this.db.InsertAdministrator(admin);                    
+                this.db.InsertAdministrator(admin);
+                this.MailPwdTextBox.Clear();
+                this.MailTextBox.Clear();
+                this.AdminCheckBox.Checked = false;
             }
             else { 
                 User u = new User(Convert.ToInt32(this.UsernameTextBox.Text), hash1, gender,this.dateTimePicker1.Value, 
                     this.NameTextBox.Text, this.SurnameTextBox.Text, this.PhotoPictureBox.Image);
                 this.db.InsertSimpleUser(u);
             }
+
+            MessageBox.Show("The User has been properly registered!!", "SUCCESS", 
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            
+            this.UsernameTextBox.Clear();
+            this.SurnameTextBox.Clear();
+            this.PhotoPictureBox.Image = null;
+            this.dateTimePicker1.Value = DateTime.Now;
+            this.GenderComboBox.Text = "F";
+            this.NameTextBox.Clear();
+            this.PasswordTextBox.Clear();
+            this.UsernameTextBox.Focus();
 
         }
 
