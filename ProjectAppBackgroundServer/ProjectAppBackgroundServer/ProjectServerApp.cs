@@ -8,13 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Cryptography;
+using System.Threading;
 
 namespace ProjectAppBackgroundServer
 {
     public partial class ProjectServerApp : Form
     {
         private DatabaseManagement db;
-
+     
         public ProjectServerApp()
         {
             SetStyle(ControlStyles.UserPaint, true);
@@ -22,14 +23,14 @@ namespace ProjectAppBackgroundServer
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);            
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.DoubleBuffer, true);
-            InitializeComponent();
+            InitializeComponent();            
             this.db = new DatabaseManagement("Data Source=DAVE-PC\\SQLEXPRESS;Initial Catalog=PAZZODAVEDB;Integrated Security=True");
             this.openFileDialog1.InitialDirectory = Environment.CurrentDirectory;
             this.openFileDialog1.Filter = "Images (*.bmp,*.jpg,*.gif,*.png)|*.png;*.bmp;*.jpg;*.gif";
             this.openFileDialog1.FileName = "";
             this.AdminDataGridView.RowTemplate.Height = 130;
             this.SimpleUserDataGridView.RowTemplate.Height = 130;
-            
+                      
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -400,6 +401,24 @@ namespace ProjectAppBackgroundServer
                 this.ErrorAccessLabel.Visible = false;
                 this.WarningAccessPictureBox.Visible = false;
             }
+        }
+
+        private void CameraButton_Click(object sender, EventArgs e)
+        {
+            this.Enabled = false;
+            PictureCamera pic = new PictureCamera(this);
+            pic.ShowDialog();            
+        }
+
+        public void SetPictureBoxImage(Image img) 
+        {
+            int larg = this.PhotoPictureBox.Width;
+            int alt = this.PhotoPictureBox.Height;
+            this.PhotoPictureBox.Image = new Bitmap(img, larg, alt);
+            this.PhotoCheckBox.AutoCheck = true;
+            this.PhotoCheckBox.Checked = true;
+            this.PhotoCheckBox.Enabled = false;
+            this.Enabled = true;
         }
     }
 }

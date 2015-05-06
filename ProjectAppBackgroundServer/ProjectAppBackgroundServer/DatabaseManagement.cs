@@ -53,9 +53,10 @@ namespace ProjectAppBackgroundServer
                 sqlCmd.ExecuteNonQuery();
                 transaction.Commit();
 
-            }catch (Exception e) {
+            } catch ( Exception e) {
                 NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
                 transaction.Rollback();
+                throw new DatabaseException(e.Message);
             }
             
         }
@@ -72,7 +73,7 @@ namespace ProjectAppBackgroundServer
                 sqlCmd.Transaction = transaction;
 
                 sqlCmd.Parameters.Add("@user", SqlDbType.Int).Value = userCode;
-                sqlCmd.Parameters.Add("@date", SqlDbType.Date).Value = time.ToShortDateString() + time.ToShortTimeString();
+                sqlCmd.Parameters.Add("@date", SqlDbType.DateTime).Value = time.ToShortDateString() + time.ToShortTimeString();
                 sqlCmd.Parameters.Add("type", SqlDbType.NChar, 1).Value = type;
 
                 ImageConverter converter = new ImageConverter();
@@ -86,6 +87,7 @@ namespace ProjectAppBackgroundServer
             catch ( Exception e ) {
                 NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
                 transaction.Rollback();
+                throw new DatabaseException(e.Message);
             }
         }
 
@@ -121,6 +123,7 @@ namespace ProjectAppBackgroundServer
             } catch (Exception e) {
                 NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
                 transaction.Rollback();
+                throw new DatabaseException(e.Message);
             }
 
         }
@@ -155,6 +158,7 @@ namespace ProjectAppBackgroundServer
             } catch (Exception e) {
                 NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
                 transaction.Rollback();
+                throw new DatabaseException(e.Message);
             }
         }
 
