@@ -68,9 +68,9 @@
             // 
             this.ImageBox.BackColor = System.Drawing.Color.Transparent;
             this.ImageBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ImageBox.Location = new System.Drawing.Point(318, 73);
+            this.ImageBox.Location = new System.Drawing.Point(358, 70);
             this.ImageBox.Name = "ImageBox";
-            this.ImageBox.Size = new System.Drawing.Size(410, 241);
+            this.ImageBox.Size = new System.Drawing.Size(320, 240);
             this.ImageBox.TabIndex = 2;
             this.ImageBox.TabStop = false;
             // 
@@ -79,7 +79,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(759, 385);
+            this.ClientSize = new System.Drawing.Size(739, 385);
             this.Controls.Add(this.ImageBox);
             this.Controls.Add(this.TakeButton);
             this.Controls.Add(this.TitleOneLabel);

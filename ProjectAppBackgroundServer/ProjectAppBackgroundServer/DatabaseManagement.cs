@@ -150,7 +150,7 @@ namespace ProjectAppBackgroundServer
 
                 ImageConverter converter = new ImageConverter();
                 byte[] buff = (byte[])converter.ConvertTo(u.Img, typeof(byte[]));
-                sqlCmd.Parameters.Add("@image", SqlDbType.VarBinary, buff.Length).Value = buff;
+                sqlCmd.Parameters.Add("@imag", SqlDbType.VarBinary, buff.Length).Value = buff;
 
                 sqlCmd.ExecuteNonQuery();
                 transaction.Commit();

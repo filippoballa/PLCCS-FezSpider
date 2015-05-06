@@ -20,16 +20,21 @@ namespace ProjectAppBackgroundServer
         private Capture capture;
         private Image<Bgr, Byte> imgUser;
         private CascadeClassifier haarcascade;
+        Rectangle rect;
 
         public PictureCamera( ProjectServerApp proj )
         {
             InitializeComponent();
+            this.rect = Rectangle.Empty;
+            //this.imgUser = new Image<Bgr, byte>(100, 100);
             this.proj = proj;
-            this.haarcascade = new CascadeClassifier("haarcascade_frontalface.xml");
+            this.haarcascade = new CascadeClassifier("haarcascade_frontalface_alt_tree.xml");
         }
 
         private void TakeButton_Click(object sender, EventArgs e)
-        {           
+        {
+            Image<Bgr, Byte> ImageFrame = capture.QueryFrame();            
+            this.imgUser = ImageFrame.Copy(); 
             this.proj.SetPictureBoxImage(this.imgUser.Bitmap);
             this.Close();
         }
@@ -61,27 +66,26 @@ namespace ProjectAppBackgroundServer
         private void ProcessFrame( object sender, EventArgs arg ) 
         {
             Image<Bgr, Byte> ImageFrame = capture.QueryFrame();
-            this.imgUser = ImageFrame.Copy();
-
-            if (ImageFrame != null)
-            {
-                Rectangle rect = DetectFace(ImageFrame);
-                ImageFrame.Draw(rect, new Bgr(Color.DarkRed), 2);
+            
+            if (ImageFrame != null) {
+                this.rect = DetectFace(ImageFrame);
+                ImageFrame.Draw(this.rect, new Bgr(Color.DarkRed), 2);
             }
-
+            
             ImageBox.Image = ImageFrame;           
         }
 
-        private Rectangle DetectFace(Image<Bgr, Byte> ImageFrame) 
+        public Rectangle DetectFace(Image<Bgr, Byte> ImageFrame) 
         {
-            Rectangle rect = Rectangle.Empty;
+            Rectangle r = Rectangle.Empty;
             
             Image<Gray, Byte> grayframe = ImageFrame.Convert<Gray, Byte>();
             Rectangle[] faces = this.haarcascade.DetectMultiScale(grayframe, 1.2, 2, new Size(20, 20), new Size(800, 800));
 
-            rect = faces[faces.Length - 1];         
+            foreach ( Rectangle a in faces)
+                r = a;         
             
-            return rect;
+            return r;
         }
     }
 }
