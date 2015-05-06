@@ -29,7 +29,7 @@ namespace ProjectAppBackgroundServer
 
         private void NewErrorLog(string mex, DateTime date) 
         {
-            string filename = "LOG_" + date.ToShortDateString();
+            string filename = Program.LOGDIR + "LOG_" + date.ToShortDateString();
             StreamWriter writer = new StreamWriter(File.Open(filename, FileMode.Append));
             writer.Write("--- " + date.ToShortTimeString() + " ---\n\n" + mex + "\n\n---------------\n\n");
             writer.Close();

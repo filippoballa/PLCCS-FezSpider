@@ -28,11 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PictureCamera));
             this.TitleOneLabel = new System.Windows.Forms.Label();
-            this.ImagePictureBox = new System.Windows.Forms.PictureBox();
             this.TakeButton = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.ImagePictureBox)).BeginInit();
+            this.ImageBox = new Emgu.CV.UI.ImageBox();
+            ((System.ComponentModel.ISupportInitialize)(this.ImageBox)).BeginInit();
             this.SuspendLayout();
             // 
             // TitleOneLabel
@@ -46,18 +47,6 @@
             this.TitleOneLabel.Size = new System.Drawing.Size(297, 23);
             this.TitleOneLabel.TabIndex = 0;
             this.TitleOneLabel.Text = "Take a photo using the Web Camera";
-            // 
-            // ImagePictureBox
-            // 
-            this.ImagePictureBox.BackColor = System.Drawing.Color.Transparent;
-            this.ImagePictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ImagePictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ImagePictureBox.Image = ((System.Drawing.Image)(resources.GetObject("ImagePictureBox.Image")));
-            this.ImagePictureBox.Location = new System.Drawing.Point(321, 61);
-            this.ImagePictureBox.Name = "ImagePictureBox";
-            this.ImagePictureBox.Size = new System.Drawing.Size(397, 254);
-            this.ImagePictureBox.TabIndex = 1;
-            this.ImagePictureBox.TabStop = false;
             // 
             // TakeButton
             // 
@@ -75,14 +64,24 @@
             this.TakeButton.UseVisualStyleBackColor = false;
             this.TakeButton.Click += new System.EventHandler(this.TakeButton_Click);
             // 
+            // ImageBox
+            // 
+            this.ImageBox.BackColor = System.Drawing.Color.Transparent;
+            this.ImageBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ImageBox.Location = new System.Drawing.Point(318, 73);
+            this.ImageBox.Name = "ImageBox";
+            this.ImageBox.Size = new System.Drawing.Size(410, 241);
+            this.ImageBox.TabIndex = 2;
+            this.ImageBox.TabStop = false;
+            // 
             // PictureCamera
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(759, 385);
+            this.Controls.Add(this.ImageBox);
             this.Controls.Add(this.TakeButton);
-            this.Controls.Add(this.ImagePictureBox);
             this.Controls.Add(this.TitleOneLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MinimizeBox = false;
@@ -90,7 +89,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PictureCamera";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PictureCamera_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.ImagePictureBox)).EndInit();
+            this.Load += new System.EventHandler(this.PictureCamera_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.ImageBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -99,7 +99,7 @@
         #endregion
 
         private System.Windows.Forms.Label TitleOneLabel;
-        private System.Windows.Forms.PictureBox ImagePictureBox;
         private System.Windows.Forms.Button TakeButton;
+        private Emgu.CV.UI.ImageBox ImageBox;
     }
 }

@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Administrator.cs" />
+    <Compile Include="DatabaseException.cs" />
     <Compile Include="DatabaseManagement.cs" />
     <Compile Include="DataEncript.cs" />
     <Compile Include="MailManagement.cs" />
