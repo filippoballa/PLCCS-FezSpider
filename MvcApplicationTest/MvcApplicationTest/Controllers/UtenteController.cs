@@ -124,12 +124,14 @@ namespace MvcApplicationTest.Controllers
                     if (result != ricerca.Password)
                     {
                         msg = "Invalid Password";
+                        httpStatusCode = System.Net.HttpStatusCode.Unauthorized;
                         login = false;
                     }
                 }
                 else
                 {
                     msg = "Invalid Username";
+                    httpStatusCode = System.Net.HttpStatusCode.Forbidden;
                     login = false;
                 }
                 //utente e password corrispondono
@@ -152,11 +154,11 @@ namespace MvcApplicationTest.Controllers
                         }
                     }
                 }
-                //utente o password NON corrispondono quindi lo staus code dell response diventa 500
+                /*utente o password NON corrispondono quindi lo staus code dell response diventa 500
                 else
                 {
                     httpStatusCode = System.Net.HttpStatusCode.InternalServerError;
-                }
+                }*/
 
             }
             catch(DatabaseException e)//DB exception

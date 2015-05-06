@@ -26,22 +26,34 @@ namespace MvcApplicationTest.Controllers
             string msg = "OK";
             bool login = true;
             HttpResponseMessage response=null;
+            System.Net.HttpStatusCode httpStatusCode = System.Net.HttpStatusCode.Created;
 
             DatabaseManagement db = new DatabaseManagement(strConn);
 
             try
             {
+                //riconosciment0   
 
-                response = Request.CreateResponse<String>(System.Net.HttpStatusCode.Created, msg);
-
+            }
+            catch (DatabaseException e)//DB exception
+            {
+                httpStatusCode = System.Net.HttpStatusCode.InternalServerError;
+                msg = e.Mex;
             }
             catch (Exception e)
             {
+                //in caso di errore la response diventa http 500 
+                httpStatusCode = System.Net.HttpStatusCode.InternalServerError;
                 msg = e.Message;
             }
             finally
             {
                 db.CloseConnection();
+
+                response = Request.CreateResponse<String>(httpStatusCode, msg);
+
+                //aggiungo un messaggio allo status code
+                response.ReasonPhrase = msg;
             }
             
             return response;
