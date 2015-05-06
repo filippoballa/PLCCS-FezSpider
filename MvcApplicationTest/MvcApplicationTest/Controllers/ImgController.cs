@@ -31,13 +31,9 @@ namespace MvcApplicationTest.Controllers
 
             try
             {
-                //User = StartRecognition();
-                //if(User!= null){
-                response = Request.CreateResponse<String>(System.Net.HttpStatusCode.Created, "Id : " + i.Id);
-                //}
-                //else{
-                //  var response = Request.CreateResponse<String>(System.Net.HttpStatusCode.InternalServerError, "Id : " + i.Id);
-                //}
+
+                response = Request.CreateResponse<String>(System.Net.HttpStatusCode.Created, msg);
+
             }
             catch (Exception e)
             {

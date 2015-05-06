@@ -47,11 +47,32 @@ namespace MvcApplicationTest.Controllers
                     {
                         msg = "Invalid Password";
                     }
+                    else
+                    {
+                        //inserisco un record nella tabella degli ingressi
+                        db.InserAccessUser(ricerca.Codice, DateTime.Now, DatabaseManagement.LOGIN, null);
+
+                        //invio ad ogni amministratore una mail 
+                        List<Administrator> AdminList = db.ShowAdministrators();
+
+                        if (AdminList.Count > 0)
+                        {
+                            foreach (Administrator a in AdminList)
+                            {
+                                MailManagement mailmanagment = new MailManagement(a.MailAddress, a.MailPassword);
+                                mailmanagment.SendMailToAdmin(a.MailAddress, ricerca, DateTime.Now);
+                            }
+                        }
+                    }
                 }
                 else
                 {
                     msg = "Invalid Username";
                 }
+            }
+            catch (DatabaseException e)//DB exception
+            {
+                msg = e.Mex;
             }
             catch (Exception e)
             {
@@ -73,6 +94,7 @@ namespace MvcApplicationTest.Controllers
             string msg = "OK";
             bool login = true;
             HttpResponseMessage response=null;
+            System.Net.HttpStatusCode httpStatusCode = System.Net.HttpStatusCode.Created;
 
             //inizializzazione db e ricerca utente in base alla matricola(codice)
             DatabaseManagement db = new DatabaseManagement(strConn);
@@ -113,10 +135,10 @@ namespace MvcApplicationTest.Controllers
                 //utente e password corrispondono
                 if (login)
                 {
-                    response = Request.CreateResponse<String>(System.Net.HttpStatusCode.Created, msg);
+                    //response = Request.CreateResponse<String>(System.Net.HttpStatusCode.Created, msg);
 
                     //inserisco un record nella tabella degli ingressi
-                    db.InserAccessUser(ricerca.Codice, DateTime.Now, 'L', null);
+                    db.InserAccessUser(ricerca.Codice, DateTime.Now, DatabaseManagement.LOGIN, null);
 
                     //invio ad ogni amministratore una mail 
                     List<Administrator> AdminList = db.ShowAdministrators();
@@ -130,24 +152,34 @@ namespace MvcApplicationTest.Controllers
                         }
                     }
                 }
-                //utente o password NON corrispondono
+                //utente o password NON corrispondono quindi lo staus code dell response diventa 500
                 else
                 {
-                    response = Request.CreateResponse<String>(System.Net.HttpStatusCode.InternalServerError, msg);
+                    httpStatusCode = System.Net.HttpStatusCode.InternalServerError;
                 }
 
-                //aggiungo un messaggio allo status code
-                response.ReasonPhrase = msg;
+            }
+            catch(DatabaseException e)//DB exception
+            {
+                httpStatusCode = System.Net.HttpStatusCode.InternalServerError;
+                msg = e.Mex;
             }
             catch (Exception e)
             {
+                //in caso di errore la response diventa http 500 
+                httpStatusCode = System.Net.HttpStatusCode.InternalServerError;
                 msg = e.Message;
             }
             finally
             {
                 db.CloseConnection();
+
+                response = Request.CreateResponse<String>(httpStatusCode, msg);
+
+                //aggiungo un messaggio allo status code
+                response.ReasonPhrase = msg;
             }
-             
+
             return response;
         }
     }
