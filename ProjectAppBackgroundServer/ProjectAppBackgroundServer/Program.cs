@@ -19,6 +19,10 @@ namespace ProjectAppBackgroundServer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            if (!Directory.Exists(Program.LOGDIR))
+                Directory.CreateDirectory(Program.LOGDIR);
+            
             Application.Run(new ProjectServerApp());
         }
     }

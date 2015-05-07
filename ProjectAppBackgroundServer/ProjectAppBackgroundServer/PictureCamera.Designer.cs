@@ -51,6 +51,7 @@
             // TakeButton
             // 
             this.TakeButton.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.TakeButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.TakeButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.TakeButton.FlatAppearance.BorderSize = 3;
             this.TakeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;

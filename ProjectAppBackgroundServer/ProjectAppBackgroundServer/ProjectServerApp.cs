@@ -35,6 +35,8 @@ namespace ProjectAppBackgroundServer
             this.openFileDialog1.FileName = "";
             this.AdminDataGridView.RowTemplate.Height = 130;
             this.SimpleUserDataGridView.RowTemplate.Height = 130;
+            this.ImagesDataGridView.RowTemplate.Height = 130;
+            this.AccessDataGridView.RowTemplate.Height = 130;
                       
         }
 
@@ -49,6 +51,7 @@ namespace ProjectAppBackgroundServer
             this.RegisterPanel.Visible = true;
             this.HomePanel.Visible = false;
             this.AdminPanel.Visible = false;
+            this.ImagesPanel.Visible = false;
             this.SimpleUserPanel.Visible = false;
             this.InfoPanel.Visible = false;
             this.AccessPanel.Visible = false;
@@ -181,7 +184,7 @@ namespace ProjectAppBackgroundServer
                 DataEncript de = new DataEncript();
                 Administrator admin = new Administrator(Convert.ToInt32(this.UsernameTextBox.Text), hash1, gender,
                     this.dateTimePicker1.Value, this.NameTextBox.Text, this.SurnameTextBox.Text, this.MailTextBox.Text,
-                    de.EncryptString(this.MailPwdTextBox.Text), this.PhotoPictureBox.Image);
+                    de.EncryptString(this.MailPwdTextBox.Text), this.PhotoPictureBox.BackgroundImage);
 
                 try {
                     this.db.InsertAdministrator(admin);
@@ -197,7 +200,7 @@ namespace ProjectAppBackgroundServer
             }
             else { 
                 User u = new User(Convert.ToInt32(this.UsernameTextBox.Text), hash1, gender,this.dateTimePicker1.Value, 
-                    this.NameTextBox.Text, this.SurnameTextBox.Text, this.PhotoPictureBox.Image);
+                    this.NameTextBox.Text, this.SurnameTextBox.Text, this.PhotoPictureBox.BackgroundImage);
 
                 try {
                     this.db.InsertSimpleUser(u);
@@ -214,11 +217,12 @@ namespace ProjectAppBackgroundServer
 
                 this.UsernameTextBox.Clear();
                 this.SurnameTextBox.Clear();
-                this.PhotoPictureBox.Image = null;
+                this.PhotoPictureBox.BackgroundImage = null;
                 this.dateTimePicker1.Value = DateTime.Now;
                 this.GenderComboBox.Text = "F";
                 this.NameTextBox.Clear();
                 this.PasswordTextBox.Clear();
+                this.PhotoCheckBox.Checked = false;
                 this.UsernameTextBox.Focus();
             }
         }
@@ -233,6 +237,7 @@ namespace ProjectAppBackgroundServer
             this.HomePanel.Visible = false;
             this.RegisterPanel.Visible = false;
             this.InfoPanel.Visible = false;
+            this.ImagesPanel.Visible = false;
             this.SimpleUserPanel.Visible = false;
             this.AccessPanel.Visible = false;
             this.ModifyUserPanel.Visible = false;
@@ -287,6 +292,7 @@ namespace ProjectAppBackgroundServer
             this.RegisterPanel.Visible = false;
             this.AdminPanel.Visible = false;
             this.InfoPanel.Visible = false;
+            this.ImagesPanel.Visible = false;
             this.SimpleUserPanel.Visible = true;
             this.AccessPanel.Visible = false;
             this.ModifyUserPanel.Visible = false;
@@ -333,6 +339,7 @@ namespace ProjectAppBackgroundServer
             this.HomePanel.Visible = false;
             this.RegisterPanel.Visible = false;
             this.SimpleUserPanel.Visible = false;
+            this.ImagesPanel.Visible = false;
             this.InfoPanel.Visible = false;
             this.AccessPanel.Visible = true;
             this.AdminPanel.Visible = false;
@@ -364,6 +371,7 @@ namespace ProjectAppBackgroundServer
             this.AdminPanel.Visible = false;
             this.InfoPanel.Visible = false;
             this.ModifyUserPanel.Visible = true;
+            this.ImagesPanel.Visible = false;
         }
 
         private void informazioniToolStripMenuItem_Click(object sender, EventArgs e)
@@ -375,6 +383,7 @@ namespace ProjectAppBackgroundServer
             this.AdminPanel.Visible = false;
             this.InfoPanel.Visible = true;
             this.ModifyUserPanel.Visible = false;
+            this.ImagesPanel.Visible = false;
         }
 
         private void AccessPanel_VisibleChanged(object sender, EventArgs e)
@@ -452,11 +461,103 @@ namespace ProjectAppBackgroundServer
         {
             int larg = this.PhotoPictureBox.Width;
             int alt = this.PhotoPictureBox.Height;
-            this.PhotoPictureBox.Image = new Bitmap(img, larg, alt);
+            this.PhotoPictureBox.BackgroundImage = new Bitmap(img, larg, alt);
             this.PhotoCheckBox.AutoCheck = true;
             this.PhotoCheckBox.Checked = true;
             this.PhotoCheckBox.Enabled = false;
             this.Enabled = true;
         }
+
+        private void showImagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.HomePanel.Visible = false;
+            this.RegisterPanel.Visible = false;
+            this.SimpleUserPanel.Visible = false;
+            this.AccessPanel.Visible = false;
+            this.AdminPanel.Visible = false;
+            this.InfoPanel.Visible = false;
+            this.ModifyUserPanel.Visible = false;
+            this.ImagesPanel.Visible = true;
+        }
+
+        private void ImagesPanel_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.ImagesPanel.Visible)
+            {
+                List<User> list = this.db.ShowImages();
+
+                if (list.Count > 0) {
+                    list = list.OrderBy(x => x.Codice).ToList();
+                    this.ImagesDataGridView.Visible = true;
+
+                    for (int i = 0; i < list.Count; i++) {
+                        object[] obj = new object[2];
+                        obj[0] = list[i].Codice.ToString();
+                        obj[1] = list[i].Img;
+
+                        this.ImagesDataGridView.Rows.Add(obj);
+                    }
+
+
+                }
+                else {
+                    this.ErrorImagesLabel.Visible = true;
+                    this.ErrorImagesPictureBox.Visible = true;
+                }
+
+            }
+            else {
+                this.ImagesDataGridView.Rows.Clear();
+                this.ImagesDataGridView.Visible = false;
+                this.ErrorImagesLabel.Visible = false;
+                this.ErrorImagesPictureBox.Visible = false;
+            }
+        }
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            int a;
+
+            if( this.SearchUserTextBox.Text == "" || !Int32.TryParse(this.SearchUserTextBox.Text,out a ) 
+                || this.SearchUserTextBox.Text.Length < 6 ) 
+            {
+                MessageBox.Show("","INFORMATION", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.SearchUserTextBox.Clear();
+                this.SearchUserTextBox.Focus();
+                return;
+            }
+
+            int codice = Convert.ToInt32(this.SearchUserTextBox.Text);
+
+            if( this.TypeComboBox.Text == "Administrator" ) {
+
+                Administrator admin = this.db.SelectAdministrator(codice);
+
+                if( admin == null ) {
+                
+                }
+                else {
+                    this.ModUserDataGridView.Visible = true;
+                    this.QuestionLabel.Visible = true;
+                    this.TakePictureButton.Visible = true;
+                    
+                }
+            }
+            else {
+                User usr = this.db.SelectSimpleUser(codice);
+
+                if( usr == null ) {
+                
+                }
+                else {
+                    this.ModUserDataGridView.Visible = true;
+                    this.QuestionLabel.Visible = true;
+                    this.TakePictureButton.Visible = true;
+                    
+                }
+            }
+        }
+
+        
     }
 }
