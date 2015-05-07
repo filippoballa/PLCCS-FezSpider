@@ -27,7 +27,7 @@ namespace ProjectAppBackgroundServer
             this.conn.Open();
         }
 
-        private void NewErrorLog(string mex, DateTime date) 
+        public void NewErrorLog(string mex, DateTime date) 
         {
             string path = @"C:\\MYSITE\LOG\";
             if (!Directory.Exists(path))

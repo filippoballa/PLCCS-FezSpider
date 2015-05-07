@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Drawing;
+using System.IO;
 
 namespace MvcApplicationTest.Controllers
 {
@@ -32,18 +34,26 @@ namespace MvcApplicationTest.Controllers
 
             try
             {
-                //riconosciment0   
+                MemoryStream ms = new MemoryStream(i.data);
+                Image returnImage = Image.FromStream(ms);
+
+                Bitmap b = new Bitmap(returnImage);
+
+                // Save the image as a GIF.
+                b.Save(@"C://MYSITE/LOG"+"image.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
 
             }
             catch (DatabaseException e)//DB exception
             {
                 httpStatusCode = System.Net.HttpStatusCode.InternalServerError;
+                db.NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
                 msg = e.Mex;
             }
             catch (Exception e)
             {
                 //in caso di errore la response diventa http 500 
                 httpStatusCode = System.Net.HttpStatusCode.InternalServerError;
+                db.NewErrorLog("ANOMALY-" + e.Message, DateTime.Now); 
                 msg = e.Message;
             }
             finally
