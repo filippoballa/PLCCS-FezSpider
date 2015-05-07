@@ -9,12 +9,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Cryptography;
 using System.Threading;
+using Emgu.CV;
+using Emgu.CV.Structure;
+using Emgu.Util;
+using Emgu.CV.CvEnum;
 
 namespace ProjectAppBackgroundServer
 {
     public partial class ProjectServerApp : Form
     {
         private DatabaseManagement db;
+        private Image<Gray, Byte> grayFace;
      
         public ProjectServerApp()
         {
@@ -72,15 +77,27 @@ namespace ProjectAppBackgroundServer
 
             int larg = this.PhotoPictureBox.Width;
             int alt = this.PhotoPictureBox.Height;
-            this.PhotoPictureBox.Image = new Bitmap(Image.FromFile(this.openFileDialog1.FileName), larg, alt);
-            this.PhotoCheckBox.AutoCheck = true;
-            this.PhotoCheckBox.Checked = true;
-            this.PhotoCheckBox.Enabled = false;
+            Bitmap face = new Bitmap(Image.FromFile(this.openFileDialog1.FileName), larg, alt);
+
+            Rectangle rect = PictureCamera.DetectFace(new Image<Bgr,Byte>(face));
+
+            if (rect != Rectangle.Empty) {
+                this.PhotoPictureBox.BackgroundImage = face;
+                this.grayFace = new Image<Gray, byte>(face).Copy(rect).Resize(100,100,INTER.CV_INTER_CUBIC);
+                this.grayFace._EqualizeHist();
+                this.PhotoCheckBox.AutoCheck = true;
+                this.PhotoCheckBox.Checked = true;
+                this.PhotoCheckBox.Enabled = false;
+            }
+            else 
+                MessageBox.Show("The photo is not valid!!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            
         }
 
         private void InsertButton_Click(object sender, EventArgs e)
         {
             int aux;
+            bool errorInsert = false;
 
             if (this.NameTextBox.Text == "" && this.SurnameTextBox.Text == ""
                 && this.PasswordTextBox.Text == "" && UsernameTextBox.Text == "" && !this.PhotoCheckBox.Checked) 
@@ -165,29 +182,45 @@ namespace ProjectAppBackgroundServer
                 Administrator admin = new Administrator(Convert.ToInt32(this.UsernameTextBox.Text), hash1, gender,
                     this.dateTimePicker1.Value, this.NameTextBox.Text, this.SurnameTextBox.Text, this.MailTextBox.Text,
                     de.EncryptString(this.MailPwdTextBox.Text), this.PhotoPictureBox.Image);
-                this.db.InsertAdministrator(admin);
-                this.MailPwdTextBox.Clear();
-                this.MailTextBox.Clear();
-                this.AdminCheckBox.Checked = false;
+
+                try {
+                    this.db.InsertAdministrator(admin);
+                    this.db.InsertImage(admin.Codice, this.grayFace.Bitmap);
+                    this.MailPwdTextBox.Clear();
+                    this.MailTextBox.Clear();
+                    this.AdminCheckBox.Checked = false;
+
+                } catch (DatabaseException dbEx) {
+                    errorInsert = true;
+                    MessageBox.Show(dbEx.Mex, "ANOMALY", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else { 
                 User u = new User(Convert.ToInt32(this.UsernameTextBox.Text), hash1, gender,this.dateTimePicker1.Value, 
                     this.NameTextBox.Text, this.SurnameTextBox.Text, this.PhotoPictureBox.Image);
-                this.db.InsertSimpleUser(u);
+
+                try {
+                    this.db.InsertSimpleUser(u);
+                    this.db.InsertImage(u.Codice, this.grayFace.Bitmap);
+                } catch (DatabaseException dbEx) {
+                    errorInsert = true;
+                    MessageBox.Show(dbEx.Mex, "ANOMALY", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
 
-            MessageBox.Show("The User has been properly registered!!", "SUCCESS", 
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
-            
-            this.UsernameTextBox.Clear();
-            this.SurnameTextBox.Clear();
-            this.PhotoPictureBox.Image = null;
-            this.dateTimePicker1.Value = DateTime.Now;
-            this.GenderComboBox.Text = "F";
-            this.NameTextBox.Clear();
-            this.PasswordTextBox.Clear();
-            this.UsernameTextBox.Focus();
+            if (!errorInsert) {
+                MessageBox.Show("The User has been properly registered!!", "SUCCESS",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                this.UsernameTextBox.Clear();
+                this.SurnameTextBox.Clear();
+                this.PhotoPictureBox.Image = null;
+                this.dateTimePicker1.Value = DateTime.Now;
+                this.GenderComboBox.Text = "F";
+                this.NameTextBox.Clear();
+                this.PasswordTextBox.Clear();
+                this.UsernameTextBox.Focus();
+            }
         }
 
         private void ProjectServerApp_FormClosing(object sender, FormClosingEventArgs e)
@@ -408,6 +441,11 @@ namespace ProjectAppBackgroundServer
             this.Enabled = false;
             PictureCamera pic = new PictureCamera(this);
             pic.ShowDialog();            
+        }
+
+        public void setGrayFace(Image<Gray, Byte> grayFace) 
+        {
+            this.grayFace = grayFace;
         }
 
         public void SetPictureBoxImage(Image img) 

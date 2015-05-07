@@ -1,7 +1,7 @@
-USE [PLCCS_DB]
+USE [PAZZODAVEDB]
 GO
 
-/****** Object:  Table [dbo].[IMAGES_PROJECT]    Script Date: 29/04/2015 16:00:28 ******/
+/****** Object:  Table [dbo].[IMAGES_PROJECT]    Script Date: 06/05/2015 17:47:01 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -12,8 +12,8 @@ SET ANSI_PADDING ON
 GO
 
 CREATE TABLE [dbo].[IMAGES_PROJECT](
-	[ID] [varchar](50) NOT NULL,
-	[Username] [int] NOT NULL,
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Username] [varchar](50) NOT NULL,
 	[Image] [varbinary](max) NOT NULL,
  CONSTRAINT [PK_IMAGES_PROJECT] PRIMARY KEY CLUSTERED 
 (

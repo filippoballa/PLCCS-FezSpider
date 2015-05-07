@@ -137,8 +137,6 @@ namespace MvcApplicationTest.Controllers
                 //utente e password corrispondono
                 if (login)
                 {
-                    //response = Request.CreateResponse<String>(System.Net.HttpStatusCode.Created, msg);
-
                     //inserisco un record nella tabella degli ingressi
                     db.InserAccessUser(ricerca.Codice, DateTime.Now, DatabaseManagement.LOGIN, null);
 
@@ -165,21 +163,25 @@ namespace MvcApplicationTest.Controllers
             {
                 httpStatusCode = System.Net.HttpStatusCode.InternalServerError;
                 msg = e.Mex;
+                db.NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
             }
             catch (Exception e)
             {
                 //in caso di errore la response diventa http 500 
                 httpStatusCode = System.Net.HttpStatusCode.InternalServerError;
                 msg = e.Message;
+                db.NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
             }
             finally
             {
                 db.CloseConnection();
 
-                response = Request.CreateResponse<String>(httpStatusCode, msg);
+                response = Request.CreateResponse(httpStatusCode, msg);
 
                 //aggiungo un messaggio allo status code
                 response.ReasonPhrase = msg;
+
+                //response.Content = new ObjectContent<string>(msg,System.Net.Http.Formatting.MediaTypeFormatter. , "application/json");
             }
 
             return response;

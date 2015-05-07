@@ -19,24 +19,28 @@ namespace ProjectAppBackgroundServer
         private ProjectServerApp proj;
         private Capture capture;
         private Image<Bgr, Byte> imgUser;
-        private CascadeClassifier haarcascade;
+        private static CascadeClassifier haarcascade = new CascadeClassifier("haarcascade_frontalface_alt_tree.xml");
         Rectangle rect;
 
         public PictureCamera( ProjectServerApp proj )
         {
             InitializeComponent();
-            this.rect = Rectangle.Empty;
-            //this.imgUser = new Image<Bgr, byte>(100, 100);
-            this.proj = proj;
-            this.haarcascade = new CascadeClassifier("haarcascade_frontalface_alt_tree.xml");
+            this.rect = Rectangle.Empty;    
+            this.proj = proj;            
         }
 
         private void TakeButton_Click(object sender, EventArgs e)
         {
             Image<Bgr, Byte> ImageFrame = capture.QueryFrame();            
-            this.imgUser = ImageFrame.Copy(); 
-            this.proj.SetPictureBoxImage(this.imgUser.Bitmap);
-            this.Close();
+            
+            if (this.rect != Rectangle.Empty) {
+                this.imgUser = ImageFrame.Copy();
+                Image<Gray, Byte> Face = ImageFrame.Copy(this.rect).Convert<Gray, Byte>().Resize(100, 100, INTER.CV_INTER_CUBIC);
+                Face._EqualizeHist();
+                this.proj.setGrayFace(Face);
+                this.proj.SetPictureBoxImage(this.imgUser.Bitmap);
+                this.Close();
+            }
         }
 
         private void PictureCamera_FormClosing(object sender, FormClosingEventArgs e)
@@ -47,17 +51,18 @@ namespace ProjectAppBackgroundServer
 
         private void PictureCamera_Load(object sender, EventArgs e)
         {
-            try{
+            try {
 
                 this.capture = new Capture();
                 capture.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_FRAME_WIDTH, 320);
                 capture.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_FRAME_HEIGHT, 240);
                 Application.Idle += ProcessFrame;
-            }
-            catch (NullReferenceException nullEx){
+            } catch (NullReferenceException nullEx) {
+
                 MessageBox.Show(nullEx.Message, "ANOMALY", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (TypeInitializationException typeEx) {
+
+            } catch (TypeInitializationException typeEx) {
+
                 MessageBox.Show(typeEx.Message + ": No camera connected", "ANOMALY", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -68,19 +73,20 @@ namespace ProjectAppBackgroundServer
             Image<Bgr, Byte> ImageFrame = capture.QueryFrame();
             
             if (ImageFrame != null) {
-                this.rect = DetectFace(ImageFrame);
+                this.rect = PictureCamera.DetectFace(ImageFrame);
                 ImageFrame.Draw(this.rect, new Bgr(Color.DarkRed), 2);
             }
             
             ImageBox.Image = ImageFrame;           
         }
 
-        public Rectangle DetectFace(Image<Bgr, Byte> ImageFrame) 
+        public static Rectangle DetectFace(Image<Bgr, Byte> ImageFrame) 
         {
             Rectangle r = Rectangle.Empty;
             
             Image<Gray, Byte> grayframe = ImageFrame.Convert<Gray, Byte>();
-            Rectangle[] faces = this.haarcascade.DetectMultiScale(grayframe, 1.2, 2, new Size(20, 20), new Size(800, 800));
+            Rectangle[] faces = PictureCamera.haarcascade.DetectMultiScale(grayframe, 1.2, 2, new Size(20, 20), 
+                new Size(800, 800));
 
             foreach ( Rectangle a in faces)
                 r = a;         
