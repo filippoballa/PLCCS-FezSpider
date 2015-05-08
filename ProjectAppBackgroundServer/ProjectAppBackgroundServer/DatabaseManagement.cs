@@ -29,12 +29,12 @@ namespace ProjectAppBackgroundServer
 
         public void NewErrorLog(string mex, DateTime date) 
         {
-            string path = @"C:\\MYSITE\LOG\";
+            /*string path = @"C:\\MYSITE\LOG\";
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
-            string filename = path+"LOG_" + date.Day + "_" + date.Month + "_" + date.Year + ".txt";
+            string filename = path+"LOG_" + date.Day + "_" + date.Month + "_" + date.Year + ".txt";*/
             StreamWriter writer = new StreamWriter(File.Open(filename, FileMode.Append));
             writer.Write("--- " + date.ToShortTimeString() + " ---\n\n" + mex + "\n\n---------------\n\n");
             writer.Close();
