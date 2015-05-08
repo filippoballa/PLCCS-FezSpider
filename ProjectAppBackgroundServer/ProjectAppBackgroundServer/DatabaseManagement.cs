@@ -18,24 +18,21 @@ namespace ProjectAppBackgroundServer
         public const char ADMIN_NO = 'N';
 
         private static string STRCONN;
+        private static string PATHLOG;
         private SqlConnection conn;
 
-        public DatabaseManagement(string strConn) 
+        public DatabaseManagement(string strConn, string pathLog) 
         {   
             DatabaseManagement.STRCONN = strConn;
+            DatabaseManagement.PATHLOG = pathLog;
             this.conn = new SqlConnection(DatabaseManagement.STRCONN);
             this.conn.Open();
         }
 
         public void NewErrorLog(string mex, DateTime date) 
         {
-            /*string path = @"C:\\MYSITE\LOG\";
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            string filename = path+"LOG_" + date.Day + "_" + date.Month + "_" + date.Year + ".txt";*/
-            string filename = Program.LOGDIR + "LOG_" + date.Day + "_" + date.Month + "_" + date.Year + ".txt";
+            
+            string filename = DatabaseManagement.PATHLOG + "LOG_" + date.Day + "_" + date.Month + "_" + date.Year + ".txt";
 
             StreamWriter writer = new StreamWriter(File.Open(filename, FileMode.Append));
             writer.WriteLine();
