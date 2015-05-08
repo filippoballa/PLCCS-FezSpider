@@ -35,8 +35,12 @@ namespace ProjectAppBackgroundServer
                 Directory.CreateDirectory(path);
             }
             string filename = path+"LOG_" + date.Day + "_" + date.Month + "_" + date.Year + ".txt";*/
+            string filename = Program.LOGDIR + "LOG_" + date.Day + "_" + date.Month + "_" + date.Year + ".txt";
+
             StreamWriter writer = new StreamWriter(File.Open(filename, FileMode.Append));
-            writer.Write("--- " + date.ToShortTimeString() + " ---\n\n" + mex + "\n\n---------------\n\n");
+            writer.WriteLine();
+            writer.WriteLine();
+            writer.Write("--- " + date.ToShortTimeString() + " --- " + mex + " --------------- ");
             writer.Close();
         }
 
@@ -46,11 +50,11 @@ namespace ProjectAppBackgroundServer
 
             try {
 
-                string query = "INSERT INTO IMAGE_PROJECT ( Username, Image) Values(@user, @img)";
+                string query = "INSERT INTO IMAGES_PROJECT ( Username, Image) Values(@user, @img)";
                 SqlCommand sqlCmd = new SqlCommand(query, this.conn);
                 sqlCmd.Transaction = transaction;
 
-                sqlCmd.Parameters.Add("@user", SqlDbType.Int).Value = userCode;
+                sqlCmd.Parameters.Add("@user", SqlDbType.VarChar, 50).Value = "s" + userCode.ToString();
                 ImageConverter converter = new ImageConverter();
                 byte[] buff = (byte[])converter.ConvertTo(img, typeof(byte[]));
                 sqlCmd.Parameters.Add("@img", SqlDbType.VarBinary, buff.Length).Value = buff;
@@ -78,7 +82,7 @@ namespace ProjectAppBackgroundServer
                 sqlCmd.Transaction = transaction;
 
                 sqlCmd.Parameters.Add("@user", SqlDbType.Int).Value = userCode;
-                sqlCmd.Parameters.Add("@date", SqlDbType.DateTime).Value = time.ToShortDateString() + time.ToShortTimeString();
+                sqlCmd.Parameters.Add("@date", SqlDbType.DateTime).Value = time;
                 sqlCmd.Parameters.Add("type", SqlDbType.NChar, 1).Value = type;
 
                 ImageConverter converter = new ImageConverter();
@@ -155,7 +159,7 @@ namespace ProjectAppBackgroundServer
 
                 ImageConverter converter = new ImageConverter();
                 byte[] buff = (byte[])converter.ConvertTo(u.Img, typeof(byte[]));
-                sqlCmd.Parameters.Add("@imag", SqlDbType.VarBinary, buff.Length).Value = buff;
+                sqlCmd.Parameters.Add("@image", SqlDbType.VarBinary, buff.Length).Value = buff;
 
                 sqlCmd.ExecuteNonQuery();
                 transaction.Commit();
@@ -165,6 +169,40 @@ namespace ProjectAppBackgroundServer
                 transaction.Rollback();
                 throw new DatabaseException(e.Message);
             }
+        }
+
+        public List<User> ShowImages() 
+        {
+            List<User> list = new List<User>();
+
+            string query = "SELECT * FROM IMAGES_PROJECT";
+            SqlCommand c1 = new SqlCommand(query, this.conn);
+            SqlDataReader reader = c1.ExecuteReader();
+            int a;
+
+            while ( reader.Read() )
+            {
+                string user = (string)reader["Username"];
+                user = user.Substring(1);
+                
+                if (Int32.TryParse(user, out a)) { 
+
+                    int codice = Convert.ToInt32(user);
+                    byte[] buff = (byte[])reader["Image"];
+                    MemoryStream ms = new MemoryStream(buff);
+                    Bitmap bmp = new Bitmap(ms);
+                    ms.Close();
+
+
+                    User nuovo = new User(codice, " ", 'M', DateTime.Now, " ", " ", bmp);
+
+                    list.Add(nuovo);
+                }
+            }
+
+            reader.Close();
+
+            return list;
         }
 
         public List<Administrator> ShowAdministrators() 
@@ -252,8 +290,7 @@ namespace ProjectAppBackgroundServer
             SqlCommand com = new SqlCommand(query, this.conn);
             SqlDataReader reader = com.ExecuteReader();
 
-            if (reader.Read())
-            {
+            if (reader.Read()) {
 
                 byte[] buff = (byte[])reader["Image"];
                 MemoryStream ms = new MemoryStream(buff);
