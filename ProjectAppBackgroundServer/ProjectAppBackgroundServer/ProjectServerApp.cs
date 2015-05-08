@@ -37,6 +37,8 @@ namespace ProjectAppBackgroundServer
             this.SimpleUserDataGridView.RowTemplate.Height = 130;
             this.ImagesDataGridView.RowTemplate.Height = 130;
             this.AccessDataGridView.RowTemplate.Height = 130;
+            this.ModAdminDataGridView.RowTemplate.Height = this.ModAdminDataGridView.Height;
+            this.ModUserDataGridView.RowTemplate.Height = this.ModUserDataGridView.Height;
                       
         }
 
@@ -518,6 +520,8 @@ namespace ProjectAppBackgroundServer
         {
             int a;
 
+            ResetModifyUserPanel();
+
             if( this.SearchUserTextBox.Text == "" || !Int32.TryParse(this.SearchUserTextBox.Text,out a ) 
                 || this.SearchUserTextBox.Text.Length < 6 ) 
             {
@@ -534,30 +538,67 @@ namespace ProjectAppBackgroundServer
                 Administrator admin = this.db.SelectAdministrator(codice);
 
                 if( admin == null ) {
-                
+                    MessageBox.Show("", "INFORMATION", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.SearchUserTextBox.Clear();
+                    this.SearchUserTextBox.Focus();
+                    return;
                 }
                 else {
-                    this.ModUserDataGridView.Visible = true;
+                    this.ModAdminDataGridView.Visible = true;
                     this.QuestionLabel.Visible = true;
                     this.TakePictureButton.Visible = true;
-                    
+                    object[] obj = new object[7];
+                    obj[0] = admin.Name;
+                    obj[1] = admin.Surname;
+                    obj[2] = admin.BirthDate.ToShortDateString();
+                    obj[3] = admin.Password;
+                    obj[4] = admin.MailAddress;
+                    obj[5] = admin.MailPassword;
+                    obj[6] = admin.Img;
+                    this.ModAdminDataGridView.Rows.Add(obj);
                 }
             }
             else {
                 User usr = this.db.SelectSimpleUser(codice);
 
                 if( usr == null ) {
-                
+                    MessageBox.Show("","INFORMATION", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.SearchUserTextBox.Clear();
+                this.SearchUserTextBox.Focus();
+                return;
                 }
                 else {
                     this.ModUserDataGridView.Visible = true;
                     this.QuestionLabel.Visible = true;
                     this.TakePictureButton.Visible = true;
+
+                    object[] obj = new object[5];
+                    obj[0] = usr.Name;
+                    obj[1] = usr.Surname;
+                    obj[2] = usr.BirthDate.ToShortDateString();
+                    obj[3] = usr.Password;                    
+                    obj[4] = usr.Img;
+                    this.ModUserDataGridView.Rows.Add(obj);
                     
                 }
             }
         }
 
-        
+        private void ModifyUserPanel_VisibleChanged(object sender, EventArgs e)
+        {
+            if (!this.ModifyUserPanel.Visible) {
+                ResetModifyUserPanel();
+            }
+        }
+
+        private void ResetModifyUserPanel()
+        {
+            this.ModAdminDataGridView.Rows.Clear();
+            this.ModAdminDataGridView.Visible = false;
+            this.ModUserDataGridView.Rows.Clear();
+            this.ModUserDataGridView.Visible = false;
+            this.QuestionLabel.Visible = false;
+            this.TakePictureButton.Visible = false;
+        }
     }
 }

@@ -10,7 +10,7 @@ using System.IO;
 
 namespace ProjectAppBackgroundServer
 {
-    public class DatabaseManagement
+    public class DatabaseManagement 
     {
         public const char LOGIN = 'L';
         public const char FACE = 'F';
@@ -66,6 +66,33 @@ namespace ProjectAppBackgroundServer
             }
             
         }
+
+        public void InsertImage(string userCode, Image img)
+        {
+            SqlTransaction transaction = this.conn.BeginTransaction();
+
+            try {
+
+                string query = "INSERT INTO IMAGES_PROJECT ( Username, Image) Values(@user, @img)";
+                SqlCommand sqlCmd = new SqlCommand(query, this.conn);
+                sqlCmd.Transaction = transaction;
+
+                sqlCmd.Parameters.Add("@user", SqlDbType.VarChar, 50).Value = userCode;
+                ImageConverter converter = new ImageConverter();
+                byte[] buff = (byte[])converter.ConvertTo(img, typeof(byte[]));
+                sqlCmd.Parameters.Add("@img", SqlDbType.VarBinary, buff.Length).Value = buff;
+
+                sqlCmd.ExecuteNonQuery();
+                transaction.Commit();
+
+            } catch (Exception e) {
+                NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
+                transaction.Rollback();
+                throw new DatabaseException(e.Message);
+            }
+
+        }
+
 
         public void InserAccessUser(int userCode, DateTime time, char type, Image userImg)
         {
@@ -166,6 +193,25 @@ namespace ProjectAppBackgroundServer
                 transaction.Rollback();
                 throw new DatabaseException(e.Message);
             }
+        }
+
+        public void GetFaces( List<string> liststr, List<Bitmap> listfaces) 
+        {
+            string query = "SELECT * FROM IMAGES_PROJECT";
+            SqlCommand c1 = new SqlCommand(query, this.conn);
+            SqlDataReader reader = c1.ExecuteReader();
+
+            while (reader.Read())
+            {
+                liststr.Add((string)reader["Username"]);
+                byte[] buff = (byte[])reader["Image"];
+                MemoryStream ms = new MemoryStream(buff);
+                Bitmap bmp = new Bitmap(ms);
+                ms.Close();
+                listfaces.Add(bmp);
+            }
+
+            reader.Close();
         }
 
         public List<User> ShowImages() 
