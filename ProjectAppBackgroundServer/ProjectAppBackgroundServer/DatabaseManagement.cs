@@ -7,6 +7,11 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using Emgu.CV;
+using Emgu.CV.Structure;
+using Emgu.Util;
+using Emgu.CV.CvEnum;
+using System.Windows.Forms;
 
 namespace ProjectAppBackgroundServer
 {
@@ -41,7 +46,7 @@ namespace ProjectAppBackgroundServer
             writer.Close();
         }
 
-        public void InsertImage(int userCode, Image img) 
+        public void InsertImage(int userCode, /*Image img*/ byte[] gimg) 
         {
             SqlTransaction transaction = this.conn.BeginTransaction();
 
@@ -52,9 +57,10 @@ namespace ProjectAppBackgroundServer
                 sqlCmd.Transaction = transaction;
 
                 sqlCmd.Parameters.Add("@user", SqlDbType.VarChar, 50).Value = "s" + userCode.ToString();
-                ImageConverter converter = new ImageConverter();
-                byte[] buff = (byte[])converter.ConvertTo(img, typeof(byte[]));
-                sqlCmd.Parameters.Add("@img", SqlDbType.VarBinary, buff.Length).Value = buff;
+                //ImageConverter converter = new ImageConverter();
+                //byte[] buff = (byte[])converter.ConvertTo(img, typeof(byte[]));
+                //sqlCmd.Parameters.Add("@img", SqlDbType.VarBinary, buff.Length).Value = buff;
+                sqlCmd.Parameters.Add("@img", SqlDbType.VarBinary, gimg.Length).Value = gimg;
 
                 sqlCmd.ExecuteNonQuery();
                 transaction.Commit();
@@ -67,7 +73,7 @@ namespace ProjectAppBackgroundServer
             
         }
 
-        public void InsertImage(string userCode, Image img)
+        public void InsertImage(string userCode, /*Image img*/ byte[] gimg)
         {
             SqlTransaction transaction = this.conn.BeginTransaction();
 
@@ -78,9 +84,10 @@ namespace ProjectAppBackgroundServer
                 sqlCmd.Transaction = transaction;
 
                 sqlCmd.Parameters.Add("@user", SqlDbType.VarChar, 50).Value = userCode;
-                ImageConverter converter = new ImageConverter();
-                byte[] buff = (byte[])converter.ConvertTo(img, typeof(byte[]));
-                sqlCmd.Parameters.Add("@img", SqlDbType.VarBinary, buff.Length).Value = buff;
+                //ImageConverter converter = new ImageConverter();
+                //byte[] buff = (byte[])converter.ConvertTo(img, typeof(byte[]));                
+                //sqlCmd.Parameters.Add("@img", SqlDbType.VarBinary, buff.Length).Value = buff;
+                sqlCmd.Parameters.Add("@img", SqlDbType.VarBinary, gimg.Length).Value = gimg;
 
                 sqlCmd.ExecuteNonQuery();
                 transaction.Commit();
@@ -232,12 +239,13 @@ namespace ProjectAppBackgroundServer
 
                     int codice = Convert.ToInt32(user);
                     byte[] buff = (byte[])reader["Image"];
-                    MemoryStream ms = new MemoryStream(buff);
+                    /*MemoryStream ms = new MemoryStream(buff);
                     Bitmap bmp = new Bitmap(ms);
-                    ms.Close();
+                    ms.Close();*/
+                    Image<Gray, Byte> gimg = new Image<Gray, byte>(100, 100);
+                    gimg.Bytes = buff;
 
-
-                    User nuovo = new User(codice, " ", 'M', DateTime.Now, " ", " ", bmp);
+                    User nuovo = new User(codice, " ", 'M', DateTime.Now, " ", " ", gimg.Bitmap );
 
                     list.Add(nuovo);
                 }
@@ -421,6 +429,76 @@ namespace ProjectAppBackgroundServer
             reader.Close();
 
             return list;
+        }
+
+        public void UpdateTableUser( User u, DataGridViewRow row ) 
+        {
+
+            SqlTransaction transaction = this.conn.BeginTransaction();
+            bool trovato = false;
+
+            try {
+                string query = "UPDATE USERS_PROJECT SET";
+
+                if (row.Cells[1].Style.BackColor == Color.DarkRed) {
+                    trovato = true;
+                    query += " Name= '" + (string)row.Cells[1].Value + "'";
+                }
+
+                if (row.Cells[2].Style.BackColor == Color.DarkRed) {
+
+                    if (trovato)
+                        query += " , Surname= '" + (string)row.Cells[2].Value + "'";
+                    else {
+                        trovato = true;
+                        query += " Surname= '" + (string)row.Cells[2].Value + "'";
+                    }
+                }
+
+
+                if (row.Cells[3].Style.BackColor == Color.DarkRed) {
+
+                    if (trovato)
+                        query += " , BirthDate=@date";
+                    else {
+                        trovato = true;
+                        query += " BirthDate=@date";
+                    }
+                }
+
+                if (row.Cells[4].Style.BackColor == Color.DarkRed) {
+
+                    if (trovato)
+                        query += " , Image=@img";
+                    else {
+                        trovato = true;
+                        query += " Image=@img";
+                    }
+                }
+
+                query += " WHERE Username='" + u.Codice.ToString() + "'";
+
+                SqlCommand com = new SqlCommand(query, this.conn);
+                com.Transaction = transaction;
+
+                if (row.Cells[3].Style.BackColor == Color.DarkRed)
+                    com.Parameters.Add("@birth", SqlDbType.Date).Value = row.Cells[3].Value;
+
+                if (row.Cells[4].Style.BackColor == Color.DarkRed) {
+                    ImageConverter converter = new ImageConverter();
+                    byte[] buff = (byte[])converter.ConvertTo(row.Cells[4].Value, typeof(byte[]));
+                    com.Parameters.Add("@img", SqlDbType.VarBinary, buff.Length).Value = buff;
+                }
+
+                com.ExecuteNonQuery();
+                transaction.Commit();
+
+            } catch (Exception e) {
+                NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
+                transaction.Rollback();
+                throw new DatabaseException(e.Message);
+            }
+
         }
 
         public void CloseConnection() 

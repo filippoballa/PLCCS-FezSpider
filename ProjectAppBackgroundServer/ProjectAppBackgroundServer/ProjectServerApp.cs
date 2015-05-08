@@ -36,8 +36,7 @@ namespace ProjectAppBackgroundServer
             this.AdminDataGridView.RowTemplate.Height = 130;
             this.SimpleUserDataGridView.RowTemplate.Height = 130;
             this.ImagesDataGridView.RowTemplate.Height = 130;
-            this.AccessDataGridView.RowTemplate.Height = 130;
-            this.ModAdminDataGridView.RowTemplate.Height = this.ModAdminDataGridView.Height;
+            this.AccessDataGridView.RowTemplate.Height = 130;           
             this.ModUserDataGridView.RowTemplate.Height = this.ModUserDataGridView.Height;
                       
         }
@@ -89,7 +88,7 @@ namespace ProjectAppBackgroundServer
             if (rect != Rectangle.Empty) {
                 this.PhotoPictureBox.BackgroundImage = face;
                 this.grayFace = new Image<Gray, byte>(face).Copy(rect).Resize(100,100,INTER.CV_INTER_CUBIC);
-                this.grayFace._EqualizeHist();
+                //this.grayFace._EqualizeHist();
                 this.PhotoCheckBox.AutoCheck = true;
                 this.PhotoCheckBox.Checked = true;
                 this.PhotoCheckBox.Enabled = false;
@@ -190,7 +189,7 @@ namespace ProjectAppBackgroundServer
 
                 try {
                     this.db.InsertAdministrator(admin);
-                    this.db.InsertImage(admin.Codice, this.grayFace.Bitmap);
+                    this.db.InsertImage(admin.Codice, /*this.grayFace.Bitmap*/ this.grayFace.Bytes);
                     this.MailPwdTextBox.Clear();
                     this.MailTextBox.Clear();
                     this.AdminCheckBox.Checked = false;
@@ -206,7 +205,7 @@ namespace ProjectAppBackgroundServer
 
                 try {
                     this.db.InsertSimpleUser(u);
-                    this.db.InsertImage(u.Codice, this.grayFace.Bitmap);
+                    this.db.InsertImage(u.Codice, /*this.grayFace.Bitmap*/this.grayFace.Bytes);
                 } catch (DatabaseException dbEx) {
                     errorInsert = true;
                     MessageBox.Show(dbEx.Mex, "ANOMALY", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -374,6 +373,7 @@ namespace ProjectAppBackgroundServer
             this.InfoPanel.Visible = false;
             this.ModifyUserPanel.Visible = true;
             this.ImagesPanel.Visible = false;
+            this.SearchUserTextBox.Focus();
         }
 
         private void informazioniToolStripMenuItem_Click(object sender, EventArgs e)
@@ -450,8 +450,8 @@ namespace ProjectAppBackgroundServer
         private void CameraButton_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
-            PictureCamera pic = new PictureCamera(this);
-            pic.ShowDialog();            
+            PictureCamera pic = new PictureCamera(this, "PIC");
+            pic.ShowDialog();             
         }
 
         public void setGrayFace(Image<Gray, Byte> grayFace) 
@@ -544,18 +544,17 @@ namespace ProjectAppBackgroundServer
                     return;
                 }
                 else {
-                    this.ModAdminDataGridView.Visible = true;
+                    this.ModUserDataGridView.Visible = true;
                     this.QuestionLabel.Visible = true;
                     this.TakePictureButton.Visible = true;
-                    object[] obj = new object[7];
-                    obj[0] = admin.Name;
-                    obj[1] = admin.Surname;
-                    obj[2] = admin.BirthDate.ToShortDateString();
-                    obj[3] = admin.Password;
-                    obj[4] = admin.MailAddress;
-                    obj[5] = admin.MailPassword;
-                    obj[6] = admin.Img;
-                    this.ModAdminDataGridView.Rows.Add(obj);
+                    this.SaveButton.Visible = true;
+                    object[] obj = new object[5];
+                    obj[0] = admin.Codice;
+                    obj[1] = admin.Name;
+                    obj[2] = admin.Surname;
+                    obj[3] = admin.BirthDate.ToShortDateString();
+                    obj[4] = admin.Img;
+                    this.ModUserDataGridView.Rows.Add(obj);
                 }
             }
             else {
@@ -563,20 +562,20 @@ namespace ProjectAppBackgroundServer
 
                 if( usr == null ) {
                     MessageBox.Show("","INFORMATION", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.SearchUserTextBox.Clear();
-                this.SearchUserTextBox.Focus();
-                return;
+                    this.SearchUserTextBox.Clear();
+                    this.SearchUserTextBox.Focus();
+                    return;
                 }
                 else {
                     this.ModUserDataGridView.Visible = true;
                     this.QuestionLabel.Visible = true;
                     this.TakePictureButton.Visible = true;
-
+                    this.SaveButton.Visible = true;
                     object[] obj = new object[5];
-                    obj[0] = usr.Name;
-                    obj[1] = usr.Surname;
-                    obj[2] = usr.BirthDate.ToShortDateString();
-                    obj[3] = usr.Password;                    
+                    obj[0] = usr.Codice;
+                    obj[1] = usr.Name;
+                    obj[2] = usr.Surname;
+                    obj[3] = usr.BirthDate.ToShortDateString();                   
                     obj[4] = usr.Img;
                     this.ModUserDataGridView.Rows.Add(obj);
                     
@@ -592,13 +591,75 @@ namespace ProjectAppBackgroundServer
         }
 
         private void ResetModifyUserPanel()
-        {
-            this.ModAdminDataGridView.Rows.Clear();
-            this.ModAdminDataGridView.Visible = false;
+        {            
             this.ModUserDataGridView.Rows.Clear();
             this.ModUserDataGridView.Visible = false;
             this.QuestionLabel.Visible = false;
             this.TakePictureButton.Visible = false;
+            this.SaveButton.Visible = false;
         }
+
+        private void ModUserDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (this.ModUserDataGridView.Visible) {
+                DataGridViewCell cella = this.ModUserDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                cella.Style.BackColor = Color.DarkRed;
+                cella.Style.SelectionBackColor = Color.Maroon;
+            }
+        }
+
+        public void SetDataUserImageGV(Image img) 
+        {            
+            int larg = this.PhotoPictureBox.Width;
+            int alt = this.PhotoPictureBox.Height;
+            this.ModUserDataGridView.Rows[0].Cells[4].Value = new Bitmap(img, larg, alt);
+            this.Enabled = true;
+        }
+
+        private void TakePictureButton_Click(object sender, EventArgs e)
+        {
+            this.Enabled = false;
+            PictureCamera pic = new PictureCamera(this, "DATA");
+            pic.ShowDialog();  
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            bool trovato = false;
+
+            foreach (DataGridViewCell cella in this.ModUserDataGridView.Rows[0].Cells) {
+
+                if (cella.Style.BackColor == Color.DarkRed && cella.Style.SelectionBackColor == Color.Maroon) {
+                    trovato = true;
+                    break;
+                }                    
+            }
+
+            if (!trovato) {
+                MessageBox.Show("", "INFORMATION", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            Bitmap bmp = (Bitmap)this.ModUserDataGridView.Rows[0].Cells[4].Value;
+            int codice = Convert.ToInt32(this.ModUserDataGridView.Rows[0].Cells[0].Value);
+            User u = this.db.SelectSimpleUser(codice);
+            Administrator admin = null;
+
+            if (u == null)
+                admin = this.db.SelectAdministrator(codice);
+
+            Rectangle rect = PictureCamera.DetectFace(new Image<Bgr, Byte>(bmp));
+
+            if (rect != Rectangle.Empty) {
+                this.grayFace = new Image<Gray, byte>(bmp).Copy(rect).Resize(100, 100, INTER.CV_INTER_CUBIC);
+                this.db.InsertImage(codice, this.grayFace.Bytes);
+            }
+
+            if( u != null )
+                this.db.UpdateTableUser(u,this.ModUserDataGridView.Rows[0]);
+            else
+                this.db.UpdateTableUser(admin, this.ModUserDataGridView.Rows[0]);
+        }
+        
     }
 }

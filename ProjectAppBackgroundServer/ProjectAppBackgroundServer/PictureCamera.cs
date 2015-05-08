@@ -21,12 +21,14 @@ namespace ProjectAppBackgroundServer
         private Image<Bgr, Byte> imgUser;
         private static CascadeClassifier haarcascade = new CascadeClassifier("haarcascade_frontalface_alt_tree.xml");
         Rectangle rect;
+        private string typeOfuse;
 
-        public PictureCamera( ProjectServerApp proj )
+        public PictureCamera( ProjectServerApp proj, string type )
         {
             InitializeComponent();
             this.rect = Rectangle.Empty;    
-            this.proj = proj;            
+            this.proj = proj;
+            this.typeOfuse = type;
         }
 
         private void TakeButton_Click(object sender, EventArgs e)
@@ -36,9 +38,14 @@ namespace ProjectAppBackgroundServer
             if (this.rect != Rectangle.Empty) {
                 this.imgUser = ImageFrame.Copy();
                 Image<Gray, Byte> Face = ImageFrame.Copy(this.rect).Convert<Gray, Byte>().Resize(100, 100, INTER.CV_INTER_CUBIC);
-                Face._EqualizeHist();
+                //Face._EqualizeHist();
                 this.proj.setGrayFace(Face);
-                this.proj.SetPictureBoxImage(this.imgUser.Bitmap);
+
+                if (this.typeOfuse == "PIC")
+                    this.proj.SetPictureBoxImage(this.imgUser.Bitmap);
+                else if (this.typeOfuse == "DATA")
+                    this.proj.SetDataUserImageGV(this.imgUser.Bitmap);
+
                 this.Close();
             }
         }
