@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.IO;
 
 namespace MvcApplicationTest.Models
 {
     public class Img
     {
-        public byte[] data { get; set; }
-        public string Id { get; set; } 
+        public byte[] bytearray { get; set; }
     }
 }
