@@ -13,6 +13,7 @@ namespace MvcApplicationTest.Controllers
 {
     public class UtenteController : ApiController
     {
+        private string LogPath = @"C://MYSITE/LOG";
         private string strConn = "Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True";
         public string[] Get(string user = "", string pwd = "")
         {
@@ -20,7 +21,7 @@ namespace MvcApplicationTest.Controllers
             string msg = "OK";
 
             //inizializzazione db e ricerca utente in base alla matricola(codice)
-            DatabaseManagement db = new DatabaseManagement(strConn);
+            DatabaseManagement db = new DatabaseManagement(strConn,LogPath);
             try
             {
                 int codice = Convert.ToInt32(user);
@@ -97,7 +98,7 @@ namespace MvcApplicationTest.Controllers
             System.Net.HttpStatusCode httpStatusCode = System.Net.HttpStatusCode.Created;
 
             //inizializzazione db e ricerca utente in base alla matricola(codice)
-            DatabaseManagement db = new DatabaseManagement(strConn);
+            DatabaseManagement db = new DatabaseManagement(strConn,LogPath);
 
             try
             {

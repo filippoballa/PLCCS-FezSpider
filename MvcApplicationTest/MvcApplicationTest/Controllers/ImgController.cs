@@ -35,7 +35,7 @@ namespace MvcApplicationTest.Controllers
             HttpResponseMessage response=null;
             System.Net.HttpStatusCode httpStatusCode = System.Net.HttpStatusCode.Created;
 
-            DatabaseManagement db = new DatabaseManagement(strConn);
+            DatabaseManagement db = new DatabaseManagement(strConn,LogPath);
             //db.NewErrorLog("Sono entrato e mi faccio un giro!", DateTime.Now);
 
             try
