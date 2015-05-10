@@ -42,7 +42,7 @@ namespace ProjectAppBackgroundServer
             StreamWriter writer = new StreamWriter(File.Open(filename, FileMode.Append));
             writer.WriteLine();
             writer.WriteLine();
-            writer.Write("--- " + date.ToShortTimeString() + " --- " + mex + " --------------- ");
+            writer.Write("--- " + date.ToShortTimeString() + " --- " + mex + " --------------- " + Environment.NewLine);
             writer.Close();
         }
 
