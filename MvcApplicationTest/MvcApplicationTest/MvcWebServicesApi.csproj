@@ -312,6 +312,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\FaceRecognizer\FaceRecognizer\FaceRecognizer.csproj">
+      <Project>{5e34803c-dc25-4aec-912d-0cba130a6c8e}</Project>
+      <Name>FaceRecognizer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ProjectAppBackgroundServer\ProjectAppBackgroundServer\ProjectAppBackgroundServer.csproj">
       <Project>{7e55a36d-3209-4327-902b-1124e3907576}</Project>
       <Name>ProjectAppBackgroundServer</Name>

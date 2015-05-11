@@ -32,15 +32,15 @@
   <ItemGroup>
     <Reference Include="Emgu.CV, Version=2.4.2.1777, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Emgu\bin\Emgu.CV.dll</HintPath>
+      <HintPath>..\..\ProjectAppBackgroundServer\ProjectAppBackgroundServer\bin\Debug\Emgu.CV.dll</HintPath>
     </Reference>
     <Reference Include="Emgu.CV.UI, Version=2.4.2.1777, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Emgu\bin\Emgu.CV.UI.dll</HintPath>
+      <HintPath>..\..\ProjectAppBackgroundServer\ProjectAppBackgroundServer\bin\Debug\Emgu.CV.UI.dll</HintPath>
     </Reference>
     <Reference Include="Emgu.Util, Version=2.4.2.1777, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Emgu\bin\Emgu.Util.dll</HintPath>
+      <HintPath>..\..\ProjectAppBackgroundServer\ProjectAppBackgroundServer\bin\Debug\Emgu.Util.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

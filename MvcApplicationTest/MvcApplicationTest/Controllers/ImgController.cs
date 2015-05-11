@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Diagnostics;
 using HttpMultipartParser;
+using FaceRecognizer;
 
 namespace MvcApplicationTest.Controllers
 {
@@ -61,7 +62,8 @@ namespace MvcApplicationTest.Controllers
                         Image returnImage = Image.FromStream(f.Data);
 
                         Bitmap b = new Bitmap(returnImage);
-                        // Save the image as a GIF.
+                        // Save the image as a BMP.
+
                         b.Save(path + f.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
 
                         db.NewErrorLog(f.ToString(), DateTime.Now);
