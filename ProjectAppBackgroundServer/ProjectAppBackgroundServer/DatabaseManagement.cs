@@ -410,7 +410,7 @@ namespace ProjectAppBackgroundServer
             List<UserAccess> list = new List<UserAccess>();
 
             while (reader.Read()) {
-                char type = Convert.ToChar((string)reader["TypeOfAcces"]);
+                char type = Convert.ToChar((string)reader["TypeOfAccess"]);
                 int user = (int)reader["Username"];
                 DateTime date = (DateTime)reader["DateAccess"];
 
