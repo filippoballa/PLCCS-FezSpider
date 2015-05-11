@@ -1,4 +1,4 @@
-USE [PAZZODAVEDB]
+USE [PLCCS_DB]
 GO
 
 /****** Object:  Table [dbo].[ACCESSES_PROJECT]    Script Date: 05/05/2015 15:35:17 ******/
@@ -11,7 +11,7 @@ GO
 SET ANSI_PADDING ON
 GO
 
-CREATE TABLE [dbo].[ACCESSES_PROJECT](
+ALTER TABLE [dbo].[ACCESSES_PROJECT](
 	[Username] [int] NOT NULL,
 	[DateAccess] [datetime] NOT NULL,
 	[TypeOfAccess] [nchar](1) NOT NULL,
