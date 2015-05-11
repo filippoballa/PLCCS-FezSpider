@@ -107,7 +107,7 @@ namespace ProjectAppBackgroundServer
 
             try {
 
-                string com = "INSERT INTO ACCESSES_PROJECT (Username,DateAccess,TypeOfAcces,ImageAccess)";
+                string com = "INSERT INTO ACCESSES_PROJECT (Username,DateAccess,TypeOfAccess,ImageAccess)";
                 com += "Values(@user,@date,@type,@img)";
                 SqlCommand sqlCmd = new SqlCommand(com, this.conn);
                 sqlCmd.Transaction = transaction;
