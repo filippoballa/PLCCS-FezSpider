@@ -30,7 +30,7 @@ namespace ProjectAppBackgroundServer
             string aux = "The User " + utente.Name + " " + utente.Surname + " with the following registration number: ";
             aux += utente.Codice + "\nhas entered in the stable without facial recognition. Pay Attention and ";
             aux += "alert security staff!!\n\n Access occurred at " + date.ToLongTimeString();
-            aux += "on the " + date.ToShortDateString();
+            aux += " on the " + date.ToShortDateString();
             message.Body = aux;
 
             SmtpClient sc = new SmtpClient();
