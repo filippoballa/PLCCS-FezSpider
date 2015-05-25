@@ -29,7 +29,8 @@ namespace ProjectAppBackgroundServer
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.DoubleBuffer, true);
             InitializeComponent();
-            this.db = new DatabaseManagement("Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True", Program.LOGDIR); //this.db = new DatabaseManagement("Data Source=DAVE-PC\\SQLEXPRESS;Initial Catalog=PAZZODAVEDB;Integrated Security=True", Program.LOGDIR);
+            //this.db = new DatabaseManagement("Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True", Program.LOGDIR); 
+            this.db = new DatabaseManagement("Data Source=DAVE-PC\\SQLEXPRESS;Initial Catalog=PAZZODAVEDB;Integrated Security=True", Program.LOGDIR);
             this.openFileDialog1.InitialDirectory = Environment.CurrentDirectory;
             this.openFileDialog1.Filter = "Images (*.bmp,*.jpg,*.gif,*.png)|*.png;*.bmp;*.jpg;*.gif";
             this.openFileDialog1.FileName = "";
@@ -51,6 +52,7 @@ namespace ProjectAppBackgroundServer
             
             this.RegisterPanel.Visible = true;
             this.HomePanel.Visible = false;
+            this.DeletePanel.Visible = false;
             this.AdminPanel.Visible = false;
             this.ImagesPanel.Visible = false;
             this.SimpleUserPanel.Visible = false;
@@ -130,6 +132,7 @@ namespace ProjectAppBackgroundServer
                 && this.UsernameTextBox.Text.Length < 6 ) {
                 MessageBox.Show("Enter a valid username in the appropriate field!!", "NOTICE", 
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.UsernameTextBox.Clear();
                 this.UsernameTextBox.Focus();
                 return;   
             }
@@ -139,6 +142,7 @@ namespace ProjectAppBackgroundServer
             {
                 MessageBox.Show("Enter a valid password in the appropriate field!!", "NOTICE",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.PasswordTextBox.Clear();
                 this.UsernameTextBox.Focus();
                 return;
             }
@@ -237,6 +241,7 @@ namespace ProjectAppBackgroundServer
         {
             this.HomePanel.Visible = false;
             this.RegisterPanel.Visible = false;
+            this.DeletePanel.Visible = false;
             this.InfoPanel.Visible = false;
             this.ImagesPanel.Visible = false;
             this.SimpleUserPanel.Visible = false;
@@ -290,6 +295,7 @@ namespace ProjectAppBackgroundServer
         private void showSimpleUsersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.HomePanel.Visible = false;
+            this.DeletePanel.Visible = false;
             this.RegisterPanel.Visible = false;
             this.AdminPanel.Visible = false;
             this.InfoPanel.Visible = false;
@@ -341,6 +347,7 @@ namespace ProjectAppBackgroundServer
             this.RegisterPanel.Visible = false;
             this.SimpleUserPanel.Visible = false;
             this.ImagesPanel.Visible = false;
+            this.DeletePanel.Visible = false;
             this.InfoPanel.Visible = false;
             this.AccessPanel.Visible = true;
             this.AdminPanel.Visible = false;
@@ -369,6 +376,7 @@ namespace ProjectAppBackgroundServer
             this.RegisterPanel.Visible = false;
             this.SimpleUserPanel.Visible = false;
             this.AccessPanel.Visible = false;
+            this.DeletePanel.Visible = false;
             this.AdminPanel.Visible = false;
             this.InfoPanel.Visible = false;
             this.ModifyUserPanel.Visible = true;
@@ -383,6 +391,7 @@ namespace ProjectAppBackgroundServer
             this.SimpleUserPanel.Visible = false;
             this.AccessPanel.Visible = false;
             this.AdminPanel.Visible = false;
+            this.DeletePanel.Visible = false;
             this.InfoPanel.Visible = true;
             this.ModifyUserPanel.Visible = false;
             this.ImagesPanel.Visible = false;
@@ -476,6 +485,7 @@ namespace ProjectAppBackgroundServer
             this.RegisterPanel.Visible = false;
             this.SimpleUserPanel.Visible = false;
             this.AccessPanel.Visible = false;
+            this.DeletePanel.Visible = false;
             this.AdminPanel.Visible = false;
             this.InfoPanel.Visible = false;
             this.ModifyUserPanel.Visible = false;
@@ -659,6 +669,57 @@ namespace ProjectAppBackgroundServer
                 this.db.UpdateTableUser(u,this.ModUserDataGridView.Rows[0]);
             else
                 this.db.UpdateTableUser(admin, this.ModUserDataGridView.Rows[0]);
+        }
+
+        private void deleteUserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.RegisterPanel.Visible = false;
+            this.HomePanel.Visible = false;
+            this.AdminPanel.Visible = false;
+            this.ImagesPanel.Visible = false;
+            this.SimpleUserPanel.Visible = false;
+            this.InfoPanel.Visible = false;
+            this.AccessPanel.Visible = false;
+            this.ModifyUserPanel.Visible = false;
+            this.DeletePanel.Visible = true;
+            this.DelCodeTextBox.Focus();
+        }
+
+        private void DeleteButton_Click(object sender, EventArgs e)
+        {
+            int aux, usercode;
+
+            if (this.DelCodeTextBox.Text == "" || !Int32.TryParse(this.DelCodeTextBox.Text, out aux)
+                && this.DelCodeTextBox.Text.Length < 6)
+            {
+                MessageBox.Show("Enter a valid username in the appropriate field!!", "NOTICE",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DelCodeTextBox.Clear();
+                this.DelCodeTextBox.Focus();
+                return;
+            }
+
+            usercode = Convert.ToInt32(this.DelCodeTextBox.Text);
+
+            if (!this.db.VerifyUserExists(usercode) ) {
+                MessageBox.Show("The code entered does not belong to any user on the system!!", "NOTICE",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DelCodeTextBox.Clear();
+                this.DelCodeTextBox.Focus();
+                return;
+            }
+
+            DialogResult result = MessageBox.Show("Would you like to continue with the cancellation?", "NOTICE",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Information );
+
+            if (result == DialogResult.Yes) {
+                this.db.DeleteUser(usercode);
+                this.db.DeleteImagesUser(usercode);
+
+                if( this.db.VerifyAccessUser(usercode) )
+                    this.db.DeleteInformationAccessUser(usercode);
+            }
+
         }
         
     }

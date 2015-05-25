@@ -431,6 +431,81 @@ namespace ProjectAppBackgroundServer
             return list;
         }
 
+        public void DeleteUser(int usercode) 
+        {
+            SqlTransaction transaction = this.conn.BeginTransaction();
+
+            try {
+
+                string query = "DELETE FROM USERS_PROJECT WHERE Username='" + usercode.ToString() + "'";
+                SqlCommand com = new SqlCommand(query, this.conn);
+                com.Transaction = transaction;
+                com.ExecuteNonQuery();
+                transaction.Commit();
+
+            } catch (Exception e) {
+                NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
+                transaction.Rollback();
+                throw new DatabaseException(e.Message);
+            }
+        }
+
+        public void DeleteImagesUser(int usercode) 
+        {
+            SqlTransaction transaction = this.conn.BeginTransaction();
+
+            try {
+                string query = "DELETE FROM IMAGES_PROJECT WHERE Username='s" + usercode.ToString() + "'";
+
+                SqlCommand com = new SqlCommand(query, this.conn);
+                com.Transaction = transaction;
+                com.ExecuteNonQuery();
+                transaction.Commit();
+
+            } catch (Exception e) {
+                NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
+                transaction.Rollback();
+                throw new DatabaseException(e.Message);
+            }
+        }
+
+        public void DeleteInformationAccessUser(int usercode) 
+        {
+            SqlTransaction transaction = this.conn.BeginTransaction();
+
+            try {
+                string query = "DELETE FROM ACCESSES_PROJECT WHERE Username='" + usercode.ToString() + "'";
+
+                SqlCommand com = new SqlCommand(query, this.conn);
+                com.Transaction = transaction;
+                com.ExecuteNonQuery();
+                transaction.Commit();
+
+            } catch (Exception e) {
+                NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
+                transaction.Rollback();
+                throw new DatabaseException(e.Message);
+            }
+        }
+
+        public bool VerifyAccessUser(int usercode) 
+        {
+            string query = "SELECT * FROM ACCESSES_PROJECT WHERE Username='" + usercode.ToString() + "'";
+            SqlCommand com = new SqlCommand(query, this.conn);
+            SqlDataReader reader = com.ExecuteReader();
+            bool result;
+
+            if (reader.HasRows)
+                result = true;
+            else
+                result = false;
+
+            reader.Close();
+
+            return result;
+
+        }
+
         public void UpdateTableUser( User u, DataGridViewRow row ) 
         {
 
