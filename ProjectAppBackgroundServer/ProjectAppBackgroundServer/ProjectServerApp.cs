@@ -36,7 +36,7 @@ namespace ProjectAppBackgroundServer
             this.openFileDialog1.FileName = "";
             this.AdminDataGridView.RowTemplate.Height = 130;
             this.SimpleUserDataGridView.RowTemplate.Height = 130;
-            this.ImagesDataGridView.RowTemplate.Height = 130;
+            this.ImagesDataGridView.RowTemplate.Height = 140;
             this.AccessDataGridView.RowTemplate.Height = 130;           
             this.ModUserDataGridView.RowTemplate.Height = this.ModUserDataGridView.Height;
                       
@@ -669,6 +669,9 @@ namespace ProjectAppBackgroundServer
                 this.db.UpdateTableUser(u,this.ModUserDataGridView.Rows[0]);
             else
                 this.db.UpdateTableUser(admin, this.ModUserDataGridView.Rows[0]);
+
+            MessageBox.Show("Information updated successfully!!", "NOTICE",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void deleteUserToolStripMenuItem_Click(object sender, EventArgs e)
@@ -718,9 +721,11 @@ namespace ProjectAppBackgroundServer
 
                 if( this.db.VerifyAccessUser(usercode) )
                     this.db.DeleteInformationAccessUser(usercode);
+
+                MessageBox.Show("User information has been deleted successfully!!", "NOTICE", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information );
             }
 
-        }
-        
+        }        
     }
 }

@@ -244,8 +244,9 @@ namespace ProjectAppBackgroundServer
                     ms.Close();*/
                     Image<Gray, Byte> gimg = new Image<Gray, byte>(100, 100);
                     gimg.Bytes = buff;
+                    Bitmap bmp = new Bitmap(gimg.Bitmap);
 
-                    User nuovo = new User(codice, " ", 'M', DateTime.Now, " ", " ", gimg.Bitmap );
+                    User nuovo = new User(codice, " ", 'M', DateTime.Now, " ", " ", /*gimg.Bitmap*/bmp );
 
                     list.Add(nuovo);
                 }
@@ -326,6 +327,22 @@ namespace ProjectAppBackgroundServer
             bool res;
 
             if (reader.Read()) 
+                res = true;
+            else
+                res = false;
+
+            reader.Close();
+            return res;
+        }
+
+        public bool VerifyUserExists(string codice)
+        {
+            string query = "SELECT * FROM USERS_PROJECT WHERE Username='" + codice + "'";
+            SqlCommand c1 = new SqlCommand(query, this.conn);
+            SqlDataReader reader = c1.ExecuteReader();
+            bool res;
+
+            if (reader.Read())
                 res = true;
             else
                 res = false;
