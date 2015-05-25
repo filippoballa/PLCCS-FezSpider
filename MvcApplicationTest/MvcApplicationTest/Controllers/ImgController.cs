@@ -74,16 +74,45 @@ namespace MvcApplicationTest.Controllers
                         List<String> labels = new List<String>();
                         List<Bitmap> images = new List<Bitmap>();
                         db.GetFaces(labels, images);
+
                         if (labels.Count == 0 && images.Count == 0)
                         {
                             //TODO errore no immagini database!
+                            msg = "errore no immagini database!";
+                            httpStatusCode = System.Net.HttpStatusCode.InternalServerError;
                         }
-                        String label = String.Empty;
-
-                        //FaceRecMethod()
+                        else
+                        {
+                            String result = String.Empty;
+                            if (FaceRecMethod(labels, images, b, ref result))
+                            {
+                                //trovata corrispondenza in db
+                                //result contiene label dell'immagine trovata
+                                if (db.VerifyUserExists(result))
+                                {
+                                    //l'utente è registrato
+                                    msg = "Welcome user n° "+result+"!";
+                                }
+                                else
+                                {
+                                    //trovata corrispondenza con utente non registrato!
+                                    //unauthorized 403
+                                    msg = "Utente non registrato!";
+                                    httpStatusCode = HttpStatusCode.Unauthorized;
+                                }
+                            }
+                            else
+                            {
+                                //result contiene l'errore incontrato
+                                //unauthorized 403
+                                msg = result;
+                                httpStatusCode = HttpStatusCode.Unauthorized;
+                            }
+                        }
+                        
                         // Save the image as a BMP.
-                        //b.Save(path + f.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
-                        //db.NewErrorLog(f.ToString(), DateTime.Now);
+                        b.Save(path + f.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+                        db.NewErrorLog(f.ToString(), DateTime.Now);
                     }
                 }
                 else
@@ -162,9 +191,8 @@ namespace MvcApplicationTest.Controllers
             return response;
         }
 
-        private string FaceRecMethod(List<String> labels,List<Bitmap> images, Bitmap face)
+        private bool FaceRecMethod(List<String> labels,List<Bitmap> images, Bitmap face,ref String result)
         {
-            string code="";
             FaceRecognizer.FaceRecognizer rec = new FaceRecognizer.FaceRecognizer();
             rec.MaxSize = new Size(320, 240);
             rec.LBPHTreshold = 65;
@@ -172,18 +200,17 @@ namespace MvcApplicationTest.Controllers
             Rectangle roi = rec.detectFace(face);
             if (roi == Rectangle.Empty)
             {
-                code = "No faces detected";
-                return code;
+                result = "No faces detected";
+                return false;
             }
-            Image<Bgr, Byte> extractedFace = new Image<Bgr, Byte>(face);
-            extractedFace.Copy(roi);
-            code = rec.recognize(labels, images, extractedFace, type);
-            if (code == String.Empty)
+            Image<Bgr, Byte> extractedFace = new Image<Bgr, Byte>(face).Copy(roi);
+            result = rec.recognize(labels, images, extractedFace, type);
+            if (result == String.Empty)
             {
-                code = "Not recognized";
-                return code;
+                result = "Not recognized";
+                return false;
             }
-            return code;
+            return true;
         }
     }
 }
