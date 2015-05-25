@@ -13,12 +13,16 @@ using System.Web;
 using System.Diagnostics;
 using HttpMultipartParser;
 using FaceRecognizer;
+using Emgu.CV.Structure;
+using Emgu.CV;
+using Emgu.Util;
+using Emgu.CV.CvEnum;
 
 namespace MvcApplicationTest.Controllers
 {
     public class ImgController : ApiController
     {
-        private string LogPath = @"C://MYSITE/LOG";
+        private string LogPath = @"C://MYSITE/LOG/";
         private string strConn = "Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True";
         public string[] Get(string id = "", string data = "")
         {
@@ -50,9 +54,12 @@ namespace MvcApplicationTest.Controllers
                     throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
                 }
 
+                //db.NewErrorLog("IP Schedina : "+HttpContext.Current.Request.UserHostAddress.ToString(),DateTime.Now);
+
                 MultipartFormDataParser dataParser = new MultipartFormDataParser(HttpContext.Current.Request.InputStream);
 
                 //Dictionary<string, ParameterPart> dictionary = dataParser.Parameters;
+                //db.NewErrorLog("Numero di files : "+dataParser.Files.Count,DateTime.Now);
                 List<FilePart> list = dataParser.Files;
 
                 if (list.Count > 0)
@@ -62,11 +69,21 @@ namespace MvcApplicationTest.Controllers
                         Image returnImage = Image.FromStream(f.Data);
 
                         Bitmap b = new Bitmap(returnImage);
+
+                        //INIZIO RICERCA
+                        List<String> labels = new List<String>();
+                        List<Bitmap> images = new List<Bitmap>();
+                        db.GetFaces(labels, images);
+                        if (labels.Count == 0 && images.Count == 0)
+                        {
+                            //TODO errore no immagini database!
+                        }
+                        String label = String.Empty;
+
+                        //FaceRecMethod()
                         // Save the image as a BMP.
-
-                        b.Save(path + f.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
-
-                        db.NewErrorLog(f.ToString(), DateTime.Now);
+                        //b.Save(path + f.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+                        //db.NewErrorLog(f.ToString(), DateTime.Now);
                     }
                 }
                 else
@@ -145,100 +162,28 @@ namespace MvcApplicationTest.Controllers
             return response;
         }
 
-        /*public async Task<object> PostImage()
+        private string FaceRecMethod(List<String> labels,List<Bitmap> images, Bitmap face)
         {
-
-            // Check if the request contains multipart/form-data.
-            if (!Request.Content.IsMimeMultipartContent())
+            string code="";
+            FaceRecognizer.FaceRecognizer rec = new FaceRecognizer.FaceRecognizer();
+            rec.MaxSize = new Size(320, 240);
+            rec.LBPHTreshold = 65;
+            FaceRecognizer.FaceRecognizer.RECOGNIZER type = FaceRecognizer.FaceRecognizer.RECOGNIZER.LBPH_RECOG;
+            Rectangle roi = rec.detectFace(face);
+            if (roi == Rectangle.Empty)
             {
-                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+                code = "No faces detected";
+                return code;
             }
-
-
-
-            var provider = new MultipartMemoryStreamProvider();
-
-            string tweetText = default(string);
-
-            byte[] imageData = null;
-
-
-
-            try
+            Image<Bgr, Byte> extractedFace = new Image<Bgr, Byte>(face);
+            extractedFace.Copy(roi);
+            code = rec.recognize(labels, images, extractedFace, type);
+            if (code == String.Empty)
             {
-                await Request.Content.ReadAsMultipartAsync<MultipartMemoryStreamProvider>(new MultipartMemoryStreamProvider()).ContinueWith(async (tsk) =>
-                {
-                    MultipartMemoryStreamProvider prvdr = tsk.Result;
-
-
-
-
-                    foreach (HttpContent ctnt in prvdr.Contents)
-                    {
-                        var header = ctnt.Headers.FirstOrDefault(h => h.Key.Equals("Content-Disposition"));
-
-
-
-                        if (header.Key != null && header.Value != null)
-                        {
-
-                            var enumerator = header.Value.GetEnumerator();
-                            enumerator.MoveNext();
-                            var value = enumerator.Current;
-
-                            if (value.Contains("TweetImage"))
-                            {
-                                // You would get hold of the inner memory stream here
-                                System.IO.Stream stream = await ctnt.ReadAsStreamAsync();
-                                imageData = ReadFully(stream);
-
-                                continue;
-
-
-                            }
-
-                            if (value.Contains("TweetText"))
-                            {
-                                tweetText = await ctnt.ReadAsStringAsync();
-                                continue;
-                            }
-                        }
-
-
-                    }
-                });
-
-
-                if (tweetText != null && imageData != null)
-                {
-                    if (imageData.Length > 10 && tweetText.Length > 10)
-                    {
-                        var tweet = 0;// Tweet.PublishTweetWithMedia(tweetText, imageData);
-
-                        if (tweet != null)
-                        {
-                            return "";//tweet.IdStr;
-                        }
-                    }
-                }
-
-                return default(string);
+                code = "Not recognized";
+                return code;
             }
-
-            catch (System.Exception e)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
-            }
-
-
+            return code;
         }
-        public static byte[] ReadFully(System.IO.Stream input)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                input.CopyTo(ms);
-                return ms.ToArray();
-            }
-        }*/
     }
 }

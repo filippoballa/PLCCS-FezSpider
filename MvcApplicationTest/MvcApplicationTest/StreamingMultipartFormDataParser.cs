@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using ProjectAppBackgroundServer;
 
 namespace HttpMultipartParser
 {
@@ -296,10 +297,17 @@ namespace HttpMultipartParser
         /// </returns>
         private static string DetectBoundary(RebufferableBinaryReader reader)
         {
+            string LogPath = @"C://MYSITE/LOG/";
+            string strConn = "Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True";
+            DatabaseManagement db = new DatabaseManagement(strConn, LogPath);
+            //db.NewErrorLog("Reader : "+reader, DateTime.Now);
             // Presumably the boundary is --|||||||||||||| where -- is the stuff added on to
             // the front as per the protocol and ||||||||||||| is the part we care about.
             string boundary = string.Concat(reader.ReadLine().Skip(2));
             reader.Buffer("--" + boundary + "\n");
+
+           
+            //db.NewErrorLog("Boundary: "+boundary, DateTime.Now);
             return boundary;
         }
 
@@ -434,7 +442,6 @@ namespace HttpMultipartParser
             string contentDisposition = parameters.ContainsKey("content-disposition")
                                             ? parameters["content-disposition"]
                                             : "form-data";
-
             // We want to create a stream and fill it with the data from the
             // file.
             var curBuffer = new byte[BinaryBufferSize];
@@ -615,6 +622,10 @@ namespace HttpMultipartParser
         /// </exception>
         private void ParseSection(RebufferableBinaryReader reader)
         {
+            string LogPath = @"C://MYSITE/LOG/";
+            string strConn = "Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True";
+            DatabaseManagement db = new DatabaseManagement(strConn, LogPath);
+            //db.NewErrorLog("Parse Section.", DateTime.Now);
             // Our first job is to determine what type of section this is: form data or file.
             // This is a bit tricky because files can still be encoded with Content-Disposition: form-data
             // in the case of single file uploads. Multi-file uploads have Content-Disposition: file according
@@ -635,7 +646,7 @@ namespace HttpMultipartParser
                     throw new MultipartParseException("Unexpected end of section");
                 }
 
-
+                //db.NewErrorLog("line : "+line, DateTime.Now);
                 // This line parses the header values into a set of key/value pairs. For example:
                 // Content-Disposition: form-data; name="textdata" 
                 // ["content-disposition"] = "form-data"
@@ -656,11 +667,17 @@ namespace HttpMultipartParser
 
                 // Here we just want to push all the values that we just retrieved into the 
                 // parameters dictionary.
+                
+
+                //db.NewErrorLog("Elements: ", DateTime.Now);
                 try
                 {
                     foreach (var pair in values)
                     {
                         parameters.Add(pair.Key, pair.Value);
+
+                        
+                        //db.NewErrorLog("Key: "+pair.Key+" Value: "+pair.Value + boundary, DateTime.Now);
                     }
                 }
                 catch (ArgumentException)

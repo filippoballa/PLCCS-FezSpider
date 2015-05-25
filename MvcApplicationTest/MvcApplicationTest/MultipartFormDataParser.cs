@@ -23,6 +23,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using ProjectAppBackgroundServer;
+using System;
 
 namespace HttpMultipartParser
 {
@@ -203,6 +205,12 @@ namespace HttpMultipartParser
             Parameters = new Dictionary<string, ParameterPart>();
 
             var streamingParser = new StreamingMultipartFormDataParser(stream, boundary, encoding, binaryBufferSize);
+
+            string LogPath = @"C://MYSITE/LOG/";
+            string strConn = "Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True";
+            DatabaseManagement db = new DatabaseManagement(strConn, LogPath);
+            //db.NewErrorLog("Ho creato lo straming parser", DateTime.Now);
+
             streamingParser.ParameterHandler += parameterPart => Parameters.Add(parameterPart.Name, parameterPart);
 
             streamingParser.FileHandler += (name, fileName, type, disposition, buffer, bytes) =>
