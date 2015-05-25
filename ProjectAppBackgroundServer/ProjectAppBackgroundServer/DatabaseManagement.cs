@@ -337,7 +337,15 @@ namespace ProjectAppBackgroundServer
 
         public bool VerifyUserExists(string codice)
         {
-            string query = "SELECT * FROM USERS_PROJECT WHERE Username='" + codice + "'";
+            codice = codice.Substring(1);
+            int a, cod;
+
+            if (!Int32.TryParse(codice, out a))
+                return false;
+
+            cod = Convert.ToInt32(codice);
+
+            string query = "SELECT * FROM USERS_PROJECT WHERE Username='" + cod + "'";
             SqlCommand c1 = new SqlCommand(query, this.conn);
             SqlDataReader reader = c1.ExecuteReader();
             bool res;
