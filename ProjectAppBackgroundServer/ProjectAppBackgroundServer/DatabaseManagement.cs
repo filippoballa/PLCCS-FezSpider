@@ -34,6 +34,15 @@ namespace ProjectAppBackgroundServer
             this.conn.Open();
         }
 
+        /// <summary>
+        ///  Il metodo serve per scrivere un messaggio in un file di Log, riguardante un'anomalia 
+        ///  che si è verificata durante l'interazione con il database.
+        /// </summary>
+        /// <param name="mex">
+        ///     messaggio da scrivere sul file, dovrebbe trattarsi del messaggio 
+        ///     sollevato da un'eccezione
+        /// </param>
+        /// <param name="date">La data di quando è stata riscontrata l'anomalia</param>
         public void NewErrorLog(string mex, DateTime date) 
         {
             
@@ -46,7 +55,12 @@ namespace ProjectAppBackgroundServer
             writer.Close();
         }
 
-        public void InsertImage(int userCode, /*Image img*/ byte[] gimg) 
+        /// <summary>
+        ///  Il metodo inserisce una nuova tupla nella tabella IMAGES_PROJECT
+        /// </summary>
+        /// <param name="userCode">Codice dell'Utente</param>
+        /// <param name="gimg">Byte dell'immagine associata all'utente</param>
+        public void InsertImage(int userCode, byte[] gimg) 
         {
             SqlTransaction transaction = this.conn.BeginTransaction();
 
@@ -57,9 +71,6 @@ namespace ProjectAppBackgroundServer
                 sqlCmd.Transaction = transaction;
 
                 sqlCmd.Parameters.Add("@user", SqlDbType.VarChar, 50).Value = "s" + userCode.ToString();
-                //ImageConverter converter = new ImageConverter();
-                //byte[] buff = (byte[])converter.ConvertTo(img, typeof(byte[]));
-                //sqlCmd.Parameters.Add("@img", SqlDbType.VarBinary, buff.Length).Value = buff;
                 sqlCmd.Parameters.Add("@img", SqlDbType.VarBinary, gimg.Length).Value = gimg;
 
                 sqlCmd.ExecuteNonQuery();
@@ -73,7 +84,12 @@ namespace ProjectAppBackgroundServer
             
         }
 
-        public void InsertImage(string userCode, /*Image img*/ byte[] gimg)
+        /// <summary>
+        ///  Il metodo inserisce una nuova tupla nella tabella IMAGES_PROJECT
+        /// </summary>
+        /// <param name="userCode">Codice dell'Utente</param>
+        /// <param name="gimg">Byte dell'immagine associata all'utente</param>
+        public void InsertImage(string userCode, byte[] gimg)
         {
             SqlTransaction transaction = this.conn.BeginTransaction();
 
@@ -84,9 +100,6 @@ namespace ProjectAppBackgroundServer
                 sqlCmd.Transaction = transaction;
 
                 sqlCmd.Parameters.Add("@user", SqlDbType.VarChar, 50).Value = userCode;
-                //ImageConverter converter = new ImageConverter();
-                //byte[] buff = (byte[])converter.ConvertTo(img, typeof(byte[]));                
-                //sqlCmd.Parameters.Add("@img", SqlDbType.VarBinary, buff.Length).Value = buff;
                 sqlCmd.Parameters.Add("@img", SqlDbType.VarBinary, gimg.Length).Value = gimg;
 
                 sqlCmd.ExecuteNonQuery();
@@ -100,7 +113,16 @@ namespace ProjectAppBackgroundServer
 
         }
 
-
+        /// <summary>
+        ///  Il metodo inserisce un nuovo record nella tabella ACCESSES_PROJECT
+        /// </summary>
+        /// <param name="userCode">codice dell'utente</param>
+        /// <param name="time">istante di tempo in cui è avvenuto l'accesso</param>
+        /// <param name="type">tipo di accesso( 'L' for LOGIN, 'F' for face recognition)</param>
+        /// <param name="userImg">
+        ///     Immagine con cui l'utente accede allo stabile. Tale dato sarà presente solo
+        ///     se l'accesso avviene tramite il riconoscimento facciale.
+        /// </param>
         public void InserAccessUser(int userCode, DateTime time, char type, Image userImg)
         {
             SqlTransaction transaction = this.conn.BeginTransaction();
@@ -131,6 +153,13 @@ namespace ProjectAppBackgroundServer
             }
         }
 
+        /// <summary>
+        ///  Il metodo inserisce un amministratore nella tabella USERS_PROJECT
+        /// </summary>
+        /// <param name="admin">
+        ///     Oggetto di tipo 'Administrator' contenente le informazioni
+        ///     associate ad un amministratore.
+        /// </param>
         public void InsertAdministrator( Administrator admin ) 
         {
             SqlTransaction transaction = this.conn.BeginTransaction();
@@ -168,6 +197,13 @@ namespace ProjectAppBackgroundServer
 
         }
 
+        /// <summary>
+        ///     Il metodo inserisce un utente semplice nella tabella USERS_PROJECT
+        /// </summary>
+        /// <param name="u">
+        ///     Oggetto di tipo 'User' contenente le informazioni
+        ///     associate ad un amministratore.
+        /// </param>
         public void InsertSimpleUser( User u ) 
         {
             SqlTransaction transaction = this.conn.BeginTransaction();
@@ -202,6 +238,16 @@ namespace ProjectAppBackgroundServer
             }
         }
 
+        /// <summary>
+        ///     Il metodo preleva il contenuto di tutta la tabella IMAGES_PROJECT,
+        ///     aggiornando le due liste passate come parametri.
+        /// </summary>
+        /// <param name="liststr">
+        ///     Lista che conterrà gli usercode (oggetto string) degli utenti
+        /// </param>
+        /// <param name="listfaces">
+        ///     Lista che conterrà le immagini degli utenti salvate nella tabella.
+        /// </param>
         public void GetFaces( List<string> liststr, List<Bitmap> listfaces) 
         {
             string query = "SELECT * FROM IMAGES_PROJECT";
@@ -212,15 +258,20 @@ namespace ProjectAppBackgroundServer
             {
                 liststr.Add((string)reader["Username"]);
                 byte[] buff = (byte[])reader["Image"];
-                MemoryStream ms = new MemoryStream(buff);
-                Bitmap bmp = new Bitmap(ms);
-                ms.Close();
+                Image<Gray, Byte> gimg = new Image<Gray, byte>(100, 100);
+                gimg.Bytes = buff;
+                Bitmap bmp = new Bitmap(gimg.Bitmap);
                 listfaces.Add(bmp);
             }
 
             reader.Close();
         }
 
+        /// <summary>
+        ///     Il metodo ritorna una lista degli Utenti ( elementi di tipo 'User')
+        ///     in cui solo i campi 'username' e 'image' sono stati riempiti.
+        ///     Tali campi sono riempiti con i dati salvati nella tabella "IMAGES_PROJECT"
+        /// </summary>
         public List<User> ShowImages() 
         {
             List<User> list = new List<User>();
@@ -257,6 +308,10 @@ namespace ProjectAppBackgroundServer
             return list;
         }
 
+        /// <summary>
+        ///     Il metodo restituisce tutti gli amministratori salvati nella tabella USERS_PROJECT
+        /// </summary>
+        /// <returns>Lista degli Amministratori</returns>
         public List<Administrator> ShowAdministrators() 
         {
             string query = "SELECT * FROM USERS_PROJECT WHERE Administrator='" 
@@ -290,6 +345,10 @@ namespace ProjectAppBackgroundServer
             return list;
         }
 
+        /// <summary>
+        ///     Il metodo restituisce tutti gli utenti semplici salvati nella tabella USERS_PROJECT   
+        /// </summary>
+        /// <returns>Lista degli Utenti</returns>
         public List<User> ShowSimpleUsers() 
         {
             string query = "SELECT * FROM USERS_PROJECT WHERE Administrator='" + 
@@ -319,6 +378,11 @@ namespace ProjectAppBackgroundServer
             return list;
         }
 
+        /// <summary>
+        ///     Il metodo verifica la presenza di un certo utente nel database
+        /// </summary>
+        /// <param name="codice">codice dell'utente da cercare</param>
+        /// <returns>true se l'utente è stato trovato, false altrimenti</returns>
         public bool VerifyUserExists(int codice) 
         {
             string query = "SELECT * FROM USERS_PROJECT WHERE Username='" + codice.ToString() + "'";
@@ -335,6 +399,11 @@ namespace ProjectAppBackgroundServer
             return res;
         }
 
+        /// <summary>
+        ///     Il metodo verifica la presenza di un certo utente nel database
+        /// </summary>
+        /// <param name="codice">codice dell'utente da cercare</param>
+        /// <returns>true se l'utente è stato trovato, false altrimenti</returns>
         public bool VerifyUserExists(string codice)
         {
             codice = codice.Substring(1);
@@ -359,6 +428,15 @@ namespace ProjectAppBackgroundServer
             return res;
         }
 
+        /// <summary>
+        ///     Il metodo ritorna, se presente nella tabella USERS_PROJECT, l'utente semplice 
+        ///     associato al codice passato come primo parametro.
+        /// </summary>
+        /// <param name="codice">codice dell'utente da cercare</param>
+        /// <returns>
+        ///     Se l'utente è stato trovato ritorna un oggetto User completo con tutte le informazioni
+        ///     lette dal database, altrimenti il metodo ritorna 'null'. 
+        /// </returns>
         public User SelectSimpleUser(int codice) 
         {
             string query = "SELECT * FROM USERS_PROJECT WHERE Administrator='" + 
@@ -391,6 +469,15 @@ namespace ProjectAppBackgroundServer
 
         }
 
+        /// <summary>
+        ///     Il metodo ritorna, se presente nella tabella USERS_PROJECT, l'amministratore 
+        ///     associato al codice passato come primo parametro.
+        /// </summary>
+        /// <param name="codice">codice dell'amministratore</param>
+        /// <returns>
+        ///     Se l'amministratore è stato trovato ritorna un oggetto Administrator completo 
+        ///     con tutte le informazioni lette dal database, altrimenti il metodo ritorna 'null'. 
+        /// </returns>
         public Administrator SelectAdministrator(int codice) 
         {
 
@@ -427,6 +514,9 @@ namespace ProjectAppBackgroundServer
 
         }
 
+        /// <summary>
+        ///     Il metodo torna una lista di oggetti UserAccess
+        /// </summary>
         public List<UserAccess> ShowAccessUsers() 
         {
             string query = "SELECT * FROM ACCESSES_PROJECT";
@@ -456,6 +546,10 @@ namespace ProjectAppBackgroundServer
             return list;
         }
 
+        /// <summary>
+        ///     Il metodo elimina un utente dalla tabella USERS_PROJECT
+        /// </summary>
+        /// <param name="usercode">codice dell'utente da cancellare</param>
         public void DeleteUser(int usercode) 
         {
             SqlTransaction transaction = this.conn.BeginTransaction();
@@ -475,6 +569,10 @@ namespace ProjectAppBackgroundServer
             }
         }
 
+        /// <summary>
+        ///     Il metodo cancella tutte le immagini di un utente salvate nella tabella IMAGES_PROJECT
+        /// </summary>
+        /// <param name="usercode">codice dell'utente</param>
         public void DeleteImagesUser(int usercode) 
         {
             SqlTransaction transaction = this.conn.BeginTransaction();
@@ -494,6 +592,11 @@ namespace ProjectAppBackgroundServer
             }
         }
 
+        /// <summary>
+        ///     Il metodo cancella le informazioni riguardanti gli accessi ( dalla tabella ACESSES_PROJECT ) 
+        ///     di un certo utente.
+        /// </summary>
+        /// <param name="usercode">codice dell'utente</param>
         public void DeleteInformationAccessUser(int usercode) 
         {
             SqlTransaction transaction = this.conn.BeginTransaction();
@@ -513,6 +616,11 @@ namespace ProjectAppBackgroundServer
             }
         }
 
+        /// <summary>
+        ///     Il metodo verifica se l'utente ha già eseguito degli accessi allo stabile
+        /// </summary>
+        /// <param name="usercode">codice dell'utente</param>
+        /// <returns> true se è stato eseguito almeno un accesso, false altrimenti</returns>
         public bool VerifyAccessUser(int usercode) 
         {
             string query = "SELECT * FROM ACCESSES_PROJECT WHERE Username='" + usercode.ToString() + "'";
@@ -531,6 +639,9 @@ namespace ProjectAppBackgroundServer
 
         }
 
+        /// <summary>
+        ///     Il metodo aggiorna la tabella USERS_PROJECT con i dati prelevati da un DatagridViewRow
+        /// </summary>
         public void UpdateTableUser( User u, DataGridViewRow row ) 
         {
 
@@ -601,6 +712,9 @@ namespace ProjectAppBackgroundServer
 
         }
 
+        /// <summary>
+        ///     Il metodo chiude la connessione al database
+        /// </summary>
         public void CloseConnection() 
         {
             this.conn.Close();
