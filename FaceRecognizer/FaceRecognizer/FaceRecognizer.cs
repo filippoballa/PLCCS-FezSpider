@@ -328,7 +328,6 @@ namespace FaceRecognizer
                 {
                     roi = face;
                 }
-                FaceExtracted = imageEmgu.Copy(roi);
             }
             return roi;
         }
