@@ -93,12 +93,14 @@ namespace MvcApplicationTest.Controllers
                                 {
                                     //l'utente è registrato
                                     msg = "Welcome user n° "+result+"!";
+                                    db.NewErrorLog("result found:" + result, DateTime.Now);
                                 }
                                 else
                                 {
                                     //trovata corrispondenza con utente non registrato!
                                     //unauthorized 401
-                                    msg = "Utente non registrato!";
+                                    msg = "Not registered user!";
+                                    db.NewErrorLog("result unfound:"+result, DateTime.Now);
                                     httpStatusCode = HttpStatusCode.Unauthorized;
                                 }
                             }
@@ -107,12 +109,13 @@ namespace MvcApplicationTest.Controllers
                                 //result contiene l'errore incontrato
                                 //unauthorized 401
                                 msg = result;
+                                db.NewErrorLog("no result:" + result, DateTime.Now);
                                 httpStatusCode = HttpStatusCode.Unauthorized;
                             }
                         }
                         
                         // Save the image as a BMP.
-                        b.Save(path + f.FileName+DateTime.Now.ToLongDateString(), System.Drawing.Imaging.ImageFormat.Bmp);
+                        b.Save(path + DateTime.Now.ToLongDateString(), System.Drawing.Imaging.ImageFormat.Bmp);
                         db.NewErrorLog(f.ToString(), DateTime.Now);
                     }
                 }
