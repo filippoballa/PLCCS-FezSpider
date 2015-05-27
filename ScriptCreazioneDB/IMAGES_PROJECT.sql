@@ -1,4 +1,4 @@
-USE [PLCCS_DB]
+USE [PAZZODAVEDB]
 GO
 
 /****** Object:  Table [dbo].[IMAGES_PROJECT]    Script Date: 06/05/2015 17:47:01 ******/
