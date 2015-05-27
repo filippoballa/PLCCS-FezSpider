@@ -14,11 +14,13 @@ namespace ProjectAppBackgroundServer
         private string password;
         private MailAddress mittente;
         private string hostType;
+        private static string MAILLOG;
 
-        public MailManagement(string address, string pwd) 
+        public MailManagement(string address, string pwd, string pathLog) 
         {            
             this.mittente = new MailAddress(address);
             this.password = pwd;
+            MailManagement.MAILLOG = pathLog;
             CalculateHost();
         }
 
@@ -27,11 +29,12 @@ namespace ProjectAppBackgroundServer
             MailAddress destinatario = new MailAddress(mailDest);
             MailMessage message = new MailMessage(this.mittente, destinatario);
 
-            File.Create(".\\temp" + utente.ToString() + ".png");
-            Attachment att = new Attachment(".\\temp" + utente.ToString() + ".png" );
+            string filename = MailManagement.MAILLOG + "temp" + utente.ToString() + ".png";
+            File.Create(filename);
+            Attachment att = new Attachment(filename);
             att.ContentDisposition.Inline = true;
             att.ContentType.MediaType = "image/png";
-            att.ContentType.Name = Path.GetFileName(".\\temp" + utente.ToString() + ".png");
+            att.ContentType.Name = Path.GetFileName(filename);
 
             message.Subject = "NOTICE FOR ADMINISTRATOR";
             string aux = "The User " + utente.Name + " " + utente.Surname + " with the following registration number: ";
@@ -50,6 +53,8 @@ namespace ProjectAppBackgroundServer
             sc.Credentials = new NetworkCredential(mittente.Address, de.DecryptString(this.password));
             sc.Port = 587;
             sc.Send(message);
+
+            File.Delete(filename);
         }
 
         private void CalculateHost()
