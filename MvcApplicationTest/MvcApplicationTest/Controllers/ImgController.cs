@@ -58,7 +58,7 @@ namespace MvcApplicationTest.Controllers
 
                 MultipartFormDataParser dataParser = new MultipartFormDataParser(HttpContext.Current.Request.InputStream);
 
-                //Dictionary<string, ParameterPart> dictionary = dataParser.Parameters;
+                Dictionary<string, ParameterPart> dictionary = dataParser.Parameters;
                 //db.NewErrorLog("Numero di files : "+dataParser.Files.Count,DateTime.Now);
                 List<FilePart> list = dataParser.Files;
 
@@ -71,6 +71,7 @@ namespace MvcApplicationTest.Controllers
                         Bitmap b = new Bitmap(returnImage);
 
                         //INIZIO RICERCA
+                        Image<Bgr, byte> img = new Image<Bgr, byte>(b);
                         List<String> labels = new List<String>();
                         List<Bitmap> images = new List<Bitmap>();
                         db.GetFaces(labels, images);
@@ -96,7 +97,7 @@ namespace MvcApplicationTest.Controllers
                                 else
                                 {
                                     //trovata corrispondenza con utente non registrato!
-                                    //unauthorized 403
+                                    //unauthorized 401
                                     msg = "Utente non registrato!";
                                     httpStatusCode = HttpStatusCode.Unauthorized;
                                 }
@@ -104,14 +105,14 @@ namespace MvcApplicationTest.Controllers
                             else
                             {
                                 //result contiene l'errore incontrato
-                                //unauthorized 403
+                                //unauthorized 401
                                 msg = result;
                                 httpStatusCode = HttpStatusCode.Unauthorized;
                             }
                         }
                         
                         // Save the image as a BMP.
-                        b.Save(path + f.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+                        b.Save(path + f.FileName+DateTime.Now.ToLongDateString(), System.Drawing.Imaging.ImageFormat.Bmp);
                         db.NewErrorLog(f.ToString(), DateTime.Now);
                     }
                 }
@@ -186,6 +187,7 @@ namespace MvcApplicationTest.Controllers
 
                 //aggiungo un messaggio allo status code
                 response.ReasonPhrase = msg;
+                db.NewErrorLog(httpStatusCode.ToString()+" MESSAGGIO : "+msg, DateTime.Now);
             }
             
             return response;
