@@ -719,9 +719,6 @@ namespace ProjectAppBackgroundServer
                 this.db.DeleteUser(usercode);
                 this.db.DeleteImagesUser(usercode);
 
-                if( this.db.VerifyAccessUser(usercode) )
-                    this.db.DeleteInformationAccessUser(usercode);
-
                 MessageBox.Show("User information has been deleted successfully!!", "NOTICE", 
                     MessageBoxButtons.OK, MessageBoxIcon.Information );
             }
