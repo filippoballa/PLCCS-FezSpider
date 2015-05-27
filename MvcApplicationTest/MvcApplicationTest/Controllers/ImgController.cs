@@ -22,8 +22,8 @@ namespace MvcApplicationTest.Controllers
 {
     public class ImgController : ApiController
     {
-        private string LogPath = @"C://MYSITE/LOG/";
-        private string strConn = "Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True";
+        //private string LogPath = @"C://MYSITE/LOG/";
+        //private string strConn = "Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True";
         DatabaseManagement db = new DatabaseManagement("Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True", @"C://MYSITE/LOG/");
         
         public string[] Get(string id = "", string data = "")
@@ -38,7 +38,7 @@ namespace MvcApplicationTest.Controllers
         public HttpResponseMessage Post()
         {
             string msg = "OK";
-            bool login = true;
+            //bool login = true;
             HttpResponseMessage response=null;
             System.Net.HttpStatusCode httpStatusCode = System.Net.HttpStatusCode.Created;
 
@@ -46,7 +46,7 @@ namespace MvcApplicationTest.Controllers
 
             try
             {
-                string filename = "Img.bmp";
+                //string filename = "Img.bmp";
                 string path = @"../../../MYSITE/Images/";
 
                 // Check if the request contains multipart/form-data.
@@ -116,7 +116,7 @@ namespace MvcApplicationTest.Controllers
                         }
                         
                         // Save the image as a BMP.
-                        b.Save(path + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff")+f.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+                        b.Save(path + DateTime.Now.Year + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "_" + DateTime.Now.Second + "_" + f.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
                         db.NewErrorLog(f.ToString(), DateTime.Now);
                     }
                 }
