@@ -12,6 +12,7 @@ using Emgu.CV.Structure;
 using Emgu.Util;
 using Emgu.CV.CvEnum;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace ProjectAppBackgroundServer
 {
