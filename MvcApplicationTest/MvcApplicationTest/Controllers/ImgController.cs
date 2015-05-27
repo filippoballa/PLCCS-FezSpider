@@ -24,6 +24,8 @@ namespace MvcApplicationTest.Controllers
     {
         private string LogPath = @"C://MYSITE/LOG/";
         private string strConn = "Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True";
+        DatabaseManagement db = new DatabaseManagement("Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True", @"C://MYSITE/LOG/");
+        
         public string[] Get(string id = "", string data = "")
         {
             
@@ -40,7 +42,6 @@ namespace MvcApplicationTest.Controllers
             HttpResponseMessage response=null;
             System.Net.HttpStatusCode httpStatusCode = System.Net.HttpStatusCode.Created;
 
-            DatabaseManagement db = new DatabaseManagement(strConn,LogPath);
             //db.NewErrorLog("Sono entrato e mi faccio un giro!", DateTime.Now);
 
             try
@@ -100,7 +101,7 @@ namespace MvcApplicationTest.Controllers
                                     //trovata corrispondenza con utente non registrato!
                                     //unauthorized 401
                                     msg = "Not registered user!";
-                                    db.NewErrorLog("result unfound:"+result, DateTime.Now);
+                                    db.NewErrorLog("result unfound:"+ result, DateTime.Now);
                                     httpStatusCode = HttpStatusCode.Unauthorized;
                                 }
                             }
@@ -115,7 +116,7 @@ namespace MvcApplicationTest.Controllers
                         }
                         
                         // Save the image as a BMP.
-                        b.Save(path + DateTime.Now.ToLongDateString(), System.Drawing.Imaging.ImageFormat.Bmp);
+                        b.Save(path + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff")+f.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
                         db.NewErrorLog(f.ToString(), DateTime.Now);
                     }
                 }
@@ -212,6 +213,7 @@ namespace MvcApplicationTest.Controllers
             result = rec.recognize(labels, images, extractedFace, type);
             if (result == String.Empty)
             {
+                db.NewErrorLog("Soglia : " + rec.MostSimilarFaceDistance + " label : " + rec.MostSimilarFaceLabel, DateTime.Now);
                 result = "Not recognized";
                 return false;
             }
