@@ -29,7 +29,7 @@ namespace ProjectAppBackgroundServer
             MailAddress destinatario = new MailAddress(mailDest);
             MailMessage message = new MailMessage(this.mittente, destinatario);
 
-            string filename = MailManagement.MAILLOG + "temp" + utente.ToString() + ".png";
+            string filename = MailManagement.MAILLOG + "temp" + utente.Codice.ToString() + ".png";
             File.Create(filename);
             Attachment att = new Attachment(filename);
             att.ContentDisposition.Inline = true;
