@@ -57,8 +57,9 @@
             this.showAdministratorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showSimpleUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showAccessUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.modifyUserDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modifyUserDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.informazioniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -152,16 +153,15 @@
             this.ErrorImagesPictureBox = new System.Windows.Forms.PictureBox();
             this.ErrorImagesLabel = new System.Windows.Forms.Label();
             this.ImagesDataGridView = new System.Windows.Forms.DataGridView();
-            this.label12 = new System.Windows.Forms.Label();
-            this.deleteUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DeletePanel = new System.Windows.Forms.Panel();
-            this.DeleteTitleLabel = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.DelCodeTextBox = new System.Windows.Forms.TextBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.DeleteButton = new System.Windows.Forms.Button();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewImageColumn3 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.label12 = new System.Windows.Forms.Label();
+            this.DeletePanel = new System.Windows.Forms.Panel();
+            this.DeleteButton = new System.Windows.Forms.Button();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.DelCodeTextBox = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.DeleteTitleLabel = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.HomePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -263,6 +263,17 @@
             this.showAccessUsersToolStripMenuItem.Text = "Show Access Users";
             this.showAccessUsersToolStripMenuItem.Click += new System.EventHandler(this.showAccessUsersToolStripMenuItem_Click);
             // 
+            // showImagesToolStripMenuItem
+            // 
+            this.showImagesToolStripMenuItem.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.showImagesToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.showImagesToolStripMenuItem.ForeColor = System.Drawing.SystemColors.MenuBar;
+            this.showImagesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("showImagesToolStripMenuItem.Image")));
+            this.showImagesToolStripMenuItem.Name = "showImagesToolStripMenuItem";
+            this.showImagesToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.showImagesToolStripMenuItem.Text = "Show Pictures Users";
+            this.showImagesToolStripMenuItem.Click += new System.EventHandler(this.showImagesToolStripMenuItem_Click);
+            // 
             // modifyUserDataToolStripMenuItem
             // 
             this.modifyUserDataToolStripMenuItem.BackColor = System.Drawing.SystemColors.WindowFrame;
@@ -274,16 +285,16 @@
             this.modifyUserDataToolStripMenuItem.Text = "Modify User Data";
             this.modifyUserDataToolStripMenuItem.Click += new System.EventHandler(this.modifyUserDataToolStripMenuItem_Click);
             // 
-            // showImagesToolStripMenuItem
+            // deleteUserToolStripMenuItem
             // 
-            this.showImagesToolStripMenuItem.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.showImagesToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.showImagesToolStripMenuItem.ForeColor = System.Drawing.SystemColors.MenuBar;
-            this.showImagesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("showImagesToolStripMenuItem.Image")));
-            this.showImagesToolStripMenuItem.Name = "showImagesToolStripMenuItem";
-            this.showImagesToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.showImagesToolStripMenuItem.Text = "Show Pictures Users";
-            this.showImagesToolStripMenuItem.Click += new System.EventHandler(this.showImagesToolStripMenuItem_Click);
+            this.deleteUserToolStripMenuItem.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.deleteUserToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.deleteUserToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.deleteUserToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteUserToolStripMenuItem.Image")));
+            this.deleteUserToolStripMenuItem.Name = "deleteUserToolStripMenuItem";
+            this.deleteUserToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.deleteUserToolStripMenuItem.Text = "Delete User";
+            this.deleteUserToolStripMenuItem.Click += new System.EventHandler(this.deleteUserToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
@@ -570,9 +581,11 @@
             // 
             this.dateTimePicker1.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateTimePicker1.Location = new System.Drawing.Point(124, 409);
+            this.dateTimePicker1.MaxDate = new System.DateTime(1995, 12, 31, 0, 0, 0, 0);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(214, 26);
             this.dateTimePicker1.TabIndex = 15;
+            this.dateTimePicker1.Value = new System.DateTime(1995, 12, 31, 0, 0, 0, 0);
             // 
             // BirthLabel
             // 
@@ -1548,108 +1561,6 @@
             this.ImagesDataGridView.TabIndex = 2;
             this.ImagesDataGridView.Visible = false;
             // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.BackColor = System.Drawing.Color.Transparent;
-            this.label12.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.ForeColor = System.Drawing.Color.White;
-            this.label12.Location = new System.Drawing.Point(119, 35);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(662, 30);
-            this.label12.TabIndex = 1;
-            this.label12.Text = "Images saved in the database useful for the Face Recognition ";
-            // 
-            // deleteUserToolStripMenuItem
-            // 
-            this.deleteUserToolStripMenuItem.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.deleteUserToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.deleteUserToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            this.deleteUserToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteUserToolStripMenuItem.Image")));
-            this.deleteUserToolStripMenuItem.Name = "deleteUserToolStripMenuItem";
-            this.deleteUserToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.deleteUserToolStripMenuItem.Text = "Delete User";
-            this.deleteUserToolStripMenuItem.Click += new System.EventHandler(this.deleteUserToolStripMenuItem_Click);
-            // 
-            // DeletePanel
-            // 
-            this.DeletePanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("DeletePanel.BackgroundImage")));
-            this.DeletePanel.Controls.Add(this.DeleteButton);
-            this.DeletePanel.Controls.Add(this.pictureBox4);
-            this.DeletePanel.Controls.Add(this.DelCodeTextBox);
-            this.DeletePanel.Controls.Add(this.label10);
-            this.DeletePanel.Controls.Add(this.DeleteTitleLabel);
-            this.DeletePanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DeletePanel.Location = new System.Drawing.Point(0, 24);
-            this.DeletePanel.Name = "DeletePanel";
-            this.DeletePanel.Size = new System.Drawing.Size(864, 506);
-            this.DeletePanel.TabIndex = 13;
-            this.DeletePanel.Visible = false;
-            // 
-            // DeleteTitleLabel
-            // 
-            this.DeleteTitleLabel.AutoSize = true;
-            this.DeleteTitleLabel.BackColor = System.Drawing.Color.Transparent;
-            this.DeleteTitleLabel.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DeleteTitleLabel.ForeColor = System.Drawing.Color.White;
-            this.DeleteTitleLabel.Location = new System.Drawing.Point(229, 37);
-            this.DeleteTitleLabel.Name = "DeleteTitleLabel";
-            this.DeleteTitleLabel.Size = new System.Drawing.Size(438, 35);
-            this.DeleteTitleLabel.TabIndex = 0;
-            this.DeleteTitleLabel.Text = "Deletes data associated with a User";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.BackColor = System.Drawing.Color.Transparent;
-            this.label10.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.Color.White;
-            this.label10.Location = new System.Drawing.Point(18, 173);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(215, 27);
-            this.label10.TabIndex = 1;
-            this.label10.Text = "Enter the usercode : ";
-            // 
-            // DelCodeTextBox
-            // 
-            this.DelCodeTextBox.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.DelCodeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DelCodeTextBox.ForeColor = System.Drawing.Color.White;
-            this.DelCodeTextBox.Location = new System.Drawing.Point(240, 175);
-            this.DelCodeTextBox.MaxLength = 6;
-            this.DelCodeTextBox.Name = "DelCodeTextBox";
-            this.DelCodeTextBox.Size = new System.Drawing.Size(177, 26);
-            this.DelCodeTextBox.TabIndex = 2;
-            this.DelCodeTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox4.BackgroundImage")));
-            this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox4.Location = new System.Drawing.Point(679, 325);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(166, 166);
-            this.pictureBox4.TabIndex = 3;
-            this.pictureBox4.TabStop = false;
-            // 
-            // DeleteButton
-            // 
-            this.DeleteButton.BackColor = System.Drawing.Color.Gold;
-            this.DeleteButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.DeleteButton.FlatAppearance.BorderColor = System.Drawing.Color.DarkRed;
-            this.DeleteButton.FlatAppearance.BorderSize = 3;
-            this.DeleteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.DeleteButton.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DeleteButton.ForeColor = System.Drawing.Color.Maroon;
-            this.DeleteButton.Location = new System.Drawing.Point(240, 237);
-            this.DeleteButton.Name = "DeleteButton";
-            this.DeleteButton.Size = new System.Drawing.Size(75, 38);
-            this.DeleteButton.TabIndex = 4;
-            this.DeleteButton.Text = "DELETE";
-            this.DeleteButton.UseVisualStyleBackColor = false;
-            this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
-            // 
             // dataGridViewTextBoxColumn9
             // 
             dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -1671,16 +1582,107 @@
             this.dataGridViewImageColumn3.ReadOnly = true;
             this.dataGridViewImageColumn3.Width = 200;
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.BackColor = System.Drawing.Color.Transparent;
+            this.label12.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.ForeColor = System.Drawing.Color.White;
+            this.label12.Location = new System.Drawing.Point(119, 35);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(662, 30);
+            this.label12.TabIndex = 1;
+            this.label12.Text = "Images saved in the database useful for the Face Recognition ";
+            // 
+            // DeletePanel
+            // 
+            this.DeletePanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("DeletePanel.BackgroundImage")));
+            this.DeletePanel.Controls.Add(this.DeleteButton);
+            this.DeletePanel.Controls.Add(this.pictureBox4);
+            this.DeletePanel.Controls.Add(this.DelCodeTextBox);
+            this.DeletePanel.Controls.Add(this.label10);
+            this.DeletePanel.Controls.Add(this.DeleteTitleLabel);
+            this.DeletePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DeletePanel.Location = new System.Drawing.Point(0, 24);
+            this.DeletePanel.Name = "DeletePanel";
+            this.DeletePanel.Size = new System.Drawing.Size(864, 506);
+            this.DeletePanel.TabIndex = 13;
+            this.DeletePanel.Visible = false;
+            // 
+            // DeleteButton
+            // 
+            this.DeleteButton.BackColor = System.Drawing.Color.Gold;
+            this.DeleteButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.DeleteButton.FlatAppearance.BorderColor = System.Drawing.Color.DarkRed;
+            this.DeleteButton.FlatAppearance.BorderSize = 3;
+            this.DeleteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.DeleteButton.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DeleteButton.ForeColor = System.Drawing.Color.Maroon;
+            this.DeleteButton.Location = new System.Drawing.Point(240, 237);
+            this.DeleteButton.Name = "DeleteButton";
+            this.DeleteButton.Size = new System.Drawing.Size(75, 38);
+            this.DeleteButton.TabIndex = 4;
+            this.DeleteButton.Text = "DELETE";
+            this.DeleteButton.UseVisualStyleBackColor = false;
+            this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox4.BackgroundImage")));
+            this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox4.Location = new System.Drawing.Point(679, 325);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(166, 166);
+            this.pictureBox4.TabIndex = 3;
+            this.pictureBox4.TabStop = false;
+            // 
+            // DelCodeTextBox
+            // 
+            this.DelCodeTextBox.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.DelCodeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DelCodeTextBox.ForeColor = System.Drawing.Color.White;
+            this.DelCodeTextBox.Location = new System.Drawing.Point(240, 175);
+            this.DelCodeTextBox.MaxLength = 6;
+            this.DelCodeTextBox.Name = "DelCodeTextBox";
+            this.DelCodeTextBox.Size = new System.Drawing.Size(177, 26);
+            this.DelCodeTextBox.TabIndex = 2;
+            this.DelCodeTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.White;
+            this.label10.Location = new System.Drawing.Point(18, 173);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(215, 27);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "Enter the usercode : ";
+            // 
+            // DeleteTitleLabel
+            // 
+            this.DeleteTitleLabel.AutoSize = true;
+            this.DeleteTitleLabel.BackColor = System.Drawing.Color.Transparent;
+            this.DeleteTitleLabel.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DeleteTitleLabel.ForeColor = System.Drawing.Color.White;
+            this.DeleteTitleLabel.Location = new System.Drawing.Point(229, 37);
+            this.DeleteTitleLabel.Name = "DeleteTitleLabel";
+            this.DeleteTitleLabel.Size = new System.Drawing.Size(438, 35);
+            this.DeleteTitleLabel.TabIndex = 0;
+            this.DeleteTitleLabel.Text = "Deletes data associated with a User";
+            // 
             // ProjectServerApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(864, 530);
+            this.Controls.Add(this.RegisterPanel);
             this.Controls.Add(this.ImagesPanel);
             this.Controls.Add(this.DeletePanel);
             this.Controls.Add(this.ModifyUserPanel);
             this.Controls.Add(this.InfoPanel);
-            this.Controls.Add(this.RegisterPanel);
             this.Controls.Add(this.AccessPanel);
             this.Controls.Add(this.AdminPanel);
             this.Controls.Add(this.SimpleUserPanel);
@@ -1690,7 +1692,6 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "ProjectServerApp";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ProjectAppServer";

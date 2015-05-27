@@ -593,53 +593,6 @@ namespace ProjectAppBackgroundServer
         }
 
         /// <summary>
-        ///     Il metodo cancella le informazioni riguardanti gli accessi ( dalla tabella ACESSES_PROJECT ) 
-        ///     di un certo utente.
-        /// </summary>
-        /// <param name="usercode">codice dell'utente</param>
-        public void DeleteInformationAccessUser(int usercode) 
-        {
-            SqlTransaction transaction = this.conn.BeginTransaction();
-
-            try {
-                string query = "DELETE FROM ACCESSES_PROJECT WHERE Username='" + usercode.ToString() + "'";
-
-                SqlCommand com = new SqlCommand(query, this.conn);
-                com.Transaction = transaction;
-                com.ExecuteNonQuery();
-                transaction.Commit();
-
-            } catch (Exception e) {
-                NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
-                transaction.Rollback();
-                throw new DatabaseException(e.Message);
-            }
-        }
-
-        /// <summary>
-        ///     Il metodo verifica se l'utente ha già eseguito degli accessi allo stabile
-        /// </summary>
-        /// <param name="usercode">codice dell'utente</param>
-        /// <returns> true se è stato eseguito almeno un accesso, false altrimenti</returns>
-        public bool VerifyAccessUser(int usercode) 
-        {
-            string query = "SELECT * FROM ACCESSES_PROJECT WHERE Username='" + usercode.ToString() + "'";
-            SqlCommand com = new SqlCommand(query, this.conn);
-            SqlDataReader reader = com.ExecuteReader();
-            bool result;
-
-            if (reader.HasRows)
-                result = true;
-            else
-                result = false;
-
-            reader.Close();
-
-            return result;
-
-        }
-
-        /// <summary>
         ///     Il metodo aggiorna la tabella USERS_PROJECT con i dati prelevati da un DatagridViewRow
         /// </summary>
         public void UpdateTableUser( User u, DataGridViewRow row ) 
