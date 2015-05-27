@@ -69,6 +69,5 @@ namespace ProjectAppBackgroundServer
             get { return this.img; }
             set { this.img = value; }
         }
-
     }
 }

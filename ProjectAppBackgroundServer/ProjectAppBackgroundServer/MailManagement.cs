@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Mail;
+using System.Net.Mime; 
 using System.Net;
 using System.IO;
 
@@ -32,15 +33,19 @@ namespace ProjectAppBackgroundServer
             string filename = MailManagement.MAILLOG + "temp" + utente.Codice.ToString() + ".png";
             File.Create(filename);
             Attachment att = new Attachment(filename);
+            att.ContentDisposition.DispositionType = DispositionTypeNames.Inline;
             att.ContentDisposition.Inline = true;
+            att.ContentId = "imgUser";
             att.ContentType.MediaType = "image/png";
-            att.ContentType.Name = Path.GetFileName(filename);
-
+            att.ContentType.Name = filename;
+           
             message.Subject = "NOTICE FOR ADMINISTRATOR";
-            string aux = "The User " + utente.Name + " " + utente.Surname + " with the following registration number: ";
-            aux += utente.Codice + "\nhas entered in the stable without facial recognition. Pay Attention and ";
-            aux += "alert security staff!!\n\n Access occurred at " + date.ToLongTimeString();
+            message.IsBodyHtml = true;
+            string aux = "<div>The User " + utente.Name + " " + utente.Surname + " with the following registration number: ";
+            aux += utente.Codice + "<br>has entered in the stable without facial recognition. Pay Attention and ";
+            aux += "alert security staff!!<br><br> Access occurred at " + date.ToLongTimeString();
             aux += " on the " + date.ToShortDateString();
+            aux += "</div><br><br><img src=\"cid:" + att.ContentId + "\"/><br><br>";
             message.Body = aux;
             message.Attachments.Add(att);
 
