@@ -87,7 +87,7 @@ namespace MvcApplicationTest.Controllers
                                 if (db.VerifyUserExists(result))
                                 {
                                     //l'utente è registrato
-                                    msg = "Welcome user n° "+result+"!";
+                                    msg = "Welcome "+result+"!";
                                     db.NewErrorLog("result found : " + result, DateTime.Now);
 
                                     //INSERIMENTO ACCESSO
