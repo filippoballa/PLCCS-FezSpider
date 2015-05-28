@@ -38,7 +38,6 @@ namespace ProjectAppBackgroundServer
             if (this.rect != Rectangle.Empty) {
                 this.imgUser = ImageFrame.Copy();
                 Image<Gray, Byte> Face = ImageFrame.Copy(this.rect).Convert<Gray, Byte>().Resize(100, 100, INTER.CV_INTER_CUBIC);
-                //Face._EqualizeHist();
                 this.proj.setGrayFace(Face);
 
                 if (this.typeOfuse == "PIC")

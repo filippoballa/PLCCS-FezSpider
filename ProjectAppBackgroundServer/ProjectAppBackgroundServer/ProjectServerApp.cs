@@ -53,6 +53,7 @@ namespace ProjectAppBackgroundServer
             this.RegisterPanel.Visible = true;
             this.HomePanel.Visible = false;
             this.DeletePanel.Visible = false;
+            this.ModPwdPanel.Visible = false;
             this.AdminPanel.Visible = false;
             this.ImagesPanel.Visible = false;
             this.SimpleUserPanel.Visible = false;
@@ -90,7 +91,6 @@ namespace ProjectAppBackgroundServer
             if (rect != Rectangle.Empty) {
                 this.PhotoPictureBox.BackgroundImage = face;
                 this.grayFace = new Image<Gray, byte>(face).Copy(rect).Resize(100,100,INTER.CV_INTER_CUBIC);
-                //this.grayFace._EqualizeHist();
                 this.PhotoCheckBox.AutoCheck = true;
                 this.PhotoCheckBox.Checked = true;
                 this.PhotoCheckBox.Enabled = false;
@@ -193,7 +193,7 @@ namespace ProjectAppBackgroundServer
 
                 try {
                     this.db.InsertAdministrator(admin);
-                    this.db.InsertImage(admin.Codice, /*this.grayFace.Bitmap*/ this.grayFace.Bytes);
+                    this.db.InsertImage(admin.Codice, this.grayFace.Bytes);
                     this.MailPwdTextBox.Clear();
                     this.MailTextBox.Clear();
                     this.AdminCheckBox.Checked = false;
@@ -209,7 +209,7 @@ namespace ProjectAppBackgroundServer
 
                 try {
                     this.db.InsertSimpleUser(u);
-                    this.db.InsertImage(u.Codice, /*this.grayFace.Bitmap*/this.grayFace.Bytes);
+                    this.db.InsertImage(u.Codice, this.grayFace.Bytes);
                 } catch (DatabaseException dbEx) {
                     errorInsert = true;
                     MessageBox.Show(dbEx.Mex, "ANOMALY", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -244,6 +244,7 @@ namespace ProjectAppBackgroundServer
             this.DeletePanel.Visible = false;
             this.InfoPanel.Visible = false;
             this.ImagesPanel.Visible = false;
+            this.ModPwdPanel.Visible = false;
             this.SimpleUserPanel.Visible = false;
             this.AccessPanel.Visible = false;
             this.ModifyUserPanel.Visible = false;
@@ -296,6 +297,7 @@ namespace ProjectAppBackgroundServer
         {
             this.HomePanel.Visible = false;
             this.DeletePanel.Visible = false;
+            this.ModPwdPanel.Visible = false;
             this.RegisterPanel.Visible = false;
             this.AdminPanel.Visible = false;
             this.InfoPanel.Visible = false;
@@ -348,6 +350,7 @@ namespace ProjectAppBackgroundServer
             this.SimpleUserPanel.Visible = false;
             this.ImagesPanel.Visible = false;
             this.DeletePanel.Visible = false;
+            this.ModPwdPanel.Visible = false;
             this.InfoPanel.Visible = false;
             this.AccessPanel.Visible = true;
             this.AdminPanel.Visible = false;
@@ -373,6 +376,7 @@ namespace ProjectAppBackgroundServer
         private void modifyUserDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.HomePanel.Visible = false;
+            this.ModPwdPanel.Visible = false;
             this.RegisterPanel.Visible = false;
             this.SimpleUserPanel.Visible = false;
             this.AccessPanel.Visible = false;
@@ -394,6 +398,7 @@ namespace ProjectAppBackgroundServer
             this.DeletePanel.Visible = false;
             this.InfoPanel.Visible = true;
             this.ModifyUserPanel.Visible = false;
+            this.ModPwdPanel.Visible = false;
             this.ImagesPanel.Visible = false;
         }
 
@@ -489,6 +494,7 @@ namespace ProjectAppBackgroundServer
             this.AdminPanel.Visible = false;
             this.InfoPanel.Visible = false;
             this.ModifyUserPanel.Visible = false;
+            this.ModPwdPanel.Visible = false;
             this.ImagesPanel.Visible = true;
         }
 
@@ -571,7 +577,8 @@ namespace ProjectAppBackgroundServer
                 User usr = this.db.SelectSimpleUser(codice);
 
                 if( usr == null ) {
-                    MessageBox.Show("","INFORMATION", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show( "The code you entered is not associated with any User!!", "INFORMATION", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.SearchUserTextBox.Clear();
                     this.SearchUserTextBox.Focus();
                     return;
@@ -684,6 +691,7 @@ namespace ProjectAppBackgroundServer
             this.InfoPanel.Visible = false;
             this.AccessPanel.Visible = false;
             this.ModifyUserPanel.Visible = false;
+            this.ModPwdPanel.Visible = false;
             this.DeletePanel.Visible = true;
             this.DelCodeTextBox.Focus();
         }
@@ -722,6 +730,143 @@ namespace ProjectAppBackgroundServer
                 MessageBox.Show("User information has been deleted successfully!!", "NOTICE", 
                     MessageBoxButtons.OK, MessageBoxIcon.Information );
             }
+
+        }
+
+        private void modifyUserPasswordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.RegisterPanel.Visible = false;
+            this.HomePanel.Visible = false;
+            this.AdminPanel.Visible = false;
+            this.ImagesPanel.Visible = false;
+            this.SimpleUserPanel.Visible = false;
+            this.InfoPanel.Visible = false;
+            this.AccessPanel.Visible = false;
+            this.ModifyUserPanel.Visible = false;
+            this.DeletePanel.Visible = false;
+            this.ModPwdPanel.Visible = true;
+        }
+
+        private void ModAdminCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if( this.ModAdminCheckBox.Checked ) {
+                this.ModAdminGroupBox.Visible = true;
+                this.OldMailPwdTextBox.Focus();
+            }
+            else {
+                this.ModAdminGroupBox.Visible = false;
+                this.OldMailPwdTextBox.Clear();
+                this.NewMailPwdTextBox.Clear();
+            }
+        }
+
+        private void ModSaveButton_Click(object sender, EventArgs e)
+        {
+            int a;
+
+            if (this.PwdUTextBox.Text == "" || !Int32.TryParse(this.PwdUTextBox.Text, out a) ||
+                this.PwdUTextBox.Text.Length < 6)
+            {
+                MessageBox.Show("Enter a valid username in the appropriate field!!", "NOTICE",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.PwdUTextBox.Clear();
+                this.PwdUTextBox.Focus();
+                return;
+            }
+
+            if (this.OldPwdTextBox.Text == "" || this.OldPwdTextBox.Text.Length < 4) {
+                MessageBox.Show("Enter a valid Old PIN in the appropriate field!!\nThe code entered is too short (must be four characters) or\n" +
+                    "the field appears to be empty! ", "NOTICE", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.OldPwdTextBox.Clear();
+                this.OldPwdTextBox.Focus();
+                return;
+            }
+
+            if (this.NewPwdTextBox.Text == "" || this.NewPwdTextBox.Text.Length < 4)
+            {
+                MessageBox.Show("Enter a valid New PIN in the appropriate field!!\nThe code entered is too short (must be four characters) or\n" +
+                    "the field appears to be empty! ", "NOTICE", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.NewPwdTextBox.Clear();
+                this.NewPwdTextBox.Focus();
+                return;
+            }
+
+            int codice = Convert.ToInt32(this.PwdUTextBox.Text);
+
+            if (!this.db.VerifyUserExists(codice) ) {
+                MessageBox.Show("The code you entered is not associated with any User!!", "INFORMATION",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.PwdUTextBox.Clear();
+                this.PwdUTextBox.Focus();
+                return;
+            }
+
+            User u = this.db.SelectSimpleUser(codice);
+            Administrator admin = null;
+
+            if (u == null)
+                admin = this.db.SelectAdministrator(codice);
+
+            if (admin == null && this.ModAdminCheckBox.Checked) 
+            {
+                MessageBox.Show("The User " + codice.ToString() + " is not a administrator!!", "NOTICE",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.ModAdminCheckBox.Checked = false;
+                return;
+            }
+
+            SHA1 shaM = new SHA1Managed();
+            byte[] pin = Encoding.ASCII.GetBytes(this.OldPwdTextBox.Text);
+            string hashPin = Encoding.ASCII.GetString(shaM.ComputeHash(pin));
+            bool errore = false;
+
+            if (u == null) {
+
+                if (hashPin == admin.Password)
+                    errore = false;
+                else
+                    errore = true;
+            }
+            else {
+
+                if (hashPin == u.Password)
+                    errore = false;
+                else
+                    errore = true;
+            }
+
+            if (errore) {
+                MessageBox.Show("The old PIN does not match what is saved on the database!!", "NOTICE",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.OldPwdTextBox.Clear();
+                this.OldPwdTextBox.Focus();
+                return;
+            }
+                  
+
+            if (this.ModAdminCheckBox.Checked) {
+
+                if (this.OldMailPwdTextBox.Text == "" || this.NewMailPwdTextBox.Text == "") {
+                    MessageBox.Show("You must specify the old Mail Password, or new Mail Password, or both!!", "NOTICE",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                DataEncript de = new DataEncript();
+
+                if (this.OldMailPwdTextBox.Text != de.DecryptString(admin.MailPassword))
+                    this.db.ChangeMailPassword(codice, de.EncryptString(this.NewMailPwdTextBox.Text));
+                else {
+                    MessageBox.Show("The old mail password does not match what is saved on the database!!", "NOTICE",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.OldMailPwdTextBox.Clear();
+                    this.OldMailPwdTextBox.Focus();
+                    return;
+                }                
+            }
+
+            this.db.ChangePIN(codice, hashPin);
+            MessageBox.Show("Passwords updated successfully!!", "NOTICE", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }        
     }

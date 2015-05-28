@@ -594,6 +594,67 @@ namespace ProjectAppBackgroundServer
         }
 
         /// <summary>
+        ///     Il metodo cambia il pin ( password Login ) di un utente specifico
+        /// </summary>
+        /// <param name="codice">Codice dell'utente che si desidera cambiare il PIN</param>
+        /// <param name="pin">
+        ///     Nuovo PIN ( deve essere stata già cifrato in precedenza con SHA1)
+        /// </param>
+        public void ChangePIN(int codice, string pin) 
+        {
+            SqlTransaction transaction = this.conn.BeginTransaction();
+
+            try {
+
+                string query = "UPDATE USERS_PROJECT SET PasswordLogin='" + pin + "' WHERE ";
+                query += " Username='" + codice.ToString() + "'";
+
+                SqlCommand com = new SqlCommand(query, this.conn);
+                com.Transaction = transaction;
+
+                com.ExecuteNonQuery();
+                transaction.Commit();
+
+            } catch (Exception e) {
+                NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
+                transaction.Rollback();
+                throw new DatabaseException(e.Message);
+            }
+        }
+
+        /// <summary>
+        ///      Il metodo cambia la password dell'account mail di un amministratore.
+        ///      Occorre verificare in precedenza con il metodo "SelectAdministrator" se il codice 
+        ///      passato al metodo è quello di un amministratore
+        /// </summary>
+        /// <param name="codice">Codice dell'amministratore</param>
+        /// <param name="mailPwd">
+        ///     Nuova Mail Password ( deve essere stata già cifrata in precedenza usando la 
+        ///     classe DataEncript )
+        /// </param>
+        public void ChangeMailPassword(int codice, string mailPwd) 
+        {
+            SqlTransaction transaction = this.conn.BeginTransaction();
+
+            try {
+
+                string query = "UPDATE USERS_PROJECT SET MailPassword='" + mailPwd + "' WHERE ";
+                query += " Username='" + codice.ToString() + "'";
+
+                SqlCommand com = new SqlCommand(query, this.conn);
+                com.Transaction = transaction;
+
+                com.ExecuteNonQuery();
+                transaction.Commit();
+
+            } catch (Exception e) {
+                NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
+                transaction.Rollback();
+                throw new DatabaseException(e.Message);
+            }
+        }
+
+        /// <summary>
         ///     Il metodo aggiorna la tabella USERS_PROJECT con i dati prelevati da un DatagridViewRow
         /// </summary>
         public void UpdateTableUser( User u, DataGridViewRow row ) 

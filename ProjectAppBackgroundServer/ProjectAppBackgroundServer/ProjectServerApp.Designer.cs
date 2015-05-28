@@ -59,6 +59,7 @@
             this.showAccessUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modifyUserDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modifyUserPasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -162,6 +163,22 @@
             this.DelCodeTextBox = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.DeleteTitleLabel = new System.Windows.Forms.Label();
+            this.ModPwdPanel = new System.Windows.Forms.Panel();
+            this.ModSaveButton = new System.Windows.Forms.Button();
+            this.ModAdminCheckBox = new System.Windows.Forms.CheckBox();
+            this.ModAdminGroupBox = new System.Windows.Forms.GroupBox();
+            this.NewMailPwdTextBox = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.OldMailPwdTextBox = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.NewPwdTextBox = new System.Windows.Forms.TextBox();
+            this.OldPwdTextBox = new System.Windows.Forms.TextBox();
+            this.PwdUTextBox = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.HomePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -189,6 +206,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.ImagesDataGridView)).BeginInit();
             this.DeletePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            this.ModPwdPanel.SuspendLayout();
+            this.ModAdminGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -212,6 +231,7 @@
             this.showAccessUsersToolStripMenuItem,
             this.showImagesToolStripMenuItem,
             this.modifyUserDataToolStripMenuItem,
+            this.modifyUserPasswordToolStripMenuItem,
             this.deleteUserToolStripMenuItem,
             this.closeToolStripMenuItem});
             this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue;
@@ -226,7 +246,7 @@
             this.registerNewUserToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.registerNewUserToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("registerNewUserToolStripMenuItem.Image")));
             this.registerNewUserToolStripMenuItem.Name = "registerNewUserToolStripMenuItem";
-            this.registerNewUserToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.registerNewUserToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.registerNewUserToolStripMenuItem.Text = "Register New User";
             this.registerNewUserToolStripMenuItem.Click += new System.EventHandler(this.registerNewUserToolStripMenuItem_Click);
             // 
@@ -237,7 +257,7 @@
             this.showAdministratorsToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.showAdministratorsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("showAdministratorsToolStripMenuItem.Image")));
             this.showAdministratorsToolStripMenuItem.Name = "showAdministratorsToolStripMenuItem";
-            this.showAdministratorsToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.showAdministratorsToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.showAdministratorsToolStripMenuItem.Text = "Show Administrators";
             this.showAdministratorsToolStripMenuItem.Click += new System.EventHandler(this.showAdministratorsToolStripMenuItem_Click);
             // 
@@ -248,7 +268,7 @@
             this.showSimpleUsersToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.showSimpleUsersToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("showSimpleUsersToolStripMenuItem.Image")));
             this.showSimpleUsersToolStripMenuItem.Name = "showSimpleUsersToolStripMenuItem";
-            this.showSimpleUsersToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.showSimpleUsersToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.showSimpleUsersToolStripMenuItem.Text = "Show Simple Users";
             this.showSimpleUsersToolStripMenuItem.Click += new System.EventHandler(this.showSimpleUsersToolStripMenuItem_Click);
             // 
@@ -259,7 +279,7 @@
             this.showAccessUsersToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.showAccessUsersToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("showAccessUsersToolStripMenuItem.Image")));
             this.showAccessUsersToolStripMenuItem.Name = "showAccessUsersToolStripMenuItem";
-            this.showAccessUsersToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.showAccessUsersToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.showAccessUsersToolStripMenuItem.Text = "Show Access Users";
             this.showAccessUsersToolStripMenuItem.Click += new System.EventHandler(this.showAccessUsersToolStripMenuItem_Click);
             // 
@@ -270,7 +290,7 @@
             this.showImagesToolStripMenuItem.ForeColor = System.Drawing.SystemColors.MenuBar;
             this.showImagesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("showImagesToolStripMenuItem.Image")));
             this.showImagesToolStripMenuItem.Name = "showImagesToolStripMenuItem";
-            this.showImagesToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.showImagesToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.showImagesToolStripMenuItem.Text = "Show Pictures Users";
             this.showImagesToolStripMenuItem.Click += new System.EventHandler(this.showImagesToolStripMenuItem_Click);
             // 
@@ -281,9 +301,20 @@
             this.modifyUserDataToolStripMenuItem.ForeColor = System.Drawing.SystemColors.MenuBar;
             this.modifyUserDataToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("modifyUserDataToolStripMenuItem.Image")));
             this.modifyUserDataToolStripMenuItem.Name = "modifyUserDataToolStripMenuItem";
-            this.modifyUserDataToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.modifyUserDataToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.modifyUserDataToolStripMenuItem.Text = "Modify User Data";
             this.modifyUserDataToolStripMenuItem.Click += new System.EventHandler(this.modifyUserDataToolStripMenuItem_Click);
+            // 
+            // modifyUserPasswordToolStripMenuItem
+            // 
+            this.modifyUserPasswordToolStripMenuItem.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.modifyUserPasswordToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.modifyUserPasswordToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.modifyUserPasswordToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("modifyUserPasswordToolStripMenuItem.Image")));
+            this.modifyUserPasswordToolStripMenuItem.Name = "modifyUserPasswordToolStripMenuItem";
+            this.modifyUserPasswordToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.modifyUserPasswordToolStripMenuItem.Text = "Modify User Password";
+            this.modifyUserPasswordToolStripMenuItem.Click += new System.EventHandler(this.modifyUserPasswordToolStripMenuItem_Click);
             // 
             // deleteUserToolStripMenuItem
             // 
@@ -292,7 +323,7 @@
             this.deleteUserToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.deleteUserToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteUserToolStripMenuItem.Image")));
             this.deleteUserToolStripMenuItem.Name = "deleteUserToolStripMenuItem";
-            this.deleteUserToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.deleteUserToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.deleteUserToolStripMenuItem.Text = "Delete User";
             this.deleteUserToolStripMenuItem.Click += new System.EventHandler(this.deleteUserToolStripMenuItem_Click);
             // 
@@ -303,7 +334,7 @@
             this.closeToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.closeToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("closeToolStripMenuItem.Image")));
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
@@ -323,8 +354,8 @@
             this.informazioniToolStripMenuItem.ForeColor = System.Drawing.SystemColors.MenuBar;
             this.informazioniToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("informazioniToolStripMenuItem.Image")));
             this.informazioniToolStripMenuItem.Name = "informazioniToolStripMenuItem";
-            this.informazioniToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
-            this.informazioniToolStripMenuItem.Text = "Informazioni";
+            this.informazioniToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.informazioniToolStripMenuItem.Text = "Informazions";
             this.informazioniToolStripMenuItem.Click += new System.EventHandler(this.informazioniToolStripMenuItem_Click);
             // 
             // HomePanel
@@ -338,7 +369,7 @@
             this.HomePanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.HomePanel.Location = new System.Drawing.Point(0, 24);
             this.HomePanel.Name = "HomePanel";
-            this.HomePanel.Size = new System.Drawing.Size(864, 506);
+            this.HomePanel.Size = new System.Drawing.Size(864, 517);
             this.HomePanel.TabIndex = 1;
             // 
             // label2
@@ -406,7 +437,7 @@
             this.RegisterPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.RegisterPanel.Location = new System.Drawing.Point(0, 24);
             this.RegisterPanel.Name = "RegisterPanel";
-            this.RegisterPanel.Size = new System.Drawing.Size(864, 506);
+            this.RegisterPanel.Size = new System.Drawing.Size(864, 517);
             this.RegisterPanel.TabIndex = 3;
             this.RegisterPanel.Visible = false;
             // 
@@ -530,7 +561,7 @@
             // 
             // MailPwdTextBox
             // 
-            this.MailPwdTextBox.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.MailPwdTextBox.BackColor = System.Drawing.Color.DimGray;
             this.MailPwdTextBox.Font = new System.Drawing.Font("Comic Sans MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MailPwdTextBox.ForeColor = System.Drawing.SystemColors.MenuBar;
             this.MailPwdTextBox.Location = new System.Drawing.Point(147, 94);
@@ -555,7 +586,7 @@
             // 
             // MailTextBox
             // 
-            this.MailTextBox.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.MailTextBox.BackColor = System.Drawing.Color.DimGray;
             this.MailTextBox.Font = new System.Drawing.Font("Comic Sans MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MailTextBox.ForeColor = System.Drawing.SystemColors.MenuBar;
             this.MailTextBox.Location = new System.Drawing.Point(147, 46);
@@ -615,7 +646,7 @@
             // 
             // GenderComboBox
             // 
-            this.GenderComboBox.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.GenderComboBox.BackColor = System.Drawing.Color.DimGray;
             this.GenderComboBox.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GenderComboBox.ForeColor = System.Drawing.SystemColors.MenuBar;
             this.GenderComboBox.FormattingEnabled = true;
@@ -644,7 +675,7 @@
             // 
             // PasswordTextBox
             // 
-            this.PasswordTextBox.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.PasswordTextBox.BackColor = System.Drawing.Color.DimGray;
             this.PasswordTextBox.Font = new System.Drawing.Font("Comic Sans MS", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PasswordTextBox.ForeColor = System.Drawing.SystemColors.MenuBar;
             this.PasswordTextBox.Location = new System.Drawing.Point(124, 272);
@@ -682,7 +713,7 @@
             // 
             // UsernameTextBox
             // 
-            this.UsernameTextBox.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.UsernameTextBox.BackColor = System.Drawing.Color.DimGray;
             this.UsernameTextBox.Font = new System.Drawing.Font("Comic Sans MS", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UsernameTextBox.ForeColor = System.Drawing.SystemColors.MenuBar;
             this.UsernameTextBox.Location = new System.Drawing.Point(124, 222);
@@ -706,7 +737,7 @@
             // 
             // SurnameTextBox
             // 
-            this.SurnameTextBox.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.SurnameTextBox.BackColor = System.Drawing.Color.DimGray;
             this.SurnameTextBox.Font = new System.Drawing.Font("Comic Sans MS", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SurnameTextBox.ForeColor = System.Drawing.SystemColors.MenuBar;
             this.SurnameTextBox.Location = new System.Drawing.Point(125, 165);
@@ -730,7 +761,7 @@
             // 
             // NameTextBox
             // 
-            this.NameTextBox.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.NameTextBox.BackColor = System.Drawing.Color.DimGray;
             this.NameTextBox.Font = new System.Drawing.Font("Comic Sans MS", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.NameTextBox.ForeColor = System.Drawing.SystemColors.MenuBar;
             this.NameTextBox.Location = new System.Drawing.Point(125, 109);
@@ -766,7 +797,7 @@
             this.AdminPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.AdminPanel.Location = new System.Drawing.Point(0, 24);
             this.AdminPanel.Name = "AdminPanel";
-            this.AdminPanel.Size = new System.Drawing.Size(864, 506);
+            this.AdminPanel.Size = new System.Drawing.Size(864, 517);
             this.AdminPanel.TabIndex = 22;
             this.AdminPanel.Visible = false;
             this.AdminPanel.VisibleChanged += new System.EventHandler(this.AdminPanel_VisibleChanged);
@@ -923,7 +954,7 @@
             this.SimpleUserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SimpleUserPanel.Location = new System.Drawing.Point(0, 24);
             this.SimpleUserPanel.Name = "SimpleUserPanel";
-            this.SimpleUserPanel.Size = new System.Drawing.Size(864, 506);
+            this.SimpleUserPanel.Size = new System.Drawing.Size(864, 517);
             this.SimpleUserPanel.TabIndex = 23;
             this.SimpleUserPanel.Visible = false;
             this.SimpleUserPanel.VisibleChanged += new System.EventHandler(this.SimpleUserPanel_VisibleChanged);
@@ -1072,7 +1103,7 @@
             this.AccessPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.AccessPanel.Location = new System.Drawing.Point(0, 24);
             this.AccessPanel.Name = "AccessPanel";
-            this.AccessPanel.Size = new System.Drawing.Size(864, 506);
+            this.AccessPanel.Size = new System.Drawing.Size(864, 517);
             this.AccessPanel.TabIndex = 2;
             this.AccessPanel.Visible = false;
             this.AccessPanel.VisibleChanged += new System.EventHandler(this.AccessPanel_VisibleChanged);
@@ -1229,7 +1260,7 @@
             this.ModifyUserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ModifyUserPanel.Location = new System.Drawing.Point(0, 24);
             this.ModifyUserPanel.Name = "ModifyUserPanel";
-            this.ModifyUserPanel.Size = new System.Drawing.Size(864, 506);
+            this.ModifyUserPanel.Size = new System.Drawing.Size(864, 517);
             this.ModifyUserPanel.TabIndex = 4;
             this.ModifyUserPanel.Visible = false;
             this.ModifyUserPanel.VisibleChanged += new System.EventHandler(this.ModifyUserPanel_VisibleChanged);
@@ -1361,7 +1392,7 @@
             // 
             // TypeComboBox
             // 
-            this.TypeComboBox.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.TypeComboBox.BackColor = System.Drawing.Color.DimGray;
             this.TypeComboBox.Font = new System.Drawing.Font("Comic Sans MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TypeComboBox.ForeColor = System.Drawing.Color.White;
             this.TypeComboBox.FormattingEnabled = true;
@@ -1405,7 +1436,7 @@
             // 
             // SearchUserTextBox
             // 
-            this.SearchUserTextBox.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.SearchUserTextBox.BackColor = System.Drawing.Color.DimGray;
             this.SearchUserTextBox.Font = new System.Drawing.Font("Comic Sans MS", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SearchUserTextBox.ForeColor = System.Drawing.Color.White;
             this.SearchUserTextBox.Location = new System.Drawing.Point(411, 102);
@@ -1413,6 +1444,7 @@
             this.SearchUserTextBox.Name = "SearchUserTextBox";
             this.SearchUserTextBox.Size = new System.Drawing.Size(113, 26);
             this.SearchUserTextBox.TabIndex = 3;
+            this.SearchUserTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label8
             // 
@@ -1447,7 +1479,7 @@
             this.InfoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.InfoPanel.Location = new System.Drawing.Point(0, 24);
             this.InfoPanel.Name = "InfoPanel";
-            this.InfoPanel.Size = new System.Drawing.Size(864, 506);
+            this.InfoPanel.Size = new System.Drawing.Size(864, 517);
             this.InfoPanel.TabIndex = 0;
             this.InfoPanel.Visible = false;
             // 
@@ -1456,7 +1488,7 @@
             this.pictureBox3.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox3.BackgroundImage")));
             this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox3.Location = new System.Drawing.Point(671, 303);
+            this.pictureBox3.Location = new System.Drawing.Point(673, 11);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(174, 138);
             this.pictureBox3.TabIndex = 2;
@@ -1467,7 +1499,7 @@
             this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox2.BackgroundImage")));
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox2.Location = new System.Drawing.Point(671, 97);
+            this.pictureBox2.Location = new System.Drawing.Point(21, 6);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(174, 138);
             this.pictureBox2.TabIndex = 1;
@@ -1479,7 +1511,7 @@
             this.InformationTitleLabel.BackColor = System.Drawing.Color.Transparent;
             this.InformationTitleLabel.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.InformationTitleLabel.ForeColor = System.Drawing.Color.White;
-            this.InformationTitleLabel.Location = new System.Drawing.Point(255, 35);
+            this.InformationTitleLabel.Location = new System.Drawing.Point(255, 56);
             this.InformationTitleLabel.Name = "InformationTitleLabel";
             this.InformationTitleLabel.Size = new System.Drawing.Size(382, 30);
             this.InformationTitleLabel.TabIndex = 0;
@@ -1495,7 +1527,7 @@
             this.ImagesPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ImagesPanel.Location = new System.Drawing.Point(0, 24);
             this.ImagesPanel.Name = "ImagesPanel";
-            this.ImagesPanel.Size = new System.Drawing.Size(864, 506);
+            this.ImagesPanel.Size = new System.Drawing.Size(864, 517);
             this.ImagesPanel.TabIndex = 23;
             this.ImagesPanel.Visible = false;
             this.ImagesPanel.VisibleChanged += new System.EventHandler(this.ImagesPanel_VisibleChanged);
@@ -1605,7 +1637,7 @@
             this.DeletePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DeletePanel.Location = new System.Drawing.Point(0, 24);
             this.DeletePanel.Name = "DeletePanel";
-            this.DeletePanel.Size = new System.Drawing.Size(864, 506);
+            this.DeletePanel.Size = new System.Drawing.Size(864, 517);
             this.DeletePanel.TabIndex = 13;
             this.DeletePanel.Visible = false;
             // 
@@ -1673,16 +1705,236 @@
             this.DeleteTitleLabel.TabIndex = 0;
             this.DeleteTitleLabel.Text = "Deletes data associated with a User";
             // 
+            // ModPwdPanel
+            // 
+            this.ModPwdPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ModPwdPanel.BackgroundImage")));
+            this.ModPwdPanel.Controls.Add(this.label18);
+            this.ModPwdPanel.Controls.Add(this.ModSaveButton);
+            this.ModPwdPanel.Controls.Add(this.ModAdminCheckBox);
+            this.ModPwdPanel.Controls.Add(this.ModAdminGroupBox);
+            this.ModPwdPanel.Controls.Add(this.NewPwdTextBox);
+            this.ModPwdPanel.Controls.Add(this.OldPwdTextBox);
+            this.ModPwdPanel.Controls.Add(this.PwdUTextBox);
+            this.ModPwdPanel.Controls.Add(this.label15);
+            this.ModPwdPanel.Controls.Add(this.label14);
+            this.ModPwdPanel.Controls.Add(this.label13);
+            this.ModPwdPanel.Controls.Add(this.label11);
+            this.ModPwdPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ModPwdPanel.Location = new System.Drawing.Point(0, 24);
+            this.ModPwdPanel.Name = "ModPwdPanel";
+            this.ModPwdPanel.Size = new System.Drawing.Size(864, 517);
+            this.ModPwdPanel.TabIndex = 23;
+            this.ModPwdPanel.Visible = false;
+            // 
+            // ModSaveButton
+            // 
+            this.ModSaveButton.BackColor = System.Drawing.Color.Gold;
+            this.ModSaveButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ModSaveButton.FlatAppearance.BorderColor = System.Drawing.Color.Maroon;
+            this.ModSaveButton.FlatAppearance.BorderSize = 3;
+            this.ModSaveButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ModSaveButton.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ModSaveButton.ForeColor = System.Drawing.Color.Maroon;
+            this.ModSaveButton.Location = new System.Drawing.Point(623, 173);
+            this.ModSaveButton.Name = "ModSaveButton";
+            this.ModSaveButton.Size = new System.Drawing.Size(147, 35);
+            this.ModSaveButton.TabIndex = 19;
+            this.ModSaveButton.Text = "Save Changes";
+            this.ModSaveButton.UseVisualStyleBackColor = false;
+            this.ModSaveButton.Click += new System.EventHandler(this.ModSaveButton_Click);
+            // 
+            // ModAdminCheckBox
+            // 
+            this.ModAdminCheckBox.AutoSize = true;
+            this.ModAdminCheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.ModAdminCheckBox.Font = new System.Drawing.Font("Calibri", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ModAdminCheckBox.ForeColor = System.Drawing.Color.White;
+            this.ModAdminCheckBox.Location = new System.Drawing.Point(547, 116);
+            this.ModAdminCheckBox.Name = "ModAdminCheckBox";
+            this.ModAdminCheckBox.Size = new System.Drawing.Size(298, 19);
+            this.ModAdminCheckBox.TabIndex = 18;
+            this.ModAdminCheckBox.Text = "Administrator ( checked --> Yes , otherwise --> No )";
+            this.ModAdminCheckBox.UseVisualStyleBackColor = false;
+            this.ModAdminCheckBox.CheckedChanged += new System.EventHandler(this.ModAdminCheckBox_CheckedChanged);
+            // 
+            // ModAdminGroupBox
+            // 
+            this.ModAdminGroupBox.BackColor = System.Drawing.Color.Transparent;
+            this.ModAdminGroupBox.Controls.Add(this.NewMailPwdTextBox);
+            this.ModAdminGroupBox.Controls.Add(this.label16);
+            this.ModAdminGroupBox.Controls.Add(this.OldMailPwdTextBox);
+            this.ModAdminGroupBox.Controls.Add(this.label17);
+            this.ModAdminGroupBox.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ModAdminGroupBox.ForeColor = System.Drawing.SystemColors.MenuBar;
+            this.ModAdminGroupBox.Location = new System.Drawing.Point(53, 305);
+            this.ModAdminGroupBox.Name = "ModAdminGroupBox";
+            this.ModAdminGroupBox.Size = new System.Drawing.Size(485, 155);
+            this.ModAdminGroupBox.TabIndex = 17;
+            this.ModAdminGroupBox.TabStop = false;
+            this.ModAdminGroupBox.Text = "Administrator";
+            this.ModAdminGroupBox.Visible = false;
+            // 
+            // NewMailPwdTextBox
+            // 
+            this.NewMailPwdTextBox.BackColor = System.Drawing.Color.DimGray;
+            this.NewMailPwdTextBox.Font = new System.Drawing.Font("Comic Sans MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.NewMailPwdTextBox.ForeColor = System.Drawing.SystemColors.MenuBar;
+            this.NewMailPwdTextBox.Location = new System.Drawing.Point(187, 94);
+            this.NewMailPwdTextBox.MaxLength = 30;
+            this.NewMailPwdTextBox.Name = "NewMailPwdTextBox";
+            this.NewMailPwdTextBox.PasswordChar = '*';
+            this.NewMailPwdTextBox.Size = new System.Drawing.Size(257, 24);
+            this.NewMailPwdTextBox.TabIndex = 6;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.BackColor = System.Drawing.Color.Transparent;
+            this.label16.Font = new System.Drawing.Font("Comic Sans MS", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.ForeColor = System.Drawing.Color.White;
+            this.label16.Location = new System.Drawing.Point(10, 94);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(168, 21);
+            this.label16.TabIndex = 5;
+            this.label16.Text = "New Mail Password : ";
+            this.label16.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // OldMailPwdTextBox
+            // 
+            this.OldMailPwdTextBox.BackColor = System.Drawing.Color.DimGray;
+            this.OldMailPwdTextBox.Font = new System.Drawing.Font("Comic Sans MS", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OldMailPwdTextBox.ForeColor = System.Drawing.SystemColors.MenuBar;
+            this.OldMailPwdTextBox.Location = new System.Drawing.Point(187, 45);
+            this.OldMailPwdTextBox.MaxLength = 30;
+            this.OldMailPwdTextBox.Name = "OldMailPwdTextBox";
+            this.OldMailPwdTextBox.PasswordChar = '*';
+            this.OldMailPwdTextBox.Size = new System.Drawing.Size(257, 24);
+            this.OldMailPwdTextBox.TabIndex = 4;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.BackColor = System.Drawing.Color.Transparent;
+            this.label17.Font = new System.Drawing.Font("Comic Sans MS", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.ForeColor = System.Drawing.Color.White;
+            this.label17.Location = new System.Drawing.Point(15, 47);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(163, 21);
+            this.label17.TabIndex = 3;
+            this.label17.Text = "Old Mail Password : ";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // NewPwdTextBox
+            // 
+            this.NewPwdTextBox.BackColor = System.Drawing.Color.DimGray;
+            this.NewPwdTextBox.Font = new System.Drawing.Font("Comic Sans MS", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.NewPwdTextBox.ForeColor = System.Drawing.Color.White;
+            this.NewPwdTextBox.Location = new System.Drawing.Point(240, 235);
+            this.NewPwdTextBox.MaxLength = 4;
+            this.NewPwdTextBox.Name = "NewPwdTextBox";
+            this.NewPwdTextBox.PasswordChar = '*';
+            this.NewPwdTextBox.Size = new System.Drawing.Size(149, 28);
+            this.NewPwdTextBox.TabIndex = 6;
+            this.NewPwdTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // OldPwdTextBox
+            // 
+            this.OldPwdTextBox.BackColor = System.Drawing.Color.DimGray;
+            this.OldPwdTextBox.Font = new System.Drawing.Font("Comic Sans MS", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OldPwdTextBox.ForeColor = System.Drawing.Color.White;
+            this.OldPwdTextBox.Location = new System.Drawing.Point(239, 170);
+            this.OldPwdTextBox.MaxLength = 4;
+            this.OldPwdTextBox.Name = "OldPwdTextBox";
+            this.OldPwdTextBox.PasswordChar = '*';
+            this.OldPwdTextBox.Size = new System.Drawing.Size(149, 28);
+            this.OldPwdTextBox.TabIndex = 5;
+            this.OldPwdTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // PwdUTextBox
+            // 
+            this.PwdUTextBox.BackColor = System.Drawing.Color.DimGray;
+            this.PwdUTextBox.Font = new System.Drawing.Font("Comic Sans MS", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PwdUTextBox.ForeColor = System.Drawing.Color.White;
+            this.PwdUTextBox.Location = new System.Drawing.Point(240, 104);
+            this.PwdUTextBox.MaxLength = 6;
+            this.PwdUTextBox.Name = "PwdUTextBox";
+            this.PwdUTextBox.Size = new System.Drawing.Size(149, 28);
+            this.PwdUTextBox.TabIndex = 4;
+            this.PwdUTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.BackColor = System.Drawing.Color.Transparent;
+            this.label15.Font = new System.Drawing.Font("Comic Sans MS", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.ForeColor = System.Drawing.Color.White;
+            this.label15.Location = new System.Drawing.Point(49, 237);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(155, 24);
+            this.label15.TabIndex = 3;
+            this.label15.Text = "Insert New PIN :";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.BackColor = System.Drawing.Color.Transparent;
+            this.label14.Font = new System.Drawing.Font("Comic Sans MS", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.ForeColor = System.Drawing.Color.White;
+            this.label14.Location = new System.Drawing.Point(56, 171);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(148, 24);
+            this.label14.TabIndex = 2;
+            this.label14.Text = "Insert Old PIN :";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.BackColor = System.Drawing.Color.Transparent;
+            this.label13.Font = new System.Drawing.Font("Comic Sans MS", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.ForeColor = System.Drawing.Color.White;
+            this.label13.Location = new System.Drawing.Point(44, 103);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(160, 24);
+            this.label13.TabIndex = 1;
+            this.label13.Text = "Insert Usercode :";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.Color.Transparent;
+            this.label11.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.White;
+            this.label11.Location = new System.Drawing.Point(340, 27);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(239, 30);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "Modify Password User";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.BackColor = System.Drawing.Color.Transparent;
+            this.label18.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.ForeColor = System.Drawing.Color.White;
+            this.label18.Location = new System.Drawing.Point(587, 339);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(265, 85);
+            this.label18.TabIndex = 20;
+            this.label18.Text = "NOTE :\r\n\r\nIf you do not remember the old passwords,\r\nyou\'ll want to delete you fr" +
+    "om the system,\r\nand register again";
+            this.label18.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // ProjectServerApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(864, 530);
+            this.ClientSize = new System.Drawing.Size(864, 541);
+            this.Controls.Add(this.InfoPanel);
             this.Controls.Add(this.RegisterPanel);
+            this.Controls.Add(this.ModifyUserPanel);
+            this.Controls.Add(this.ModPwdPanel);
             this.Controls.Add(this.ImagesPanel);
             this.Controls.Add(this.DeletePanel);
-            this.Controls.Add(this.ModifyUserPanel);
-            this.Controls.Add(this.InfoPanel);
             this.Controls.Add(this.AccessPanel);
             this.Controls.Add(this.AdminPanel);
             this.Controls.Add(this.SimpleUserPanel);
@@ -1734,6 +1986,10 @@
             this.DeletePanel.ResumeLayout(false);
             this.DeletePanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            this.ModPwdPanel.ResumeLayout(false);
+            this.ModPwdPanel.PerformLayout();
+            this.ModAdminGroupBox.ResumeLayout(false);
+            this.ModAdminGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1852,6 +2108,23 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn3;
+        private System.Windows.Forms.ToolStripMenuItem modifyUserPasswordToolStripMenuItem;
+        private System.Windows.Forms.Panel ModPwdPanel;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.GroupBox ModAdminGroupBox;
+        private System.Windows.Forms.TextBox NewMailPwdTextBox;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox OldMailPwdTextBox;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox NewPwdTextBox;
+        private System.Windows.Forms.TextBox OldPwdTextBox;
+        private System.Windows.Forms.TextBox PwdUTextBox;
+        private System.Windows.Forms.Button ModSaveButton;
+        private System.Windows.Forms.CheckBox ModAdminCheckBox;
+        private System.Windows.Forms.Label label18;
     }
 }
 
