@@ -675,8 +675,6 @@ namespace HttpMultipartParser
                     foreach (var pair in values)
                     {
                         parameters.Add(pair.Key, pair.Value);
-
-                        
                         //db.NewErrorLog("Key: "+pair.Key+" Value: "+pair.Value + boundary, DateTime.Now);
                     }
                 }

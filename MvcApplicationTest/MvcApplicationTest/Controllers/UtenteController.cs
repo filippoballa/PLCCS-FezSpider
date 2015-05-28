@@ -13,82 +13,15 @@ namespace MvcApplicationTest.Controllers
 {
     public class UtenteController : ApiController
     {
-        private string LogPath = @"C://MYSITE/LOG";
+        private string LogPath = @"C://MYSITE/LOG/";
         private string strConn = "Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True";
-        public string[] Get(string user = "", string pwd = "")
-        {
-            User ricerca = null;
-            string msg = "OK";
 
-            //inizializzazione db e ricerca utente in base alla matricola(codice)
-            DatabaseManagement db = new DatabaseManagement(strConn,LogPath);
-            try
-            {
-                int codice = Convert.ToInt32(user);
-                ricerca = db.SelectSimpleUser(codice);
-
-                if (ricerca == null)
-                {
-                    //non ho trovato nessun utente semplice
-                    ricerca = db.SelectAdministrator(codice);
-                }
-
-                if (ricerca != null)
-                {
-                    //converto in bytes la stringa da codificare
-                    byte[] data = Encoding.ASCII.GetBytes(pwd);
-                    string result;
-
-                    SHA1 sha1 = new SHA1CryptoServiceProvider();
-                    //ottengo lo SHA1 dei dati
-                    result = Encoding.ASCII.GetString(sha1.ComputeHash(data));
-
-                    //confronto lo SHA1 della pwd inviata con lo SHA1 di quella nel DB
-                    if (result != ricerca.Password)
-                    {
-                        msg = "Invalid Password";
-                    }
-                    else
-                    {
-                        //inserisco un record nella tabella degli ingressi
-                        db.InserAccessUser(ricerca.Codice, DateTime.Now, DatabaseManagement.LOGIN, null);
-
-                        //invio ad ogni amministratore una mail 
-                        List<Administrator> AdminList = db.ShowAdministrators();
-
-                        if (AdminList.Count > 0)
-                        {
-                            foreach (Administrator a in AdminList)
-                            {
-                                MailManagement mailmanagment = new MailManagement(a.MailAddress, a.MailPassword,LogPath);
-                                mailmanagment.SendMailToAdmin(a.MailAddress, ricerca, DateTime.Now);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    msg = "Invalid Username";
-                }
-            }
-            catch (DatabaseException e)//DB exception
-            {
-                msg = e.Mex;
-            }
-            catch (Exception e)
-            {
-                msg = e.Message;
-            }
-            finally
-            {
-                db.CloseConnection();
-            }
-            return new string[]
-                        {
-                             msg
-                        };
-        }
-
+        /// <summary>
+        /// Post method for receiving User/Password. Server receive an HTTP message containing an 'User' object containing the User's code and pin used for authentication.
+        /// Metodo Post per la ricezione di una coppia User/Password. Il server riceve un HTTP message che contiene un oggetto 'User' che contiene la matricola e il pin dell'Utente usati per l'autenticazione.
+        /// </summary>
+        /// <param name="u"></param>
+        /// <returns></returns>
         public HttpResponseMessage Post(Utente u)
         {
             User ricerca=null;
@@ -149,16 +82,10 @@ namespace MvcApplicationTest.Controllers
                         foreach (Administrator a in AdminList)
                         {
                             MailManagement mailmanagment = new MailManagement(a.MailAddress, a.MailPassword,LogPath);
-                            mailmanagment.SendMailToAdmin(a.MailAddress, ricerca, DateTime.Now);
+                            //mailmanagment.SendMailToAdmin(a.MailAddress, ricerca, DateTime.Now);
                         }
                     }
                 }
-                /*utente o password NON corrispondono quindi lo staus code dell response diventa 500
-                else
-                {
-                    httpStatusCode = System.Net.HttpStatusCode.InternalServerError;
-                }*/
-
             }
             catch(DatabaseException e)//DB exception
             {
@@ -181,8 +108,6 @@ namespace MvcApplicationTest.Controllers
 
                 //aggiungo un messaggio allo status code
                 response.ReasonPhrase = msg;
-
-                //response.Content = new ObjectContent<string>(msg,System.Net.Http.Formatting.MediaTypeFormatter. , "application/json");
             }
 
             return response;

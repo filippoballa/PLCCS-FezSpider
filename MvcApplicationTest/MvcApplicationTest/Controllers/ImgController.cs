@@ -22,21 +22,16 @@ namespace MvcApplicationTest.Controllers
 {
     public class ImgController : ApiController
     {
-        //private string LogPath = @"C://MYSITE/LOG/";
-        //private string strConn = "Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True";
         DatabaseManagement db = new DatabaseManagement("Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True", @"C://MYSITE/LOG/");
         
-        public string[] Get(string id = "", string data = "")
-        {
-            
-            return new string[]
-                        {
-                             id,
-                             data
-                        };
-        }
+        /// <summary>
+        /// Post method for receiving an image. Server receive an HTTP multipart-data message containing a .bmp file used for face recognition.
+        /// Metodo Post per la ricezione di un'immagine. Il server riceve un HTTP message di tipo multipart-data che contiene un file .bmp su cui viene effettuato il riconoscimento.
+        /// </summary>
+        /// <returns></returns>
         public HttpResponseMessage Post()
         {
+            User ricerca = null;
             string msg = "OK";
             //bool login = true;
             HttpResponseMessage response=null;
@@ -90,11 +85,28 @@ namespace MvcApplicationTest.Controllers
                             {
                                 //trovata corrispondenza in db
                                 //result contiene label dell'immagine trovata
+                                
                                 if (db.VerifyUserExists(result))
                                 {
                                     //l'utente è registrato
                                     msg = "Welcome user n° "+result+"!";
                                     db.NewErrorLog("result found:" + result, DateTime.Now);
+
+                                    //INSERIMENTO ACCESSO
+                                    int codice = Convert.ToInt32(result);
+                                    ricerca = db.SelectSimpleUser(codice);
+
+                                    if (ricerca == null)
+                                    {
+                                        //non ho trovato nessun utente semplice
+                                        ricerca = db.SelectAdministrator(codice);
+                                    }
+
+                                    if (ricerca != null)
+                                    {
+                                        //inserisco un record nella tabella degli ingressi
+                                        db.InserAccessUser(ricerca.Codice, DateTime.Now, DatabaseManagement.FACE, ricerca.Img);
+                                    }
                                 }
                                 else
                                 {
@@ -117,58 +129,13 @@ namespace MvcApplicationTest.Controllers
                         
                         // Save the image as a BMP.
                         b.Save(path + DateTime.Now.Year + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "_" + DateTime.Now.Second + "_" + f.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
-                        db.NewErrorLog(f.ToString(), DateTime.Now);
+                        db.NewErrorLog(f.FileName, DateTime.Now);
                     }
                 }
                 else
                 {
                     db.NewErrorLog("ANOMALY-no data", DateTime.Now);
                 }
-                
-
-                /*if (dataStream.Length == 0)
-                {
-                    msg = "KO no images in the post content";
-                    httpStatusCode = System.Net.HttpStatusCode.InternalServerError;
-                    db.NewErrorLog("ANOMALY-" + msg, DateTime.Now);
-                }
-                else
-                {
-                    byte[] buff = new byte[230454];
-                    MemoryStream ms = new MemoryStream();
-                    int Bread = 0;
-                    int TotBread = 0;
-
-                    do
-                    {
-                        Bread = dataStream.Read(buff, 0, buff.Length);
-                        TotBread += Bread;
-                        ms.Write(buff, 0, Bread);
-                    }
-                    while (Bread > 0);
-
-                    Image returnImage = Image.FromStream(ms);
-
-                    Bitmap b = new Bitmap(returnImage);
-                    // Save the image as a GIF.
-                    b.Save(path+filename, System.Drawing.Imaging.ImageFormat.Bmp);
-                    
-                    db.NewErrorLog("SUCCESS-" + "new file created", DateTime.Now);
-
-                }
-                /*var files =  HttpContext.Current.Request.Files;
-                var file = files.Count > 0 ? files[0] : null;
-
-                if (file != null)
-                {
-                }
-                */
-                /*MemoryStream ms = new MemoryStream(bytearray);
-                Image returnImage = Image.FromStream(ms);//HttpContext.Current.Request.InputStream
-
-                Bitmap b = new Bitmap(returnImage);
-                // Save the image as a GIF.
-                b.Save(@"C://MYSITE/LOG" + "image.bmp", System.Drawing.Imaging.ImageFormat.Bmp);*/
             }
             catch (DatabaseException e)//DB exception
             {
