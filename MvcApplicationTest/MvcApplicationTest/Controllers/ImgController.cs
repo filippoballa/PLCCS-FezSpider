@@ -23,7 +23,8 @@ namespace MvcApplicationTest.Controllers
     public class ImgController : ApiController
     {
         DatabaseManagement db = new DatabaseManagement("Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True", @"C://MYSITE/LOG/");
-        
+        string path = @"../../../MYSITE/Images/";
+
         /// <summary>
         /// Post method for receiving an image. Server receive an HTTP multipart-data message containing a .bmp file used for face recognition.
         /// Metodo Post per la ricezione di un'immagine. Il server riceve un HTTP message di tipo multipart-data che contiene un file .bmp su cui viene effettuato il riconoscimento.
@@ -41,9 +42,6 @@ namespace MvcApplicationTest.Controllers
 
             try
             {
-                //string filename = "Img.bmp";
-                string path = @"../../../MYSITE/Images/";
-
                 // Check if the request contains multipart/form-data.
                 if (!Request.Content.IsMimeMultipartContent())
                 {
@@ -90,10 +88,10 @@ namespace MvcApplicationTest.Controllers
                                 {
                                     //l'utente è registrato
                                     msg = "Welcome user n° "+result+"!";
-                                    db.NewErrorLog("result found:" + result, DateTime.Now);
+                                    db.NewErrorLog("result found : " + result, DateTime.Now);
 
                                     //INSERIMENTO ACCESSO
-                                    int codice = Convert.ToInt32(result);
+                                    int codice = Convert.ToInt32(result.Substring(1,result.Length-1));
                                     ricerca = db.SelectSimpleUser(codice);
 
                                     if (ricerca == null)
@@ -113,7 +111,7 @@ namespace MvcApplicationTest.Controllers
                                     //trovata corrispondenza con utente non registrato!
                                     //unauthorized 401
                                     msg = "Not registered user!";
-                                    db.NewErrorLog("result unfound:"+ result, DateTime.Now);
+                                    db.NewErrorLog("result not registered : "+ result, DateTime.Now);
                                     httpStatusCode = HttpStatusCode.Unauthorized;
                                 }
                             }
@@ -122,14 +120,14 @@ namespace MvcApplicationTest.Controllers
                                 //result contiene l'errore incontrato
                                 //unauthorized 401
                                 msg = result;
-                                db.NewErrorLog("no result:" + result, DateTime.Now);
+                                db.NewErrorLog("no result : " + result, DateTime.Now);
                                 httpStatusCode = HttpStatusCode.Unauthorized;
                             }
                         }
                         
                         // Save the image as a BMP.
-                        b.Save(path + DateTime.Now.Year + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "_" + DateTime.Now.Second + "_" + f.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
-                        db.NewErrorLog(f.FileName, DateTime.Now);
+                        //b.Save(path + DateTime.Now.Year + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "_" + DateTime.Now.Second + "_" + f.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+                        //db.NewErrorLog(f.FileName, DateTime.Now);
                     }
                 }
                 else
@@ -158,7 +156,7 @@ namespace MvcApplicationTest.Controllers
 
                 //aggiungo un messaggio allo status code
                 response.ReasonPhrase = msg;
-                db.NewErrorLog(httpStatusCode.ToString()+" MESSAGGIO : "+msg, DateTime.Now);
+                //db.NewErrorLog(httpStatusCode.ToString()+" MESSAGGIO : "+msg, DateTime.Now);
             }
             
             return response;
