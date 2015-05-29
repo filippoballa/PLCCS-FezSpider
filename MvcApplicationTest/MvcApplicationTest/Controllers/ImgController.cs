@@ -72,7 +72,6 @@ namespace MvcApplicationTest.Controllers
 
                         if (labels.Count == 0 && images.Count == 0)
                         {
-                            //TODO errore no immagini database!
                             msg = "errore no immagini database!";
                             httpStatusCode = System.Net.HttpStatusCode.InternalServerError;
                         }
@@ -92,19 +91,7 @@ namespace MvcApplicationTest.Controllers
 
                                     //INSERIMENTO ACCESSO
                                     int codice = Convert.ToInt32(result.Substring(1,result.Length-1));
-                                    ricerca = db.SelectSimpleUser(codice);
-
-                                    if (ricerca == null)
-                                    {
-                                        //non ho trovato nessun utente semplice
-                                        ricerca = db.SelectAdministrator(codice);
-                                    }
-
-                                    if (ricerca != null)
-                                    {
-                                        //inserisco un record nella tabella degli ingressi
-                                        db.InserAccessUser(ricerca.Codice, DateTime.Now, DatabaseManagement.FACE, ricerca.Img);
-                                    }
+                                    db.InserAccessUser(codice, DateTime.Now, DatabaseManagement.FACE, b);
                                 }
                                 else
                                 {
@@ -124,10 +111,6 @@ namespace MvcApplicationTest.Controllers
                                 httpStatusCode = HttpStatusCode.Unauthorized;
                             }
                         }
-                        
-                        // Save the image as a BMP.
-                        //b.Save(path + DateTime.Now.Year + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "_" + DateTime.Now.Second + "_" + f.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
-                        //db.NewErrorLog(f.FileName, DateTime.Now);
                     }
                 }
                 else
