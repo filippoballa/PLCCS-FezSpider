@@ -37,7 +37,7 @@ namespace ProjectAppBackgroundServer
             this.AdminDataGridView.RowTemplate.Height = 130;
             this.SimpleUserDataGridView.RowTemplate.Height = 130;
             this.ImagesDataGridView.RowTemplate.Height = 140;
-            this.AccessDataGridView.RowTemplate.Height = 130;           
+            this.AccessDataGridView.RowTemplate.Height = 120;           
             this.ModUserDataGridView.RowTemplate.Height = this.ModUserDataGridView.Height;
                       
         }
