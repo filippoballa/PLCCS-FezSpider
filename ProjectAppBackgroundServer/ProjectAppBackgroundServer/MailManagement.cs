@@ -7,6 +7,8 @@ using System.Net.Mail;
 using System.Net.Mime; 
 using System.Net;
 using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace ProjectAppBackgroundServer
 {
@@ -31,7 +33,8 @@ namespace ProjectAppBackgroundServer
             MailMessage message = new MailMessage(this.mittente, destinatario);
 
             string filename = MailManagement.MAILLOG + "temp" + utente.Codice.ToString() + ".png";
-            File.Create(filename);
+            utente.Img.Save(filename, ImageFormat.Png);
+            
             Attachment att = new Attachment(filename);
             att.ContentDisposition.DispositionType = DispositionTypeNames.Inline;
             att.ContentDisposition.Inline = true;

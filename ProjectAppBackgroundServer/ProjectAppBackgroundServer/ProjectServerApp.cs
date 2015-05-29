@@ -430,7 +430,7 @@ namespace ProjectAppBackgroundServer
                             return;
                         }
 
-                        object[] obj = new object[6];
+                        object[] obj = new object[7];
                         obj[0] = list[i].UserCode.ToString();
                         obj[3] = list[i].AccessType.ToString(); 
                         obj[4] = list[i].Timestamp.ToShortDateString();
@@ -439,10 +439,12 @@ namespace ProjectAppBackgroundServer
                         if (trovato) {
                             obj[1] = admin.Name;
                             obj[2] = admin.Surname;
+                            obj[6] = admin.Img;
                         }
                         else {
                             obj[1] = u.Name;
                             obj[2] = u.Surname;
+                            obj[6] = u.Img;
                         }
 
                         this.AccessDataGridView.Rows.Add(obj);
@@ -764,6 +766,11 @@ namespace ProjectAppBackgroundServer
         {
             int a;
 
+            if (!this.ChangeCheckBox.Checked && !this.ModAdminCheckBox.Checked) {
+                MessageBox.Show("Almost one have to be checked!!", "NOTICE", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             if (this.PwdUTextBox.Text == "" || !Int32.TryParse(this.PwdUTextBox.Text, out a) ||
                 this.PwdUTextBox.Text.Length < 6)
             {
@@ -771,23 +778,6 @@ namespace ProjectAppBackgroundServer
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.PwdUTextBox.Clear();
                 this.PwdUTextBox.Focus();
-                return;
-            }
-
-            if (this.OldPwdTextBox.Text == "" || this.OldPwdTextBox.Text.Length < 4) {
-                MessageBox.Show("Enter a valid Old PIN in the appropriate field!!\nThe code entered is too short (must be four characters) or\n" +
-                    "the field appears to be empty! ", "NOTICE", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.OldPwdTextBox.Clear();
-                this.OldPwdTextBox.Focus();
-                return;
-            }
-
-            if (this.NewPwdTextBox.Text == "" || this.NewPwdTextBox.Text.Length < 4)
-            {
-                MessageBox.Show("Enter a valid New PIN in the appropriate field!!\nThe code entered is too short (must be four characters) or\n" +
-                    "the field appears to be empty! ", "NOTICE", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.NewPwdTextBox.Clear();
-                this.NewPwdTextBox.Focus();
                 return;
             }
 
@@ -799,7 +789,7 @@ namespace ProjectAppBackgroundServer
                 this.PwdUTextBox.Clear();
                 this.PwdUTextBox.Focus();
                 return;
-            }
+            }            
 
             User u = this.db.SelectSimpleUser(codice);
             Administrator admin = null;
@@ -807,42 +797,61 @@ namespace ProjectAppBackgroundServer
             if (u == null)
                 admin = this.db.SelectAdministrator(codice);
 
-            if (admin == null && this.ModAdminCheckBox.Checked) 
-            {
+            if (admin == null && this.ModAdminCheckBox.Checked) {
                 MessageBox.Show("The User " + codice.ToString() + " is not a administrator!!", "NOTICE",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.ModAdminCheckBox.Checked = false;
                 return;
             }
 
-            SHA1 shaM = new SHA1Managed();
-            byte[] pin = Encoding.ASCII.GetBytes(this.OldPwdTextBox.Text);
-            string hashPin = Encoding.ASCII.GetString(shaM.ComputeHash(pin));
-            bool errore = false;
+            if (this.ChangeCheckBox.Checked) {
 
-            if (u == null) {
+                if (this.OldPwdTextBox.Text == "" || this.OldPwdTextBox.Text.Length < 4) {
+                    MessageBox.Show("Enter a valid Old PIN in the appropriate field!!\nThe code entered is too short (must be four characters) or\n" +
+                        "the field appears to be empty! ", "NOTICE", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.OldPwdTextBox.Clear();
+                    this.OldPwdTextBox.Focus();
+                    return;
+                }
 
-                if (hashPin == admin.Password)
-                    errore = false;
-                else
-                    errore = true;
+                if (this.NewPwdTextBox.Text == "" || this.NewPwdTextBox.Text.Length < 4) {
+                    MessageBox.Show("Enter a valid New PIN in the appropriate field!!\nThe code entered is too short (must be four characters) or\n" +
+                        "the field appears to be empty! ", "NOTICE", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.NewPwdTextBox.Clear();
+                    this.NewPwdTextBox.Focus();
+                    return;
+                }
+                
+                SHA1 shaM = new SHA1Managed();
+                byte[] pin = Encoding.ASCII.GetBytes(this.OldPwdTextBox.Text);
+                string hashPin = Encoding.ASCII.GetString(shaM.ComputeHash(pin));
+                bool errore = false;
+
+                if (u == null) {
+
+                    if (hashPin == admin.Password)
+                        errore = false;
+                    else
+                        errore = true;
+                }
+                else {
+
+                    if (hashPin == u.Password)
+                        errore = false;
+                    else
+                        errore = true;
+                }
+
+                if (errore) {
+                    MessageBox.Show("The old PIN does not match what is saved on the database!!", "NOTICE",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.OldPwdTextBox.Clear();
+                    this.OldPwdTextBox.Focus();
+                    return;
+                }
+
+                this.db.ChangePIN(codice, hashPin);
             }
-            else {
-
-                if (hashPin == u.Password)
-                    errore = false;
-                else
-                    errore = true;
-            }
-
-            if (errore) {
-                MessageBox.Show("The old PIN does not match what is saved on the database!!", "NOTICE",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.OldPwdTextBox.Clear();
-                this.OldPwdTextBox.Focus();
-                return;
-            }
-                  
 
             if (this.ModAdminCheckBox.Checked) {
 
@@ -864,10 +873,42 @@ namespace ProjectAppBackgroundServer
                     return;
                 }                
             }
-
-            this.db.ChangePIN(codice, hashPin);
+            
             MessageBox.Show("Passwords updated successfully!!", "NOTICE", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+        }
+
+        private void ChangeCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if ( !this.ChangeCheckBox.Checked)
+            {
+                this.OldPwdTextBox.Enabled = false;
+                this.NewPwdTextBox.Enabled = false;
+                this.label14.Enabled = false;
+                this.label15.Enabled = false;
+            }
+            else {
+                this.OldPwdTextBox.Enabled = true;
+                this.NewPwdTextBox.Enabled = true;
+                this.label14.Enabled = true;
+                this.label15.Enabled = true;
+            }
+        }
+
+        private void OldPwdTextBox_EnabledChanged(object sender, EventArgs e)
+        {
+            if (this.OldPwdTextBox.Enabled)
+                this.OldPwdTextBox.BackColor = Color.DimGray;
+            else
+                this.OldPwdTextBox.BackColor = Color.RosyBrown;
+        }
+
+        private void NewPwdTextBox_EnabledChanged(object sender, EventArgs e)
+        {
+            if (this.NewPwdTextBox.Enabled)
+                this.NewPwdTextBox.BackColor = Color.DimGray;
+            else
+                this.NewPwdTextBox.BackColor = Color.RosyBrown;
         }        
     }
 }
