@@ -36,7 +36,7 @@ namespace ProjectAppBackgroundServer
             utente.Img.Save(filename, ImageFormat.Png);
             
             Attachment att = new Attachment(filename);
-            //att.ContentDisposition.DispositionType = DispositionTypeNames.Inline;
+            att.ContentDisposition.DispositionType = DispositionTypeNames.Attachment;
             att.ContentDisposition.Inline = true;
             att.ContentId = "imgUser";
             att.ContentType.MediaType = "image/png";
