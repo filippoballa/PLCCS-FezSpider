@@ -17,13 +17,11 @@ namespace ProjectAppBackgroundServer
         private string password;
         private MailAddress mittente;
         private string hostType;
-        private static string MAILLOG;
 
-        public MailManagement(string address, string pwd, string pathLog) 
+        public MailManagement(string address, string pwd ) 
         {            
             this.mittente = new MailAddress(address);
             this.password = pwd;
-            MailManagement.MAILLOG = pathLog;
             CalculateHost();
         }
 
@@ -32,14 +30,13 @@ namespace ProjectAppBackgroundServer
             MailAddress destinatario = new MailAddress(mailDest);
             MailMessage message = new MailMessage(this.mittente, destinatario);
 
-            string filename = /*MailManagement.MAILLOG + */"temp" + utente.Codice.ToString() + ".bmp";
-            //utente.Img.Save(filename, ImageFormat.Png);
+            string filename = "temp" + utente.Codice.ToString() + ".bmp";
             MemoryStream stream = new MemoryStream();
             utente.Img.Save(stream, ImageFormat.Bmp);
             stream.Position = 0;
 
             Attachment att = new Attachment(stream, new ContentType());
-            att.ContentDisposition.DispositionType = DispositionTypeNames.Attachment;
+            att.ContentDisposition.DispositionType = DispositionTypeNames.Inline;
             att.ContentDisposition.Inline = true;
             att.ContentId = "imgUser";
             att.ContentType.MediaType = "image/png";
@@ -64,9 +61,6 @@ namespace ProjectAppBackgroundServer
             sc.Credentials = new NetworkCredential(mittente.Address, de.DecryptString(this.password));
             sc.Port = 587;
             sc.Send(message);
-
-            //File.Delete(filename);
-            //utente.Img.
         }
 
         private void CalculateHost()
