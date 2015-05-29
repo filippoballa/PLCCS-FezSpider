@@ -32,10 +32,11 @@ namespace ProjectAppBackgroundServer
             MailAddress destinatario = new MailAddress(mailDest);
             MailMessage message = new MailMessage(this.mittente, destinatario);
 
-            string filename = /*MailManagement.MAILLOG + */"temp" + utente.Codice.ToString() + ".png";
+            string filename = /*MailManagement.MAILLOG + */"temp" + utente.Codice.ToString() + ".bmp";
             //utente.Img.Save(filename, ImageFormat.Png);
             MemoryStream stream = new MemoryStream();
-            utente.Img.Save(stream, ImageFormat.Png);
+            utente.Img.Save(stream, ImageFormat.Bmp);
+            stream.Position = 0;
 
             Attachment att = new Attachment(stream, new ContentType());
             att.ContentDisposition.DispositionType = DispositionTypeNames.Attachment;
