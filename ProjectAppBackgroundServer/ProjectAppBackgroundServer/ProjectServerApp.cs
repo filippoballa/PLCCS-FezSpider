@@ -909,6 +909,17 @@ namespace ProjectAppBackgroundServer
                 this.NewPwdTextBox.BackColor = Color.DimGray;
             else
                 this.NewPwdTextBox.BackColor = Color.RosyBrown;
+        }
+
+        private void deleteAccessUsersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult res = MessageBox.Show("Are you sure? Do you want to proceed with deleting the audit trail?", 
+                "NOTICE", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+
+            if (res == DialogResult.OK) {
+                this.db.DeleteAccessUsers();
+                MessageBox.Show("Operation performed successfully", "NOTICE", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }        
     }
 }

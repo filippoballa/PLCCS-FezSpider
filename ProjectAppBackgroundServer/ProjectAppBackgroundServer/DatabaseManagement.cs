@@ -594,6 +594,29 @@ namespace ProjectAppBackgroundServer
         }
 
         /// <summary>
+        ///     Il seguente metodo cancella tutto il contenuto della tabella ACCESSES_PROJECT
+        /// </summary>
+        public void DeleteAccessUsers() 
+        { 
+            SqlTransaction transaction = this.conn.BeginTransaction();
+
+            try {
+                string query = "DELETE FROM ACCESSES_PROJECT";
+
+                SqlCommand com = new SqlCommand(query, this.conn);
+                com.Transaction = transaction;
+                com.ExecuteNonQuery();
+                transaction.Commit();
+
+            } catch (Exception e) {
+                NewErrorLog("ANOMALY-" + e.Message, DateTime.Now);
+                transaction.Rollback();
+                throw new DatabaseException(e.Message);
+            }
+
+        }
+
+        /// <summary>
         ///     Il metodo cambia il pin ( password Login ) di un utente specifico
         /// </summary>
         /// <param name="codice">Codice dell'utente che si desidera cambiare il PIN</param>

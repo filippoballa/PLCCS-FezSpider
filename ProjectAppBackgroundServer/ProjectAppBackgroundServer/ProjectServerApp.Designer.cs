@@ -181,6 +181,7 @@
             this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.IMAGEREGISTERED = new System.Windows.Forms.DataGridViewImageColumn();
+            this.deleteAccessUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.HomePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -235,6 +236,7 @@
             this.modifyUserDataToolStripMenuItem,
             this.modifyUserPasswordToolStripMenuItem,
             this.deleteUserToolStripMenuItem,
+            this.deleteAccessUsersToolStripMenuItem,
             this.closeToolStripMenuItem});
             this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -1953,6 +1955,17 @@
             this.IMAGEREGISTERED.ReadOnly = true;
             this.IMAGEREGISTERED.Width = 120;
             // 
+            // deleteAccessUsersToolStripMenuItem
+            // 
+            this.deleteAccessUsersToolStripMenuItem.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.deleteAccessUsersToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.deleteAccessUsersToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.deleteAccessUsersToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteAccessUsersToolStripMenuItem.Image")));
+            this.deleteAccessUsersToolStripMenuItem.Name = "deleteAccessUsersToolStripMenuItem";
+            this.deleteAccessUsersToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.deleteAccessUsersToolStripMenuItem.Text = "Delete Access Users";
+            this.deleteAccessUsersToolStripMenuItem.Click += new System.EventHandler(this.deleteAccessUsersToolStripMenuItem_Click);
+            // 
             // ProjectServerApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2156,6 +2169,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
         private System.Windows.Forms.DataGridViewImageColumn IMAGEREGISTERED;
+        private System.Windows.Forms.ToolStripMenuItem deleteAccessUsersToolStripMenuItem;
     }
 }
 
