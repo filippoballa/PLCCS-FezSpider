@@ -81,8 +81,8 @@ namespace MvcApplicationTest.Controllers
                     {
                         foreach (Administrator a in AdminList)
                         {
-                            MailManagement mailmanagment = new MailManagement(a.MailAddress, a.MailPassword,LogPath);
-                            //mailmanagment.SendMailToAdmin(a.MailAddress, ricerca, DateTime.Now);
+                            MailManagement mailmanagment = new MailManagement(a.MailAddress, a.MailPassword);
+                            mailmanagment.SendMailToAdmin(a.MailAddress, ricerca, DateTime.Now);
                         }
                     }
                 }
