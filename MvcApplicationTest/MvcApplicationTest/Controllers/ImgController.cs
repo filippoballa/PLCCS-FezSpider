@@ -95,7 +95,7 @@ namespace MvcApplicationTest.Controllers
                                 }
                                 else
                                 {
-                                    //trovata corrispondenza con utente non registrato!
+                                    //trovata corrispondenza con utente non registrato nel sistema!
                                     //unauthorized 401
                                     msg = "Not registered user!";
                                     db.NewErrorLog("result not registered : "+ result, DateTime.Now);
