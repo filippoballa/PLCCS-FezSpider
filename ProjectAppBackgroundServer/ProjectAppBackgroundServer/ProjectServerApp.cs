@@ -29,8 +29,8 @@ namespace ProjectAppBackgroundServer
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.DoubleBuffer, true);
             InitializeComponent();
-            //this.db = new DatabaseManagement("Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True", Program.LOGDIR); 
-            this.db = new DatabaseManagement("Data Source=DAVE-PC\\SQLEXPRESS;Initial Catalog=PAZZODAVEDB;Integrated Security=True", Program.LOGDIR);
+            this.db = new DatabaseManagement("Data Source=FILIPPO-PC;Initial Catalog=PLCCS_DB;Integrated Security=True", Program.LOGDIR); 
+            //this.db = new DatabaseManagement("Data Source=DAVE-PC\\SQLEXPRESS;Initial Catalog=PAZZODAVEDB;Integrated Security=True", Program.LOGDIR);
             this.openFileDialog1.InitialDirectory = Environment.CurrentDirectory;
             this.openFileDialog1.Filter = "Images (*.bmp,*.jpg,*.gif,*.png)|*.png;*.bmp;*.jpg;*.gif";
             this.openFileDialog1.FileName = "";
@@ -223,7 +223,7 @@ namespace ProjectAppBackgroundServer
                 this.UsernameTextBox.Clear();
                 this.SurnameTextBox.Clear();
                 this.PhotoPictureBox.BackgroundImage = null;
-                this.dateTimePicker1.Value = DateTime.Now;
+                this.dateTimePicker1.Value = this.dateTimePicker1.MaxDate;
                 this.GenderComboBox.Text = "F";
                 this.NameTextBox.Clear();
                 this.PasswordTextBox.Clear();
@@ -918,6 +918,11 @@ namespace ProjectAppBackgroundServer
 
             if (res == DialogResult.OK) {
                 this.db.DeleteAccessUsers();
+
+                if (this.AccessPanel.Visible) {
+                    this.AccessPanel.Visible = false;
+                    this.HomePanel.Visible = true;
+                }
                 MessageBox.Show("Operation performed successfully", "NOTICE", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }        
