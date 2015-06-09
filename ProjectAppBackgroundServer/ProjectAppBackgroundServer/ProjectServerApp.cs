@@ -543,7 +543,7 @@ namespace ProjectAppBackgroundServer
             if( this.SearchUserTextBox.Text == "" || !Int32.TryParse(this.SearchUserTextBox.Text,out a ) 
                 || this.SearchUserTextBox.Text.Length < 6 ) 
             {
-                MessageBox.Show("","INFORMATION", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Enter a valid username in the appropriate field!!", "INFORMATION", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.SearchUserTextBox.Clear();
                 this.SearchUserTextBox.Focus();
                 return;
@@ -556,7 +556,7 @@ namespace ProjectAppBackgroundServer
                 Administrator admin = this.db.SelectAdministrator(codice);
 
                 if( admin == null ) {
-                    MessageBox.Show("", "INFORMATION", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("The code you entered is not associated with any Administrator!!", "INFORMATION", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.SearchUserTextBox.Clear();
                     this.SearchUserTextBox.Focus();
                     return;
